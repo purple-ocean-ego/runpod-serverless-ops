@@ -61,6 +61,22 @@ bash /tmp/my-scripts/run_app.sh
 
 ---
 
+## 🛠 CI/CD (DockerHub 自動化設定)
+本リポジトリには、GitHub Actions を利用した DockerHub への自動ビルド・プッシュ設定が含まれています。
+
+### 設定方法
+GitHub リポジトリの **Settings > Secrets and variables > Actions** にて、以下の2つの Repository secrets を登録してください。
+
+1.  **`DOCKERHUB_USERNAME`**: DockerHub のユーザー名
+2.  **`DOCKERHUB_TOKEN`**: DockerHub の [Access Token](https://docs.docker.com/docker-hub/access-tokens/)（パスワードではなくトークンを推奨）
+
+これらを登録すると、`main` ブランチへのプッシュ時に自動的にイメージ `${DOCKERHUB_USERNAME}/runpod-serverless-ops:latest` がビルドされ、DockerHub へアップロードされます。
+
+また、Git でタグ（例: `v1.0.0`）を付けてプッシュすると、そのバージョン名でもイメージが作成されます。
+
+---
+
+
 ## ⚠️ 運用上の注意点
 *   **環境変数について**：GitHub秘密鍵を扱う場合、RunPod側テンプレートの環境変数に指定キー（`GITHUB_SSH_KEY` または `GITHUB_SSH_KEY_B64`）が正しく登録されている必要があります。登録されていない場合は自動的にスキップされます。
 *   **初期コールドスタートの待機時間**：真っ新な空のネットワークボリューム（`/runpod-volume`）に初めてマウントした際は、Pythonパッケージの数百MBのダウンロードやGitのCloneなどが新規に行われるため起動に数分かかります。2回目（ウォームスタート等）以降はvenvなどが既に完成しているため一瞬で起動します。
