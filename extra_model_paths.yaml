@@ -7,5 +7,6 @@ comfyui:
     controlnet: controlnet
     embeddings: embeddings
     loras: loras
+    ultralytics: ultralytics
     upscale_models: upscale_models
     vae: vae

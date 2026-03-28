@@ -9,6 +9,9 @@ mkdir -p /runpod-volume/models/configs
 mkdir -p /runpod-volume/models/controlnet
 mkdir -p /runpod-volume/models/embeddings
 mkdir -p /runpod-volume/models/loras
+mkdir -p /runpod-volume/models/ultralytics
+mkdir -p /runpod-volume/models/ultralytics/bbox
+mkdir -p /runpod-volume/models/ultralytics/segm
 mkdir -p /runpod-volume/models/upscale_models
 mkdir -p /runpod-volume/models/vae
 mkdir -p /runpod-volume/output
