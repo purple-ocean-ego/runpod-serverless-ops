@@ -36,12 +36,37 @@ if [ ! -d "/runpod-volume/ComfyUI/custom_nodes/ComfyUI-Manager" ]; then
     pip install -r /runpod-volume/ComfyUI/custom_nodes/ComfyUI-Manager/requirements.txt
 fi
 
-# ComfyUIを起動
+# ComfyUIをバックグラウンドで起動
 cd /runpod-volume/ComfyUI
-echo "Starting ComfyUI from /runpod-volume/ComfyUI..."
+echo "Starting ComfyUI in the background..."
 python main.py \
     --listen 0.0.0.0 \
     --port 8188 \
     --enable-manager \
     --output-directory /runpod-volume/output \
-    --extra-model-paths-config /tmp/my-scripts/extra_model_paths.yaml
+    --extra-model-paths-config /tmp/my-scripts/extra_model_paths.yaml &
+
+# 起動完了を待機 (20秒おきに最大15回 = 5分間)
+MAX_RETRIES=15
+RETRY_INTERVAL=20
+COUNT=0
+
+echo "Waiting for ComfyUI to respond on port 8188 (up to 5 minutes)..."
+while ! curl -s http://localhost:8188 > /dev/null; do
+    sleep $RETRY_INTERVAL
+    COUNT=$((COUNT + 1))
+    
+    # プロセスがまだ生きているか確認
+    if ! kill -0 $! 2>/dev/null; then
+        echo "Error: ComfyUI process has terminated unexpectedly."
+        exit 1
+    fi
+
+    if [ $COUNT -ge $MAX_RETRIES ]; then
+        echo "Error: ComfyUI failed to respond on port 8188 within 5 minutes."
+        exit 1
+    fi
+    echo "Check $COUNT/$MAX_RETRIES: Still waiting for ComfyUI..."
+done
+
+echo "ComfyUI is now ready and accessible on port 8188!"
