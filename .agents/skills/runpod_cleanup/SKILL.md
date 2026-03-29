@@ -19,17 +19,17 @@ description: /runpod-volume/output にあるファイルを100枚ずつアーカ
 引数に SSH ホスト名と Windows ユーザー名を渡して実行してください：
 ```bash
 # 直接引数を渡す場合
-bash .antigravity/skills/runpod_cleanup/scripts/manager.sh <SSH_HOST> <WIN_USER>
+bash .agents/skills/runpod_cleanup/scripts/manager.sh <SSH_HOST> <WIN_USER>
 
 # 例:
-bash .antigravity/skills/runpod_cleanup/scripts/manager.sh your-runpod-host your-windows-name
+bash .agents/skills/runpod_cleanup/scripts/manager.sh your-runpod-host your-windows-name
 ```
 
 または、環境変数を設定して引数なしで実行することも可能です：
 ```bash
 export RUNPOD_SSH_HOST="your-runpod-host"
 export WINDOWS_USER="your-windows-name"
-bash .antigravity/skills/runpod_cleanup/scripts/manager.sh
+bash .agents/skills/runpod_cleanup/scripts/manager.sh
 ```
 
 ## 構成
