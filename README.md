@@ -36,8 +36,22 @@ bash -c '
 # 1. 古いスクリプトを削除して初期化
 rm -rf /tmp/my-scripts
 
-# 2. 運用スクリプトを最新の状態でクローン
-git clone https://github.com/purple-ocean-ego/runpod-serverless-ops.git /tmp/my-scripts
+# 2. 運用スクリプトを最新の状態でクローン (ネットワーク安定まで最大1分間リトライ)
+MAX_RETRIES=6
+RETRY_INTERVAL=10
+for ((i=1; i<=MAX_RETRIES; i++)); do
+    echo "Cloning repository (Attempt $i/$MAX_RETRIES)..."
+    if git clone https://github.com/purple-ocean-ego/runpod-serverless-ops.git /tmp/my-scripts; then
+        echo "Successfully cloned repository."
+        break
+    fi
+    if [ $i -eq $MAX_RETRIES ]; then
+        echo "Failed to clone repository after $MAX_RETRIES attempts."
+        exit 1
+    fi
+    echo "Clone failed. Retrying in ${RETRY_INTERVAL}s..."
+    sleep $RETRY_INTERVAL
+done
 
 # 3. 実行権限を付与
 chmod +x /tmp/my-scripts/*.sh
