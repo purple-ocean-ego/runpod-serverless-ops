@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# RunPod Download Manager (General Version)
+# RunPod Download Manager (Desktop & Extract Version)
 # Usage: ./manager.sh <SSH_HOST> <WIN_USER>
 # ==============================================================================
 
@@ -13,7 +13,9 @@ if [ -z "$REMOTE_HOST" ] || [ -z "$USER_WIN" ]; then
     exit 1
 fi
 
-DEST_WIN="/mnt/c/Users/$USER_WIN/Downloads/runpod_output"
+TIMESTAMP_LOCAL=$(date +%Y%m%d_%H%M%S)
+DEST_BASE="/mnt/c/Users/$USER_WIN/Desktop/runpod_output"
+DEST_WIN="$DEST_BASE/$TIMESTAMP_LOCAL"
 LOCAL_REMOTE_SCRIPT="$(dirname "$0")/remote_cleanup.sh"
 STAGING_DIR="/runpod-volume/transfer_staging"
 
@@ -32,15 +34,25 @@ ssh "$REMOTE_HOST" "bash /tmp/remote_cleanup.sh && rm /tmp/remote_cleanup.sh"
 if [ $? -eq 0 ]; then
     echo "Remote archiving complete. Downloading archives..."
     
-    # Check if there are archives before scp to avoid errors
+    # Check if there are archives before scp
     HAS_ARCHIVES=$(ssh "$REMOTE_HOST" "ls $STAGING_DIR/*.tar.gz >/dev/null 2>&1 && echo 'yes' || echo 'no'")
     if [ "$HAS_ARCHIVES" == "yes" ]; then
         scp "$REMOTE_HOST:$STAGING_DIR/*.tar.gz" "$DEST_WIN/"
         
         if [ $? -eq 0 ]; then
-            echo "Download successful. Files saved to $DEST_WIN"
+            echo "Download successful. Extracting archives..."
+            
+            # Extract archives in the destination folder
+            # Using -C to ensure relative paths are handled correctly
+            find "$DEST_WIN" -maxdepth 1 -name "*.tar.gz" -exec tar -xzf {} -C "$DEST_WIN" \;
+            
+            echo "Extraction complete. Cleaning up archives (.tar.gz) on local..."
+            rm "$DEST_WIN"/*.tar.gz
+            
             echo "Cleaning up remote staging archives..."
             ssh "$REMOTE_HOST" "rm -rf $STAGING_DIR"
+            
+            echo "Done! Files are ready on your Desktop: $DEST_WIN"
         else
             echo "Error: Download failed."
         fi

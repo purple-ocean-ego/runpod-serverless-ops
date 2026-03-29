@@ -12,8 +12,9 @@ fi
 
 echo "Found $FILE_COUNT files. Processing in batches of 100..."
 
+cd "$OUTPUT_DIR" || exit 1
 while true; do
-    FILES=$(find "$OUTPUT_DIR" -maxdepth 1 -type f | head -n 100)
+    FILES=$(find . -maxdepth 1 -type f | head -n 100 | sed 's|^./||')
     if [ -z "$FILES" ]; then
         break
     fi
