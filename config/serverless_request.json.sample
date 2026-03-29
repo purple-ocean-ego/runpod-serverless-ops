@@ -1,0 +1,11 @@
+{
+  "endpoint_id": "vllm-xxxxx",
+  "json_path": "./path/to/your/workflow.json",
+  "count": 5,
+  "seed": "random" 
+}
+/* 
+  "seed" Options:
+  - "random": 各リクエストごとに異なるシード値を生成し、ファイル名に付与します。
+  - "fixed": 元のJSONに記載されたシード値を維持し、ファイル名に連番を付与します。
+*/
