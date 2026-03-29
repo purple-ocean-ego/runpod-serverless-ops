@@ -31,7 +31,7 @@ def modify_workflow(workflow, seed_mode, index):
         target_seed = existing_seed
 
     # 接頭辞（シード値を埋め込むことで、同一シードなら同一ファイル名になりキャッシュが効くようにする）
-    suffix = f"_seed[{target_seed}]_" if target_seed is not None else f"_{index:03d}_"
+    suffix = f"_seed_{target_seed}" if target_seed is not None else f"_{index:03d}"
 
     for node_id, node in new_workflow.items():
         class_type = node.get("class_type", "")
