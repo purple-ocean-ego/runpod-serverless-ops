@@ -15,8 +15,9 @@ echo "Acquiring lock for setup..."
 
     echo "Lock acquired. Proceeding with setup..."
 
-    # ComfyUIの永続化しておきたいモデル等の置き場所をネットワークボリュームに指定
+    # ComfyUIの永続化しておきたいモデルやカスタムノードの置き場所をネットワークボリュームに指定
     mkdir -p /runpod-volume/models
+    mkdir -p /runpod-volume/custom_nodes
     mkdir -p /runpod-volume/models/checkpoints
     mkdir -p /runpod-volume/models/clip
     mkdir -p /runpod-volume/models/clip_vision
@@ -52,6 +53,21 @@ echo "Acquiring lock for setup..."
         echo "Fixing torchaudio version mismatch and adding onnxruntime-gpu..."
         pip install --upgrade torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
         pip install onnxruntime-gpu
+    fi
+
+    # -------------------------------------------------------------
+    # カスタムノードの外部ディレクトリ化（既設ノードを壊さない安全な処理）
+    # -------------------------------------------------------------
+    if [ -d "/runpod-volume/ComfyUI/custom_nodes" ] && [ ! -L "/runpod-volume/ComfyUI/custom_nodes" ]; then
+        echo "Externalizing custom_nodes directory to /runpod-volume/custom_nodes..."
+        # 既存のファイルを安全に移動（上書き禁止）し、元の実体フォルダを削除してリンクに差し替える
+        cp -n -r /runpod-volume/ComfyUI/custom_nodes/* /runpod-volume/custom_nodes/ 2>/dev/null || true
+        rm -rf /runpod-volume/ComfyUI/custom_nodes
+        ln -s /runpod-volume/custom_nodes /runpod-volume/ComfyUI/custom_nodes
+        echo "custom_nodes has been successfully linked to /runpod-volume/custom_nodes."
+    elif [ ! -e "/runpod-volume/ComfyUI/custom_nodes" ]; then
+        # 実体もリンクもなければ新規でリンクを貼る
+        ln -s /runpod-volume/custom_nodes /runpod-volume/ComfyUI/custom_nodes
     fi
 
     # ComfyUI-Manager等、Serverlessで不要な処理はスキップしています
