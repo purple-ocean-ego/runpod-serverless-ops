@@ -12,17 +12,16 @@ def modify_workflow(workflow, seed_mode, index):
     """
     new_workflow = copy.deepcopy(workflow)
     
-    # 既存のシード値を取得（固定モードで使用するため）
+    # 既存のシード値を取得（固定モード等での識別用として、最初に見つかった整数型シードを使用）
     existing_seed = None
     for node in new_workflow.values():
-        if "KSampler" in node.get("class_type", "") or "Sampler" in node.get("class_type", ""):
-            inputs = node.get("inputs", {})
-            if "seed" in inputs:
-                existing_seed = inputs["seed"]
-                break
-            if "noise_seed" in inputs:
-                existing_seed = inputs["noise_seed"]
-                break
+        inputs = node.get("inputs", {})
+        if "seed" in inputs and isinstance(inputs["seed"], int):
+            existing_seed = inputs["seed"]
+            break
+        if "noise_seed" in inputs and isinstance(inputs["noise_seed"], int):
+            existing_seed = inputs["noise_seed"]
+            break
 
     # ターゲットとなるシード値を決定
     if seed_mode == "random":
@@ -37,12 +36,11 @@ def modify_workflow(workflow, seed_mode, index):
         class_type = node.get("class_type", "")
         inputs = node.get("inputs", {})
 
-        # KSampler系のシード値を書き換え（ランダムモードのみ）
-        if seed_mode == "random" and ("KSampler" in class_type or "Sampler" in class_type):
-            if "seed" in inputs:
-                inputs["seed"] = target_seed
-            if "noise_seed" in inputs:
-                inputs["noise_seed"] = target_seed
+        # 2. 整数値を持つすべての seed または noise_seed フィールドをランダム化 (randomモードのみ)
+        if seed_mode == "random":
+            for key in ["seed", "noise_seed"]:
+                if key in inputs and isinstance(inputs[key], int):
+                    inputs[key] = target_seed
 
         # SaveImage系のファイル名接頭辞を書き換え
         if "SaveImage" in class_type or "ImageSave" in class_type:
