@@ -48,6 +48,10 @@ echo "Acquiring lock for setup..."
         git clone https://github.com/comfy-org/ComfyUI.git /runpod-volume/ComfyUI
         echo "Installing python requirements..."
         pip install -r /runpod-volume/ComfyUI/requirements.txt
+
+        echo "Fixing torchaudio version mismatch and adding onnxruntime-gpu..."
+        pip install --upgrade torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+        pip install onnxruntime-gpu
     fi
 
     # ComfyUI-Manager等、Serverlessで不要な処理はスキップしています
