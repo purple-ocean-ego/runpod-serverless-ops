@@ -50,13 +50,7 @@ echo "Acquiring lock for setup..."
         pip install -r /runpod-volume/ComfyUI/requirements.txt
     fi
 
-    # ComfyUI-Managerの導入（まだ存在しない場合）
-    if [ ! -d "/runpod-volume/ComfyUI/custom_nodes/ComfyUI-Manager" ]; then
-        echo "Cloning ComfyUI-Manager..."
-        git clone https://github.com/Comfy-Org/ComfyUI-Manager.git /runpod-volume/ComfyUI/custom_nodes/ComfyUI-Manager
-        echo "Installing ComfyUI-Manager python requirements..."
-        pip install -r /runpod-volume/ComfyUI/custom_nodes/ComfyUI-Manager/requirements.txt
-    fi
+    # ComfyUI-Manager等、Serverlessで不要な処理はスキップしています
     
     echo "Setup finished. Releasing lock..."
 ) 200>"$LOCK_FILE"
