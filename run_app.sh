@@ -31,12 +31,20 @@ if [ ! -d "/runpod-volume/ComfyUI" ]; then
     pip install -r /runpod-volume/ComfyUI/requirements.txt
 fi
 
-# ComfyUI-Managerの導入（まだ存在しない場合）
-if [ ! -d "/runpod-volume/ComfyUI/custom_nodes/ComfyUI-Manager" ]; then
-    echo "Cloning ComfyUI-Manager..."
-    git clone https://github.com/Comfy-Org/ComfyUI-Manager.git /runpod-volume/ComfyUI/custom_nodes/ComfyUI-Manager
-    echo "Installing ComfyUI-Manager python requirements..."
-    pip install -r /runpod-volume/ComfyUI/custom_nodes/ComfyUI-Manager/requirements.txt
+# -------------------------------------------------------------
+# ComfyUI-Manager v4の導入
+# v4からcustom_nodesへのgit cloneは廃止され、pipインストールに変更されました。
+# -------------------------------------------------------------
+if [ -d "/runpod-volume/ComfyUI/custom_nodes/ComfyUI-Manager" ]; then
+    echo "Removing legacy ComfyUI-Manager (custom_nodes/ComfyUI-Manager) to prevent conflicts..."
+    rm -rf /runpod-volume/ComfyUI/custom_nodes/ComfyUI-Manager
+fi
+
+echo "Installing ComfyUI-Manager (v4) requirements..."
+if [ -f "/runpod-volume/ComfyUI/manager_requirements.txt" ]; then
+    pip install -r /runpod-volume/ComfyUI/manager_requirements.txt
+else
+    echo "Warning: manager_requirements.txt not found. ComfyUI might need to be updated."
 fi
 
 # ComfyUIをバックグラウンドで起動
