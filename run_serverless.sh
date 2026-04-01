@@ -97,8 +97,14 @@ MAX_RETRIES=30
 RETRY_INTERVAL=20
 COUNT=0
 
-echo "Waiting for ComfyUI to respond on port 8188 and load nodes (checking /object_info)..."
-while ! curl -s http://127.0.0.1:8188/object_info | jq -e '.["CheckpointLoaderSimple"]' > /dev/null 2>&1; do
+echo "Waiting for ComfyUI to respond on port 8188 (checking HTTP status)..."
+while true; do
+    HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8188/object_info || echo "000")
+    if [ "$HTTP_STATUS" = "200" ]; then
+        echo "ComfyUI API (/object_info) is up and running!"
+        break
+    fi
+
     sleep $RETRY_INTERVAL
     COUNT=$((COUNT + 1))
     
@@ -112,7 +118,7 @@ while ! curl -s http://127.0.0.1:8188/object_info | jq -e '.["CheckpointLoaderSi
         echo "Error: ComfyUI failed to become ready within 10 minutes."
         exit 1
     fi
-    echo "Check $COUNT/$MAX_RETRIES: Still waiting for ComfyUI to initialize nodes..."
+    echo "Check $COUNT/$MAX_RETRIES: Still waiting for ComfyUI... (HTTP $HTTP_STATUS)"
 done
 
 echo "ComfyUI reported node availability. Adding 10s safety margin..."
