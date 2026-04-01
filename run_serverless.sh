@@ -76,13 +76,14 @@ echo "Acquiring lock for setup..."
 ) 200>"$LOCK_FILE"
 
 
-# ==============================================================================
-# ComfyUI 起動シーケンス
-# ==============================================================================
-# ComfyUIの本体起動は、最初のリクエストが来た時にハンドラー側で行うように変更しました。
-# これによりコンテナ起動時のリソース競合（25秒即死）を回避します。
+# 仮想環境を確実に有効化する
+source /runpod-volume/venv/bin/activate
+
+# ComfyUIの本体起動は、最初のリクエストが来た時にハンドラー側で行う
+# これによりコンテナ起動時のリソース競合（25秒即死）を回避する
 
 echo "Ready for initial handshake..."
-echo "Starting RunPod Serverless Handler..."
-# ハンドラーをフォアグラウンド実行
-python -u /tmp/my-scripts/rp_handler.py 2>&1 | tee /runpod-volume/handler.log
+echo "Starting RunPod Serverless Handler (venv)..."
+# 仮想環境内のpythonを明示的に使用してハンドラーを起動
+# stdout/stderrをボリューム上のファイルにも保存
+/runpod-volume/venv/bin/python -u /tmp/my-scripts/rp_handler.py 2>&1 | tee /runpod-volume/handler.log

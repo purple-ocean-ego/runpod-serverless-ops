@@ -20,9 +20,10 @@ def start_comfyui():
     """
     print("Launching ComfyUI in the background...", flush=True)
     try:
-        # extra_model_paths.yaml のパスを確定
+        # 仮想環境内のpythonを絶対パスで使用
+        python_path = "/runpod-volume/venv/bin/python"
         cmd = [
-            "python", "-u", "/runpod-volume/ComfyUI/main.py",
+            python_path, "-u", "/runpod-volume/ComfyUI/main.py",
             "--listen", "127.0.0.1",
             "--port", "8188",
             "--output-directory", "/runpod-volume/output",
