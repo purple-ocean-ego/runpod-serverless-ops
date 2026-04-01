@@ -118,5 +118,13 @@ def handler(job):
     }
 
 if __name__ == "__main__":
-    print("Starting RunPod Serverless Handler...", flush=True)
-    runpod.serverless.start({"handler": handler})
+    try:
+        print("Starting RunPod Serverless Handler...", flush=True)
+        runpod.serverless.start({"handler": handler})
+    except Exception as e:
+        print(f"CRITICAL: Handler failed to start or crashed: {str(e)}", flush=True)
+        import traceback
+        traceback.print_exc()
+        # クラッシュ時に少し待ってログがフラッシュされるようにする
+        time.sleep(2)
+

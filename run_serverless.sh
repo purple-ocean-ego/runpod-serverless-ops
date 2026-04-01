@@ -84,18 +84,25 @@ source /runpod-volume/venv/bin/activate
 
 cd /runpod-volume/ComfyUI
 echo "Starting ComfyUI in the background... (Logs: /runpod-volume/comfyui.log)"
-# ログをネットワークボリュームに保存するように変更
+# ComfyUIをバックグラウンドで切り離して実行（シェル終了の影響を抑える）
 python -u main.py \
     --listen 127.0.0.1 \
     --port 8188 \
     --output-directory /runpod-volume/output \
     --extra-model-paths-config /tmp/my-scripts/extra_model_paths.yaml \
     > /runpod-volume/comfyui.log 2>&1 &
+COMFY_PID=$!
+disown $COMFY_PID
 
-# 起動待機はハンドラー(rp_handler.py)の内部でジョブ実行時（Execution Timeoutを消費する形）に行うよう変更しました
-echo "ComfyUI startup initiated. Handing over readiness check to Serverless handler..."
-echo "Starting RunPod Serverless Handler in foreground..."
+# 起動待機はハンドラー(rp_handler.py)の内部でジョブ実行時に行う
+echo "ComfyUI (PID: $COMFY_PID) startup initiated."
+echo "Verifying venv and dependencies..."
+if ! python -c "import runpod" 2>/dev/null; then
+    echo "runpod module not found in venv. Attempting fixed installation..."
+    pip install runpod requests
+fi
 
-# ハンドラーをフォアグラウンド実行し、APIリクエストを待ち受ける
-# （スクリプトはここでブロックされ、コンテナの稼働を維持します）
-python -u /tmp/my-scripts/rp_handler.py
+echo "Starting RunPod Serverless Handler (Logging to /runpod-volume/handler.log)..."
+# ハンドラーの標準出力・エラー出力をボリューム上のファイルにも保存し、
+# コンテナが消えてもエラー理由を確認できるようにする
+python -u /tmp/my-scripts/rp_handler.py 2>&1 | tee /runpod-volume/handler.log
