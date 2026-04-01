@@ -98,4 +98,4 @@ echo "Starting RunPod Serverless Handler in foreground..."
 
 # ハンドラーをフォアグラウンド実行し、APIリクエストを待ち受ける
 # （スクリプトはここでブロックされ、コンテナの稼働を維持します）
-python /tmp/my-scripts/rp_handler.py
+python -u /tmp/my-scripts/rp_handler.py

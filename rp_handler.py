@@ -16,18 +16,19 @@ def wait_for_comfyui():
     コールドスタートタイムアウト（120秒制限）を回避するため、
     この待機はジョブ実行時（Execution Timeoutを消費する形）に行われます。
     """
-    print("Waiting for ComfyUI to be fully initialized (checking port 8188)...")
+    print("Waiting for ComfyUI to be fully initialized (checking port 8188)...", flush=True)
     retries = 0
     max_retries = 30  # 最大5分間待機
     while retries < max_retries:
         try:
             req = urllib.request.Request(f"{COMFY_API_URL}/object_info")
-            with urllib.request.urlopen(req) as response:
+            # タイムアウト付きでリクエスト（無限ハング防止）
+            with urllib.request.urlopen(req, timeout=5) as response:
                 if response.status == 200:
-                    print("ComfyUI API is up and running! Adding safety margin (10s)...")
+                    print("ComfyUI API is up and running! Adding safety margin (10s)...", flush=True)
                     time.sleep(10)
                     return True
-        except urllib.error.URLError:
+        except (urllib.error.URLError, TimeoutError, Exception):
             pass
         retries += 1
         time.sleep(10)
@@ -117,5 +118,5 @@ def handler(job):
     }
 
 if __name__ == "__main__":
-    print("Starting RunPod Serverless Handler...")
+    print("Starting RunPod Serverless Handler...", flush=True)
     runpod.serverless.start({"handler": handler})
