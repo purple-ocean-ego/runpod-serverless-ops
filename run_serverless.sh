@@ -85,7 +85,7 @@ source /runpod-volume/venv/bin/activate
 cd /runpod-volume/ComfyUI
 echo "Starting ComfyUI in the background... (Logs: /runpod-volume/comfyui.log)"
 # ログをネットワークボリュームに保存するように変更
-python main.py \
+python -u main.py \
     --listen 127.0.0.1 \
     --port 8188 \
     --output-directory /runpod-volume/output \
