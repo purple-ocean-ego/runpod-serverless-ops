@@ -30,7 +30,7 @@ def start_comfyui():
             "--extra-model-paths-config", "/tmp/my-scripts/extra_model_paths.yaml"
         ]
         # stdout/stderrは引き続きファイルに保存
-        with open("/runpod-volume/comfyui.log", "a") as log_file:
+        with open("/runpod-volume/comfyui.log", "w") as log_file:
             subprocess.Popen(cmd, stdout=log_file, stderr=log_file, cwd="/runpod-volume/ComfyUI")
         print("ComfyUI launch command executed.", flush=True)
     except Exception as e:
@@ -45,25 +45,25 @@ def wait_for_comfyui():
         start_comfyui()
         is_comfyui_started = True
         # 起動直後のポーリング失敗を避けるため、最初のチェック前に少し待つ
-        time.sleep(5)
+        time.sleep(2)
 
     print("Waiting for ComfyUI to be fully initialized (checking port 8188)...", flush=True)
 
     retries = 0
-    max_retries = 30  # 最大5分間待機
+    max_retries = 100  # 3秒×100回 = 最大5分間待機
     while retries < max_retries:
         try:
             req = urllib.request.Request(f"{COMFY_API_URL}/object_info")
             # タイムアウト付きでリクエスト（無限ハング防止）
             with urllib.request.urlopen(req, timeout=5) as response:
                 if response.status == 200:
-                    print("ComfyUI API is up and running! Adding safety margin (10s)...", flush=True)
-                    time.sleep(10)
+                    print("ComfyUI API is up and running! Adding safety margin (3s)...", flush=True)
+                    time.sleep(3)
                     return True
         except (urllib.error.URLError, TimeoutError, Exception):
             pass
         retries += 1
-        time.sleep(10)
+        time.sleep(3)
     
     raise Exception("ComfyUI failed to start within the expected time.")
 

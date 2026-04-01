@@ -40,8 +40,11 @@ echo "Acquiring lock for setup..."
     # ロック内でもactivateし、必要なパッケージがあれば入れる
     source /runpod-volume/venv/bin/activate
 
-    # Serverlessハンドラ用追加ライブラリ (Dockerfileにも記載しているが念のためvenvにも導入)
-    pip install -q runpod requests
+    # Serverlessハンドラ用追加ライブラリ（インストール済みならスキップしてvenv競合を回避）
+    if ! python -c "import runpod, requests" 2>/dev/null; then
+        echo "Installing missing handler dependencies..."
+        pip install -q runpod requests
+    fi
 
     # ComfyUI本体のネットワークボリュームへの導入・永続化
     if [ ! -d "/runpod-volume/ComfyUI" ]; then

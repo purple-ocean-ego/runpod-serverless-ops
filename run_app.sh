@@ -77,9 +77,9 @@ python main.py \
     --output-directory /runpod-volume/output \
     --extra-model-paths-config /tmp/my-scripts/extra_model_paths.yaml &
 
-# 起動完了を待機 (20秒おきに最大15回 = 5分間)
-MAX_RETRIES=15
-RETRY_INTERVAL=20
+# 起動完了を待機 (3秒おきに最大100回 = 5分間)
+MAX_RETRIES=100
+RETRY_INTERVAL=3
 COUNT=0
 
 echo "Waiting for ComfyUI to respond on port 8188 (up to 5 minutes)..."
