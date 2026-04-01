@@ -83,36 +83,40 @@ echo "Acquiring lock for setup..."
 source /runpod-volume/venv/bin/activate
 
 cd /runpod-volume/ComfyUI
-echo "Starting ComfyUI in the background..."
-# Serverless環境のため外部公開(0.0.0.0)は不要とし、127.0.0.1で起動する
+echo "Starting ComfyUI in the background... (Logs: /runpod-volume/comfyui.log)"
+# ログをネットワークボリュームに保存するように変更
 python main.py \
     --listen 127.0.0.1 \
     --port 8188 \
     --output-directory /runpod-volume/output \
-    --extra-model-paths-config /tmp/my-scripts/extra_model_paths.yaml &
+    --extra-model-paths-config /tmp/my-scripts/extra_model_paths.yaml \
+    > /runpod-volume/comfyui.log 2>&1 &
 
 # 起動完了を待機 (20秒おきに最大15回 = 5分間)
-MAX_RETRIES=15
+MAX_RETRIES=30
 RETRY_INTERVAL=20
 COUNT=0
 
-echo "Waiting for ComfyUI to respond on port 8188 (up to 5 minutes)..."
-while ! curl -s http://127.0.0.1:8188 > /dev/null; do
+echo "Waiting for ComfyUI to respond on port 8188 and load nodes (checking /object_info)..."
+while ! curl -s http://127.0.0.1:8188/object_info | jq -e '.["CheckpointLoaderSimple"]' > /dev/null 2>&1; do
     sleep $RETRY_INTERVAL
     COUNT=$((COUNT + 1))
     
     # プロセスがまだ生きているか確認
     if ! kill -0 $! 2>/dev/null; then
-        echo "Error: ComfyUI process has terminated unexpectedly."
+        echo "Error: ComfyUI process has terminated unexpectedly. Check /runpod-volume/comfyui.log for details."
         exit 1
     fi
 
     if [ $COUNT -ge $MAX_RETRIES ]; then
-        echo "Error: ComfyUI failed to respond on port 8188 within 5 minutes."
+        echo "Error: ComfyUI failed to become ready within 10 minutes."
         exit 1
     fi
-    echo "Check $COUNT/$MAX_RETRIES: Still waiting for ComfyUI..."
+    echo "Check $COUNT/$MAX_RETRIES: Still waiting for ComfyUI to initialize nodes..."
 done
+
+echo "ComfyUI reported node availability. Adding 10s safety margin..."
+sleep 10
 
 echo "ComfyUI is now ready!"
 echo "Starting RunPod Serverless Handler in foreground..."
