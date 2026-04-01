@@ -7,16 +7,47 @@ import json
 
 import runpod
 
+import subprocess
+
 COMFY_API_URL = "http://127.0.0.1:8188"
 OUTPUT_DIR = "/runpod-volume/output"
 
+is_comfyui_started = False
+
+def start_comfyui():
+    """
+    ComfyUIのプロセスをバックグラウンドで起動します。
+    """
+    print("Launching ComfyUI in the background...", flush=True)
+    try:
+        # extra_model_paths.yaml のパスを確定
+        cmd = [
+            "python", "-u", "/runpod-volume/ComfyUI/main.py",
+            "--listen", "127.0.0.1",
+            "--port", "8188",
+            "--output-directory", "/runpod-volume/output",
+            "--extra-model-paths-config", "/tmp/my-scripts/extra_model_paths.yaml"
+        ]
+        # stdout/stderrは引き続きファイルに保存
+        with open("/runpod-volume/comfyui.log", "a") as log_file:
+            subprocess.Popen(cmd, stdout=log_file, stderr=log_file, cwd="/runpod-volume/ComfyUI")
+        print("ComfyUI launch command executed.", flush=True)
+    except Exception as e:
+        print(f"Error launching ComfyUI: {str(e)}", flush=True)
+
 def wait_for_comfyui():
     """
-    ComfyUIの起動を待機します。
-    コールドスタートタイムアウト（120秒制限）を回避するため、
-    この待機はジョブ実行時（Execution Timeoutを消費する形）に行われます。
+    ComfyUIの起動を待機します。リクエストが来た時に初めて起動します。
     """
+    global is_comfyui_started
+    if not is_comfyui_started:
+        start_comfyui()
+        is_comfyui_started = True
+        # 起動直後のポーリング失敗を避けるため、最初のチェック前に少し待つ
+        time.sleep(5)
+
     print("Waiting for ComfyUI to be fully initialized (checking port 8188)...", flush=True)
+
     retries = 0
     max_retries = 30  # 最大5分間待機
     while retries < max_retries:

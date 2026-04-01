@@ -79,30 +79,10 @@ echo "Acquiring lock for setup..."
 # ==============================================================================
 # ComfyUI 起動シーケンス
 # ==============================================================================
-# ロック外で環境を有効化して起動
-source /runpod-volume/venv/bin/activate
+# ComfyUIの本体起動は、最初のリクエストが来た時にハンドラー側で行うように変更しました。
+# これによりコンテナ起動時のリソース競合（25秒即死）を回避します。
 
-cd /runpod-volume/ComfyUI
-echo "Starting ComfyUI in the background... (Logs: /runpod-volume/comfyui.log)"
-# ComfyUIをバックグラウンドで切り離して実行（シェル終了の影響を抑える）
-python -u main.py \
-    --listen 127.0.0.1 \
-    --port 8188 \
-    --output-directory /runpod-volume/output \
-    --extra-model-paths-config /tmp/my-scripts/extra_model_paths.yaml \
-    > /runpod-volume/comfyui.log 2>&1 &
-COMFY_PID=$!
-disown $COMFY_PID
-
-# 起動待機はハンドラー(rp_handler.py)の内部でジョブ実行時に行う
-echo "ComfyUI (PID: $COMFY_PID) startup initiated."
-echo "Verifying venv and dependencies..."
-if ! python -c "import runpod" 2>/dev/null; then
-    echo "runpod module not found in venv. Attempting fixed installation..."
-    pip install runpod requests
-fi
-
-echo "Starting RunPod Serverless Handler (Logging to /runpod-volume/handler.log)..."
-# ハンドラーの標準出力・エラー出力をボリューム上のファイルにも保存し、
-# コンテナが消えてもエラー理由を確認できるようにする
+echo "Ready for initial handshake..."
+echo "Starting RunPod Serverless Handler..."
+# ハンドラーをフォアグラウンド実行
 python -u /tmp/my-scripts/rp_handler.py 2>&1 | tee /runpod-volume/handler.log
