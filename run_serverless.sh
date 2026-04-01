@@ -92,39 +92,8 @@ python -u main.py \
     --extra-model-paths-config /tmp/my-scripts/extra_model_paths.yaml \
     > /runpod-volume/comfyui.log 2>&1 &
 
-# 起動完了を待機 (20秒おきに最大15回 = 5分間)
-MAX_RETRIES=30
-RETRY_INTERVAL=20
-COUNT=0
-
-echo "Waiting for ComfyUI to respond on port 8188 (checking HTTP status)..."
-while true; do
-    HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8188/object_info || echo "000")
-    if [ "$HTTP_STATUS" = "200" ]; then
-        echo "ComfyUI API (/object_info) is up and running!"
-        break
-    fi
-
-    sleep $RETRY_INTERVAL
-    COUNT=$((COUNT + 1))
-    
-    # プロセスがまだ生きているか確認
-    if ! kill -0 $! 2>/dev/null; then
-        echo "Error: ComfyUI process has terminated unexpectedly. Check /runpod-volume/comfyui.log for details."
-        exit 1
-    fi
-
-    if [ $COUNT -ge $MAX_RETRIES ]; then
-        echo "Error: ComfyUI failed to become ready within 10 minutes."
-        exit 1
-    fi
-    echo "Check $COUNT/$MAX_RETRIES: Still waiting for ComfyUI... (HTTP $HTTP_STATUS)"
-done
-
-echo "ComfyUI reported node availability. Adding 10s safety margin..."
-sleep 10
-
-echo "ComfyUI is now ready!"
+# 起動待機はハンドラー(rp_handler.py)の内部でジョブ実行時（Execution Timeoutを消費する形）に行うよう変更しました
+echo "ComfyUI startup initiated. Handing over readiness check to Serverless handler..."
 echo "Starting RunPod Serverless Handler in foreground..."
 
 # ハンドラーをフォアグラウンド実行し、APIリクエストを待ち受ける

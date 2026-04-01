@@ -10,11 +10,38 @@ import runpod
 COMFY_API_URL = "http://127.0.0.1:8188"
 OUTPUT_DIR = "/runpod-volume/output"
 
+def wait_for_comfyui():
+    """
+    ComfyUIの起動を待機します。
+    コールドスタートタイムアウト（120秒制限）を回避するため、
+    この待機はジョブ実行時（Execution Timeoutを消費する形）に行われます。
+    """
+    print("Waiting for ComfyUI to be fully initialized (checking port 8188)...")
+    retries = 0
+    max_retries = 30  # 最大5分間待機
+    while retries < max_retries:
+        try:
+            req = urllib.request.Request(f"{COMFY_API_URL}/object_info")
+            with urllib.request.urlopen(req) as response:
+                if response.status == 200:
+                    print("ComfyUI API is up and running! Adding safety margin (10s)...")
+                    time.sleep(10)
+                    return True
+        except urllib.error.URLError:
+            pass
+        retries += 1
+        time.sleep(10)
+    
+    raise Exception("ComfyUI failed to start within the expected time.")
+
 def handler(job):
     """
     RunPod Serverlessのメインハンドラー。
     ジョブの内容を受け取り、ComfyUIへAPIリクエストを投げ、生成完了を待って結果を返します。
     """
+    # ジョブを受け取ったら、まずバックグラウンドのComfyUIがAPI受付可能になるまで待つ
+    wait_for_comfyui()
+    
     job_input = job.get("input", {})
     if "workflow" not in job_input:
         return {"error": "Missing 'workflow' in input (JSON format required)"}
