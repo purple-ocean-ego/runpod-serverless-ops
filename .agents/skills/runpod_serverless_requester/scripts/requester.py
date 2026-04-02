@@ -6,6 +6,9 @@ import random
 import copy
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+def get_random_seed():
+    return random.randint(0, 0xffffffffffffffff)
+
 def modify_workflow(workflow, seed_mode, index):
     """
     ワークフローJSONを書き換えて、シード値の注入とファイル名の一意化（重複回避）を行う。
@@ -25,7 +28,7 @@ def modify_workflow(workflow, seed_mode, index):
 
     # ターゲットとなるシード値を決定
     if seed_mode == "random":
-        target_seed = random.randint(0, 0xffffffffffffffff)
+        target_seed = get_random_seed()
     else:
         target_seed = existing_seed
 
@@ -40,7 +43,7 @@ def modify_workflow(workflow, seed_mode, index):
         if seed_mode == "random":
             for key in ["seed", "noise_seed"]:
                 if key in inputs and isinstance(inputs[key], int):
-                    inputs[key] = target_seed
+                    inputs[key] = get_random_seed()
 
         # SaveImage系のファイル名接頭辞を書き換え
         if "SaveImage" in class_type or "ImageSave" in class_type:
