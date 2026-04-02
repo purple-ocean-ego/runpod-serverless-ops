@@ -30,12 +30,14 @@ source /runpod-volume/venv/bin/activate
 if [ ! -d "/runpod-volume/ComfyUI" ]; then
     echo "Cloning ComfyUI to /runpod-volume/ComfyUI..."
     git clone https://github.com/comfy-org/ComfyUI.git /runpod-volume/ComfyUI
-    echo "Installing python requirements..."
-    pip install -r /runpod-volume/ComfyUI/requirements.txt
+    echo "Installing python requirements (filtering out pre-installed torch/cuda/nvidia libs)..."
+    # ベースイメージに含まれる最適化済みの torch/cuda/nvidia 関連および triton を除外してインストール
+    grep -E -v '^(torch|torchvision|torchaudio|nvidia-|cuda-|triton)' /runpod-volume/ComfyUI/requirements.txt > /tmp/req_filtered.txt
+    pip install --no-cache-dir -r /tmp/req_filtered.txt
     
     echo "Adding onnxruntime-gpu (torch/torchvision/torchaudio is provided by base image)..."
     # pip install --upgrade torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
-    pip install onnxruntime-gpu
+    pip install --no-cache-dir onnxruntime-gpu
 fi
 
 # -------------------------------------------------------------
@@ -69,7 +71,7 @@ if [ -f "$MANAGER_REQ" ]; then
     # マーカーファイルが存在しない、または requirements.txt の方が新しい場合にインストールを実行
     if [ ! -f "$MANAGER_INSTALLED_FLAG" ] || [ "$MANAGER_REQ" -nt "$MANAGER_INSTALLED_FLAG" ]; then
         echo "Installing/Updating ComfyUI-Manager (v4) requirements..."
-        if pip install -r "$MANAGER_REQ"; then
+        if pip install --no-cache-dir -r "$MANAGER_REQ"; then
             touch "$MANAGER_INSTALLED_FLAG"
             echo "ComfyUI-Manager requirements installed successfully."
         else

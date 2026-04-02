@@ -42,22 +42,24 @@ echo "Acquiring lock for setup..."
     # ロック内でもactivateし、必要なパッケージがあれば入れる
     source /runpod-volume/venv/bin/activate
 
-    # Serverlessハンドラ用追加ライブラリ（インストール済みならスキップしてvenv競合を回避）
+    # Serverlessハンドラ用追加ライブラリ（インストール済みならスキップして venv 競合を回避）
     if ! python -c "import runpod, requests" 2>/dev/null; then
         echo "Installing missing handler dependencies..."
-        pip install -q runpod requests
+        pip install --no-cache-dir -q runpod requests
     fi
 
     # ComfyUI本体のネットワークボリュームへの導入・永続化
     if [ ! -d "/runpod-volume/ComfyUI" ]; then
         echo "Cloning ComfyUI to /runpod-volume/ComfyUI..."
         git clone https://github.com/comfy-org/ComfyUI.git /runpod-volume/ComfyUI
-        echo "Installing python requirements..."
-        pip install -r /runpod-volume/ComfyUI/requirements.txt
+        echo "Installing python requirements (filtering out pre-installed torch/cuda/nvidia libs)..."
+        # ベースイメージに含まれる最適化済みの torch/cuda/nvidia 関連および triton を除外してインストール
+        grep -E -v '^(torch|torchvision|torchaudio|nvidia-|cuda-|triton)' /runpod-volume/ComfyUI/requirements.txt > /tmp/req_filtered.txt
+        pip install --no-cache-dir -r /tmp/req_filtered.txt
 
         echo "Adding onnxruntime-gpu (torch/torchvision/torchaudio is provided by base image)..."
         # pip install --upgrade torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
-        pip install onnxruntime-gpu
+        pip install --no-cache-dir onnxruntime-gpu
     fi
 
     # -------------------------------------------------------------
