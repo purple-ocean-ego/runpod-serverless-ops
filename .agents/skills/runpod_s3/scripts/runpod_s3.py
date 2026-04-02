@@ -19,6 +19,7 @@ import sys
 import boto3
 import argparse
 import concurrent.futures
+import botocore
 from pathlib import Path
 from datetime import timezone
 
@@ -73,6 +74,51 @@ def get_client():
         region_name=RUNPOD_S3_REGION,
     )
 
+def list_objects_all(s3, bucket: str, prefix: str, delimiter: str = None):
+    """
+    再帰取得時に発生する PaginationError を回避するため、API v1 (Marker) を使うカスタムジェネレータ。
+    ネットワークエラー等に対して最大 3 回の指数バックオフリトライを行います。
+    """
+    kwargs = {"Bucket": bucket, "Prefix": prefix}
+    if delimiter:
+        kwargs["Delimiter"] = delimiter
+
+    marker = None
+    while True:
+        if marker:
+            kwargs["Marker"] = marker
+        
+        max_retries = 3
+        last_exception = None
+        for attempt in range(1, max_retries + 1):
+            try:
+                # v2 ではなく v1 (list_objects) を使用
+                resp = s3.list_objects(**kwargs)
+                yield resp
+                
+                if not resp.get("IsTruncated"):
+                    return
+                
+                # 次の開始位置を決定
+                marker = resp.get("NextMarker")
+                if not marker:
+                    contents = resp.get("Contents", [])
+                    if contents:
+                        marker = contents[-1]["Key"]
+                    else:
+                        return
+                break # 成功したのでループを抜ける
+                
+            except (botocore.exceptions.BotoCoreError, botocore.exceptions.ClientError) as e:
+                last_exception = e
+                print(f"  [警告] S3 API コール失敗 (試行 {attempt}/{max_retries}): {e}", file=sys.stderr)
+                if attempt < max_retries:
+                    import time
+                    time.sleep(2 ** attempt)
+                else:
+                    print(f"  [エラー] 3 回のリトライ後も失敗しました。処理を中断します。", file=sys.stderr)
+                    raise last_exception
+
 # ---------------------
 # パス解決
 # ---------------------
@@ -106,13 +152,9 @@ def cmd_ls(s3, path: str, recursive: bool = False):
     if prefix and not prefix.endswith("/"):
         prefix += "/"
 
-    paginator = s3.get_paginator("list_objects_v2")
-    kwargs = {"Bucket": bucket, "Prefix": prefix}
-    if not recursive:
-        kwargs["Delimiter"] = "/"
-
+    delimiter = None if recursive else "/"
     found = False
-    for page in paginator.paginate(**kwargs):
+    for page in list_objects_all(s3, bucket, prefix, delimiter):
         # フォルダ（CommonPrefixes）
         for cp in page.get("CommonPrefixes", []):
             found = True
@@ -145,14 +187,16 @@ def cmd_cp(s3, src: str, dst: str, recursive: bool = False):
             print(f"リモート '{prefix}' からファイルリストを取得中...", flush=True)
             
             keys_to_download = []
-            paginator = s3.get_paginator("list_objects_v2")
-            # Delimiter='/' を指定して高速に 1 階層分を取得
-            for page in paginator.paginate(Bucket=bucket, Prefix=prefix, Delimiter='/'):
-                for obj in page.get("Contents", []):
+            for page in list_objects_all(s3, bucket, prefix):
+                contents = page.get("Contents", [])
+                for obj in contents:
                     key = obj["Key"]
                     if key.endswith("/") or key == prefix:
                         continue
                     keys_to_download.append(key)
+                # 進捗を表示
+                print(f"  リストアップ中... {len(keys_to_download)} 件取得", end="\r", flush=True)
+            print() # 改行
             
             if not keys_to_download:
                 print("  ダウンロード対象のファイルが見つかりませんでした。", flush=True)
@@ -222,18 +266,22 @@ def cmd_rm(s3, path: str, recursive: bool = False):
         print(f"リモート '{prefix}' から削除対象を取得中...", flush=True)
         
         keys_to_delete = []
-        paginator = s3.get_paginator("list_objects_v2")
-        for page in paginator.paginate(Bucket=bucket, Prefix=prefix, Delimiter='/'):
-            for obj in page.get("Contents", []):
-                key = obj["Key"]
-                if key == prefix:
-                    continue  # フォルダ自体は残す
-                keys_to_delete.append(key)
+        for page in list_objects_all(s3, bucket, prefix):
+            contents = page.get("Contents", [])
+            for obj in contents:
+                keys_to_delete.append(obj["Key"])
+            # 進捗を表示
+            print(f"  リストアップ中... {len(keys_to_delete)} 件取得", end="\r", flush=True)
+        print() # 改行
         
         if not keys_to_delete:
             print("  削除対象のファイルが見つかりませんでした。", flush=True)
             return
             
+        # ディレクトリ削除時の 'directory not empty' エラーを回避するため、
+        # 深い階層（/の数）から先に削除するようにソートする
+        keys_to_delete.sort(key=lambda k: k.count('/'), reverse=True)
+
         total = len(keys_to_delete)
         print(f"計 {total} 件の削除を並列で開始します (Max 8スレッド)...", flush=True)
         
@@ -281,8 +329,7 @@ def cmd_mirror(s3, src: str, dst: str):
 
     # リモートの状態を取得
     remote_files = {}
-    paginator = s3.get_paginator("list_objects_v2")
-    for page in paginator.paginate(Bucket=bucket, Prefix=prefix.rstrip("/") + "/"):
+    for page in list_objects_all(s3, bucket, prefix.rstrip("/") + "/"):
         for obj in page.get("Contents", []):
             rel_key = obj["Key"][len(prefix.rstrip("/")) + 1:]
             remote_files[rel_key] = obj["LastModified"].replace(tzinfo=timezone.utc)
@@ -347,7 +394,8 @@ def main():
     # rm
     rm_p = sub.add_parser("rm", help="削除")
     rm_p.add_argument("path", help="削除するリモートパス")
-    rm_p.add_argument("-r", "--recursive", action="store_true", help="再帰的に削除")
+    rm_p.add_argument("-r", "-R", "--recursive", action="store_true", help="再帰的に削除")
+    rm_p.add_argument("-f", "--force", action="store_true", help="確認なしで強制削除（互換性用ダミー）")
 
     # mirror
     mirror_p = sub.add_parser("mirror", help="ローカル→リモートの差分同期")
