@@ -60,9 +60,22 @@ if [ -d "/runpod-volume/ComfyUI/custom_nodes/ComfyUI-Manager" ]; then
     rm -rf /runpod-volume/ComfyUI/custom_nodes/ComfyUI-Manager
 fi
 
-echo "Installing ComfyUI-Manager (v4) requirements..."
-if [ -f "/runpod-volume/ComfyUI/manager_requirements.txt" ]; then
-    pip install -r /runpod-volume/ComfyUI/manager_requirements.txt
+MANAGER_REQ="/runpod-volume/ComfyUI/manager_requirements.txt"
+MANAGER_INSTALLED_FLAG="/runpod-volume/venv/.comfyui_manager_installed"
+
+if [ -f "$MANAGER_REQ" ]; then
+    # マーカーファイルが存在しない、または requirements.txt の方が新しい場合にインストールを実行
+    if [ ! -f "$MANAGER_INSTALLED_FLAG" ] || [ "$MANAGER_REQ" -nt "$MANAGER_INSTALLED_FLAG" ]; then
+        echo "Installing/Updating ComfyUI-Manager (v4) requirements..."
+        if pip install -r "$MANAGER_REQ"; then
+            touch "$MANAGER_INSTALLED_FLAG"
+            echo "ComfyUI-Manager requirements installed successfully."
+        else
+            echo "Error: Failed to install ComfyUI-Manager requirements."
+        fi
+    else
+        echo "ComfyUI-Manager requirements are already up-to-date. Skipping pip install."
+    fi
 else
     echo "Warning: manager_requirements.txt not found. ComfyUI might need to be updated."
 fi
