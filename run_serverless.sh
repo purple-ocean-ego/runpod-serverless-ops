@@ -52,14 +52,19 @@ echo "Acquiring lock for setup..."
     if [ ! -d "/runpod-volume/ComfyUI" ]; then
         echo "Cloning ComfyUI to /runpod-volume/ComfyUI..."
         git clone https://github.com/comfy-org/ComfyUI.git /runpod-volume/ComfyUI
-        echo "Installing python requirements (filtering out pre-installed torch/cuda/nvidia libs)..."
-        # ベースイメージに含まれる最適化済みの torch/cuda/nvidia 関連および triton を除外してインストール
-        grep -E -v '^(torch|torchvision|torchaudio|nvidia-|cuda-|triton)' /runpod-volume/ComfyUI/requirements.txt > /tmp/req_filtered.txt
-        pip install --no-cache-dir -r /tmp/req_filtered.txt
+        echo "Installing python requirements with environment constraints..."
 
-        echo "Adding onnxruntime-gpu (torch/torchvision/torchaudio is provided by base image)..."
-        # pip install --upgrade torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
-        pip install --no-cache-dir onnxruntime-gpu
+        # 1. 現状の最適化環境（torch 2.9.1等）を制約として保存
+        pip freeze | grep -E '^(torch|torchvision|torchaudio|nvidia-|cuda-|triton)' > /tmp/constraints_fixed.txt
+
+        # 2. requirements.txt から torch 本体 "だけ" を除外 (torchsde 等は残す)
+        grep -E -v '^torch(vision|audio)?([>=! ]|$)' /runpod-volume/ComfyUI/requirements.txt > /tmp/req_filtered.txt
+
+        # 3. 制約を適用してインストール
+        pip install --no-cache-dir -c /tmp/constraints_fixed.txt -r /tmp/req_filtered.txt
+
+        echo "Adding onnxruntime-gpu (using fixed constraints)..."
+        pip install --no-cache-dir -c /tmp/constraints_fixed.txt onnxruntime-gpu
     fi
 
     # -------------------------------------------------------------
