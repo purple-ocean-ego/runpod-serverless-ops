@@ -30,6 +30,8 @@ echo "Acquiring lock for setup..."
     mkdir -p /runpod-volume/models/ultralytics/segm
     mkdir -p /runpod-volume/models/upscale_models
     mkdir -p /runpod-volume/models/vae
+    mkdir -p /runpod-volume/models/latent_upscale_models
+    mkdir -p /runpod-volume/models/text_encoders
     mkdir -p /runpod-volume/output
 
     # Pythonの仮想環境をネットワークボリュームに作成・有効化

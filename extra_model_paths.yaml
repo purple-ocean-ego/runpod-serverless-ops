@@ -6,7 +6,9 @@ comfyui:
     configs: configs
     controlnet: controlnet
     embeddings: embeddings
+    latent_upscale_models: latent_upscale_models
     loras: loras
+    text_encoders: text_encoders
     ultralytics: ultralytics
     upscale_models: upscale_models
     vae: vae
