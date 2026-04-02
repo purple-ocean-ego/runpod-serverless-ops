@@ -1,4 +1,4 @@
-FROM runpod/pytorch:2.4.0-py3.11-cuda12.4.1-devel-ubuntu22.04
+FROM runpod/pytorch:1.0.3-cu1290-torch291-ubuntu2404
 
 # システムのアップデートと、GPU運用・AIタスクに必須・便利なツール群の導入
 RUN apt-get update && apt-get install -y \

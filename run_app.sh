@@ -33,8 +33,8 @@ if [ ! -d "/runpod-volume/ComfyUI" ]; then
     echo "Installing python requirements..."
     pip install -r /runpod-volume/ComfyUI/requirements.txt
     
-    echo "Fixing torchaudio version mismatch and adding onnxruntime-gpu..."
-    pip install --upgrade torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+    echo "Adding onnxruntime-gpu (torch/torchvision/torchaudio is provided by base image)..."
+    # pip install --upgrade torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
     pip install onnxruntime-gpu
 fi
 
