@@ -57,10 +57,11 @@ apply_manager_settings_and_restart() {
             update_needed=true
         fi
         
-        # pip_non_uv を False に設定 (uv を許可して高速化し、UV_PIP_CONSTRAINTS で制御する)
-        if ! grep -q "pip_non_uv = False" "$MANAGER_CONFIG"; then
+        # pip_non_uv を True に設定 (uv を禁止し、互換性を最優先する標準 pip を強制)
+        if ! grep -q "pip_non_uv = True" "$MANAGER_CONFIG"; then
             update_needed=true
         fi
+
 
         if [ "$update_needed" = true ]; then
             echo "Applying Manager settings (Security & UV) and restarting..."
@@ -68,12 +69,13 @@ apply_manager_settings_and_restart() {
             sed -i 's/security_level = .*/security_level = normal/' "$MANAGER_CONFIG"
             sed -i 's/network_mode = .*/network_mode = personal_cloud/' "$MANAGER_CONFIG"
             
-            # UVを有効化 (もし設定がなければ追加、あれば置換)
+            # UVを無効化 (もし設定がなければ追加、あれば置換)
             if grep -q "pip_non_uv =" "$MANAGER_CONFIG"; then
-                sed -i 's/pip_non_uv = .*/pip_non_uv = False/' "$MANAGER_CONFIG"
+                sed -i 's/pip_non_uv = .*/pip_non_uv = True/' "$MANAGER_CONFIG"
             else
-                echo "pip_non_uv = False" >> "$MANAGER_CONFIG"
+                echo "pip_non_uv = True" >> "$MANAGER_CONFIG"
             fi
+
             
             echo "Restarting ComfyUI to apply manager settings..."
             kill $COMFY_PID
