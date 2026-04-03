@@ -1,11 +1,14 @@
 #!/bin/bash
 
 # ==============================================================================
-# RunPod Serverless起動スクリプト
+# RunPod Serverless起動スクリプト (モジュール化版)
 # ==============================================================================
-# 複数コンテナが同時に立ち上がった際の競合を防ぐため、
-# ネットワークボリュームの操作（ディレクトリ構築・git clone・pip install）は
-# flock コマンドにより排他ロックをかけて実行します。
+
+# 自ディレクトリの取得 (外部ファイル読み込み用)
+SCRIPT_DIR=$(cd $(dirname $0); pwd)
+
+# ユーティリティの読み込み
+source "${SCRIPT_DIR}/setup_utils.sh"
 
 LOCK_FILE="/runpod-volume/setup.lock"
 
@@ -15,75 +18,20 @@ echo "Acquiring lock for setup..."
 
     echo "Lock acquired. Proceeding with setup..."
 
-    # ComfyUIの永続化しておきたいモデルやカスタムノードの置き場所をネットワークボリュームに指定
-    mkdir -p /runpod-volume/models
-    mkdir -p /runpod-volume/custom_nodes
-    mkdir -p /runpod-volume/models/checkpoints
-    mkdir -p /runpod-volume/models/clip
-    mkdir -p /runpod-volume/models/clip_vision
-    mkdir -p /runpod-volume/models/configs
-    mkdir -p /runpod-volume/models/controlnet
-    mkdir -p /runpod-volume/models/embeddings
-    mkdir -p /runpod-volume/models/loras
-    mkdir -p /runpod-volume/models/ultralytics
-    mkdir -p /runpod-volume/models/ultralytics/bbox
-    mkdir -p /runpod-volume/models/ultralytics/segm
-    mkdir -p /runpod-volume/models/upscale_models
-    mkdir -p /runpod-volume/models/vae
-    mkdir -p /runpod-volume/models/latent_upscale_models
-    mkdir -p /runpod-volume/models/text_encoders
-    mkdir -p /runpod-volume/output
-
-    # Pythonの仮想環境をネットワークボリュームに作成・有効化
-    if [ ! -d "/runpod-volume/venv" ]; then
-        echo "Creating python virtual environment..."
-        python -m venv --system-site-packages /runpod-volume/venv
-    fi
-    # ロック内でもactivateし、必要なパッケージがあれば入れる
-    source /runpod-volume/venv/bin/activate
-
+    # 共通関数によるセットアップ
+    prepare_directories
+    prepare_venv
+    
     # Serverlessハンドラ用追加ライブラリ（インストール済みならスキップして venv 競合を回避）
     if ! python -c "import runpod, requests" 2>/dev/null; then
         echo "Installing missing handler dependencies..."
         pip install --no-cache-dir -q runpod requests
     fi
 
-    # ComfyUI本体のネットワークボリュームへの導入・永続化
-    if [ ! -d "/runpod-volume/ComfyUI" ]; then
-        echo "Cloning ComfyUI to /runpod-volume/ComfyUI..."
-        git clone https://github.com/comfy-org/ComfyUI.git /runpod-volume/ComfyUI
-        echo "Installing python requirements with environment constraints..."
+    # 本体のインストールとカスタムノードの外部化
+    install_comfyui
+    externalize_custom_nodes
 
-        # 1. 現状の最適化環境（torch 2.9.1等）を制約として保存
-        pip freeze | grep -E '^(torch|torchvision|torchaudio|nvidia-|cuda-|triton)' > /tmp/constraints_fixed.txt
-
-        # 2. requirements.txt から torch 本体 "だけ" を除外 (torchsde 等は残す)
-        grep -E -v '^torch(vision|audio)?([>=! ]|$)' /runpod-volume/ComfyUI/requirements.txt > /tmp/req_filtered.txt
-
-        # 3. 制約を適用してインストール
-        pip install --no-cache-dir -c /tmp/constraints_fixed.txt -r /tmp/req_filtered.txt
-
-        echo "Adding onnxruntime-gpu (using fixed constraints)..."
-        pip install --no-cache-dir -c /tmp/constraints_fixed.txt onnxruntime-gpu
-    fi
-
-    # -------------------------------------------------------------
-    # カスタムノードの外部ディレクトリ化（既設ノードを壊さない安全な処理）
-    # -------------------------------------------------------------
-    if [ -d "/runpod-volume/ComfyUI/custom_nodes" ] && [ ! -L "/runpod-volume/ComfyUI/custom_nodes" ]; then
-        echo "Externalizing custom_nodes directory to /runpod-volume/custom_nodes..."
-        # 既存のファイルを安全に移動（上書き禁止）し、元の実体フォルダを削除してリンクに差し替える
-        cp -n -r /runpod-volume/ComfyUI/custom_nodes/* /runpod-volume/custom_nodes/ 2>/dev/null || true
-        rm -rf /runpod-volume/ComfyUI/custom_nodes
-        ln -s /runpod-volume/custom_nodes /runpod-volume/ComfyUI/custom_nodes
-        echo "custom_nodes has been successfully linked to /runpod-volume/custom_nodes."
-    elif [ ! -e "/runpod-volume/ComfyUI/custom_nodes" ]; then
-        # 実体もリンクもなければ新規でリンクを貼る
-        ln -s /runpod-volume/custom_nodes /runpod-volume/ComfyUI/custom_nodes
-    fi
-
-    # ComfyUI-Manager等、Serverlessで不要な処理はスキップしています
-    
     echo "Setup finished. Releasing lock..."
 ) 200>"$LOCK_FILE"
 
