@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # ==============================================================================
-# ComfyUI 環境構築ユーティリティ
+# ComfyUI 環境構築ユーティリティ (Pure uv アーキテクチャ版)
 # ==============================================================================
 
 # --- 変数定義 ---
 MANAGER_REQ="/runpod-volume/ComfyUI/manager_requirements.txt"
 MANAGER_INSTALLED_FLAG="/runpod-volume/venv/.comfyui_manager_installed"
-CONSTRAINTS_FILE="/tmp/constraints.txt"
+PYTORCH_INDEX="https://download.pytorch.org/whl/cu126"
 
 # -------------------------------------------------------------
 # 1. ネットワークボリュームのディレクトリ構成準備
@@ -32,43 +32,27 @@ prepare_directories() {
 }
 
 # -------------------------------------------------------------
-# 2. Python 仮想環境の準備 (uv版)
+# 2. Python 仮想環境の準備 (Pure uv版)
 # -------------------------------------------------------------
 prepare_venv() {
-    # uv が入っていない場合のフォールバック
-    if ! command -v uv > /dev/null; then
-        echo "Installing uv..."
-        pip install uv
-    fi
-
     if [ ! -d "/runpod-volume/venv" ]; then
-        echo "Creating python virtual environment with uv..."
-        uv venv /runpod-volume/venv --system-site-packages
+        echo "Creating python virtual environment with uv (Python 3.12)..."
+        uv venv /runpod-volume/venv --python 3.12
     fi
     source /runpod-volume/venv/bin/activate
 
     # ハードリンクエラーによるログの汚れを防止
     export UV_LINK_MODE=copy
 
-
-    # 起動時の「正しい状態」を記録して制約ファイルを作成
-    if [ ! -f "$CONSTRAINTS_FILE" ]; then
-        echo "Generating version constraints from base environment..."
-        # 全ての基本パッケージ（PyTorch含む）の完全なバージョンを記録
-        pip freeze > "$CONSTRAINTS_FILE"
+    # PyTorch が未インストールなら導入
+    if ! python -c "import torch" 2>/dev/null; then
+        echo "Installing PyTorch (cu126) with uv..."
+        uv pip install --no-cache-dir \
+            torch torchvision torchaudio \
+            --index-url "$PYTORCH_INDEX"
     fi
 
-
-    
-    # 環境変数のエクスポート (Manager 等の外部プロセスにも適用させる)
-    export UV_PIP_CONSTRAINTS="$CONSTRAINTS_FILE"
-    export PIP_CONSTRAINT="$CONSTRAINTS_FILE"
-
-    echo "Environment constraints applied: $CONSTRAINTS_FILE"
-
-
-
-    # PyTorch の状態チェックと修復
+    # PyTorch の状態チェック
     check_pytorch_health
 }
 
@@ -78,13 +62,10 @@ prepare_venv() {
 check_pytorch_health() {
     echo "Checking PyTorch health..."
     if ! python -c "import torch; print(f'Torch OK: {torch.__version__} (CUDA: {torch.cuda.is_available()})')" 2>/dev/null; then
-        echo "⚠️ PyTorch environment is broken or mismatched. Repairing with pip..."
-        # 互換性重視のため、コアの修復には標準 pip を使用
-        pip install --force-reinstall --no-cache-dir \
-
-            --index-url https://download.pytorch.org/whl/cu129 \
-            -r "$CONSTRAINTS_FILE"
-
+        echo "⚠️ PyTorch environment is broken or mismatched. Repairing with uv..."
+        uv pip install --no-cache-dir --reinstall \
+            torch torchvision torchaudio \
+            --index-url "$PYTORCH_INDEX"
         
         if python -c "import torch; exit(0 if torch.cuda.is_available() else 1)" 2>/dev/null; then
             echo "✅ PyTorch repair successful."
@@ -105,18 +86,11 @@ install_comfyui() {
         echo "Cloning ComfyUI to /runpod-volume/ComfyUI..."
         git clone https://github.com/comfy-org/ComfyUI.git /runpod-volume/ComfyUI
         
-        echo "Installing python requirements with pip and strict constraints..."
-        # 確実性を期すため、初期構築は標準 pip を使用 (制約によるシステムPyTorchの保護)
-        # torch などを除外した requirements を作成
-        grep -E -v '^torch(vision|audio)?([>=! ]|$)' /runpod-volume/ComfyUI/requirements.txt > /tmp/req_filtered.txt
-        pip install --no-cache-dir -c "$CONSTRAINTS_FILE" -r /tmp/req_filtered.txt
+        echo "Installing python requirements with uv..."
+        uv pip install --no-cache-dir -r /runpod-volume/ComfyUI/requirements.txt
         
         echo "Adding onnxruntime-gpu..."
-        pip install --no-cache-dir -c "$CONSTRAINTS_FILE" onnxruntime-gpu
-
-
-
-
+        uv pip install --no-cache-dir onnxruntime-gpu
     fi
 }
 
@@ -147,13 +121,9 @@ install_manager_requirements() {
 
     if [ -f "$MANAGER_REQ" ]; then
         if [ ! -f "$MANAGER_INSTALLED_FLAG" ] || [ "$MANAGER_REQ" -nt "$MANAGER_INSTALLED_FLAG" ]; then
-            echo "Installing ComfyUI-Manager requirements with pip and strict constraints..."
-            if pip install --no-cache-dir -c "$CONSTRAINTS_FILE" -r "$MANAGER_REQ"; then
-
+            echo "Installing ComfyUI-Manager requirements with uv..."
+            if uv pip install --no-cache-dir -r "$MANAGER_REQ"; then
                 touch "$MANAGER_INSTALLED_FLAG"
-
-
-
                 echo "ComfyUI-Manager requirements installed successfully."
             else
                 echo "Error: Failed to install ComfyUI-Manager requirements."
@@ -163,4 +133,3 @@ install_manager_requirements() {
         fi
     fi
 }
-

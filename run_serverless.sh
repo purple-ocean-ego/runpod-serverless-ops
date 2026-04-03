@@ -31,7 +31,6 @@ echo "Acquiring lock for setup..."
 
     # 本体のインストールとカスタムノードの外部化
     install_comfyui
-    check_pytorch_health
     externalize_custom_nodes
 
 

@@ -1,11 +1,8 @@
-FROM runpod/pytorch:1.0.3-cu1290-torch291-ubuntu2404
+FROM runpod/base:1.0.3-cuda1290-ubuntu2404
 
-# システムのアップデートと、GPU運用・AIタスクに必須・便利なツール群の導入
-RUN apt-get update && apt-get install -y \
-    curl git zstd aria2 libgl1 libglib2.0-0 ffmpeg unzip \
-    htop nvtop tmux jq rclone gh \
+# runpod/base に含まれないツールのみ追加
+# (curl, git, zstd, ffmpeg, libgl1, libglib2.0-0, unzip, htop, tmux, jq,
+#  nginx, openssh-server, Python 3.9-3.13, uv, pip は runpod/base に同梱済み)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    aria2 nvtop rclone gh \
     && rm -rf /var/lib/apt/lists/*
-
-# uv のインストール
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-ENV PATH="/root/.local/bin:$PATH"
