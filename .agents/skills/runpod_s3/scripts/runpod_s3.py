@@ -74,72 +74,79 @@ def get_client():
         region_name=RUNPOD_S3_REGION,
     )
 
-def list_objects_all(s3, bucket: str, prefix: str, delimiter: str = None):
+def get_object_list(s3, bucket: str, prefix: str, recursive: bool = False):
     """
-    再帰取得時に発生する PaginationError を回避するため、API v1 (Marker) を使うカスタムジェネレータ。
-    ネットワークエラー等に対して最大 3 回の指数バックオフリトライを行います。
+    S3からオブジェクト一覧を取得し、ファイルとフォルダ(CommonPrefixes)のリストを返す汎用関数。
+    API v2 の Paginator を利用します。
+    RunPod S3 において Delimiter=None による巨大スキャン遅延を防ぐため、
+    recursive=True の場合は Delimiter="/" を維持したまま自力で再帰的に探索します。
+    
+    戻り値: tuple(files, folders)
+      files:   [ {"Key": "...", "Size": 123, "LastModified": datetime, ...}, ... ]
+      folders: [ "folder1/", "folder2/", ... ]
     """
-    kwargs = {"Bucket": bucket, "Prefix": prefix}
-    if delimiter:
-        kwargs["Delimiter"] = delimiter
+    paginator = s3.get_paginator("list_objects_v2")
+    
+    def _fetch(current_prefix):
+        files = []
+        folders = []
+        try:
+            for page in paginator.paginate(Bucket=bucket, Prefix=current_prefix, Delimiter="/"):
+                for cp in page.get("CommonPrefixes", []):
+                    folders.append(cp["Prefix"])
+                    
+                for obj in page.get("Contents", []):
+                    # フォルダ自体のプレフィックス（サイズ0で / 終わりのオブジェクト）は除外する
+                    if obj["Key"].endswith("/"):
+                        continue
+                    files.append(obj)
+        except (botocore.exceptions.BotoCoreError, botocore.exceptions.ClientError) as e:
+            print(f"  [エラー] S3 API コール失敗 ({current_prefix}): {e}", file=sys.stderr)
+            raise
+        return files, folders
 
-    marker = None
-    while True:
-        if marker:
-            kwargs["Marker"] = marker
-        
-        max_retries = 3
-        last_exception = None
-        for attempt in range(1, max_retries + 1):
-            try:
-                # v2 ではなく v1 (list_objects) を使用
-                resp = s3.list_objects(**kwargs)
-                yield resp
-                
-                if not resp.get("IsTruncated"):
-                    return
-                
-                # 次の開始位置を決定
-                marker = resp.get("NextMarker")
-                if not marker:
-                    contents = resp.get("Contents", [])
-                    if contents:
-                        marker = contents[-1]["Key"]
-                    else:
-                        return
-                break # 成功したのでループを抜ける
-                
-            except (botocore.exceptions.BotoCoreError, botocore.exceptions.ClientError) as e:
-                last_exception = e
-                print(f"  [警告] S3 API コール失敗 (試行 {attempt}/{max_retries}): {e}", file=sys.stderr)
-                if attempt < max_retries:
-                    import time
-                    time.sleep(2 ** attempt)
-                else:
-                    print(f"  [エラー] 3 回のリトライ後も失敗しました。処理を中断します。", file=sys.stderr)
-                    raise last_exception
+    all_files, all_folders = _fetch(prefix)
+    
+    if recursive:
+        # queue や iterative を使ってもよいが、深さはたかが知れているので単純な再帰
+        # リストへの追加処理
+        for folder in all_folders.copy(): # コピーを使わなくても良いが念の為
+            sub_files, sub_folders = get_object_list(s3, bucket, folder, recursive=True)
+            all_files.extend(sub_files)
+            # all_folders には全ての中間フォルダも追加しておく
+            all_folders.extend(sub_folders)
+
+    return all_files, all_folders
 
 # ---------------------
 # パス解決
 # ---------------------
 def resolve_path(path: str) -> tuple[str, str]:
     """
+    'runpod/output/' → (bucket, 'output/')
     'runpod/output/file.png' → (bucket, 'output/file.png')
     'runpod/'               → (bucket, '')
-    'runpod'                → (bucket, '')
     """
-    path = path.rstrip("/")
-    if path == "runpod":
+    is_dir = path.endswith("/") or path == "runpod"
+    clean_path = path.rstrip("/")
+    if clean_path == "runpod":
         return RUNPOD_S3_BUCKET, ""
-    if path.startswith("runpod/"):
-        rest = path[len("runpod/"):]
-        # バケット名が含まれている場合は取り除く
+        
+    if clean_path.startswith("runpod/"):
+        rest = clean_path[len("runpod/"):]
         if rest.startswith(RUNPOD_S3_BUCKET + "/"):
             rest = rest[len(RUNPOD_S3_BUCKET) + 1:]
         elif rest == RUNPOD_S3_BUCKET:
             rest = ""
+        # フォルダ指定だった場合は末尾にスラッシュを復元（ルート以外）
+        if is_dir and rest:
+            rest += "/"
         return RUNPOD_S3_BUCKET, rest
-    return RUNPOD_S3_BUCKET, path
+
+    rest = clean_path
+    if is_dir and rest:
+        rest += "/"
+    return RUNPOD_S3_BUCKET, rest
 
 def is_remote(path: str) -> bool:
     return path.startswith("runpod")
@@ -149,27 +156,23 @@ def is_remote(path: str) -> bool:
 # ---------------------
 def cmd_ls(s3, path: str, recursive: bool = False):
     bucket, prefix = resolve_path(path)
-    if prefix and not prefix.endswith("/"):
+    if recursive and prefix and not prefix.endswith("/"):
         prefix += "/"
 
-    delimiter = None if recursive else "/"
+    files, folders = get_object_list(s3, bucket, prefix, recursive=recursive)
+    
     found = False
-    for page in list_objects_all(s3, bucket, prefix, delimiter):
-        # フォルダ（CommonPrefixes）
-        for cp in page.get("CommonPrefixes", []):
-            found = True
-            print(f"               PRE {cp['Prefix']}")
-
-        # ファイル
-        for obj in page.get("Contents", []):
-            found = True
-            key = obj["Key"]
-            if prefix and key == prefix:
-                continue  # フォルダ自体はスキップ
-            size = obj["Size"]
-            ts = obj["LastModified"].astimezone().strftime("%Y-%m-%d %H:%M:%S")
-            print(f"[{ts}] {size:>12,} {key}")
-
+    for folder in folders:
+        found = True
+        print(f"               PRE {folder}")
+        
+    for obj in files:
+        if prefix and obj["Key"] == prefix:
+            continue
+        found = True
+        ts = obj["LastModified"].astimezone().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"[{ts}] {obj['Size']:>12,} {obj['Key']}")
+        
     if not found:
         print("(空のフォルダ、またはオブジェクトが見つかりませんでした)")
 
@@ -183,23 +186,14 @@ def cmd_cp(s3, src: str, dst: str, recursive: bool = False):
         if recursive:
             if prefix and not prefix.endswith("/"):
                 prefix += "/"
-            
+                
             print(f"リモート '{prefix}' からファイルリストを取得中...", flush=True)
+            files, _ = get_object_list(s3, bucket, prefix, recursive=True)
+            keys_to_download = [obj["Key"] for obj in files]
             
-            keys_to_download = []
-            for page in list_objects_all(s3, bucket, prefix):
-                contents = page.get("Contents", [])
-                for obj in contents:
-                    key = obj["Key"]
-                    if key.endswith("/") or key == prefix:
-                        continue
-                    keys_to_download.append(key)
-                # 進捗を表示
-                print(f"  リストアップ中... {len(keys_to_download)} 件取得", end="\r", flush=True)
-            print() # 改行
-            
+            print(f"  リストアップ中... {len(keys_to_download)} 件取得")
             if not keys_to_download:
-                print("  ダウンロード対象のファイルが見つかりませんでした。", flush=True)
+                print("  ダウンロード対象のファイルが見つかりませんでした。")
                 return
                 
             total = len(keys_to_download)
@@ -218,32 +212,33 @@ def cmd_cp(s3, src: str, dst: str, recursive: bool = False):
                     print(f" [{idx}/{total}] エラー ({local_f.name}): {e}", flush=True)
                     return False
 
-            # マルチスレッド並列実行
             with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
-                # インデックスを付けてワーカーに投げる
                 tasks = [(i, k) for i, k in enumerate(keys_to_download, 1)]
                 list(executor.map(download_worker, tasks))
 
-            print(f"全 {total} 件の処理が完了しました。", flush=True)
+            print(f"全 {total} 件の処理が完了しました。")
         else:
+            # 単一ファイル
             local_path = Path(dst)
             if local_path.is_dir():
                 local_path = local_path / Path(prefix).name
             print(f"ダウンロード: {prefix} → {local_path} ... ", end="", flush=True)
             try:
                 s3.download_file(bucket, prefix, str(local_path))
-                print("OK", flush=True)
+                print("OK")
             except Exception as e:
-                print(f"ERROR: {e}", flush=True)
+                print(f"ERROR: {e}")
 
     elif not is_remote(src) and is_remote(dst):
         # アップロード
         bucket, prefix = resolve_path(dst)
         src_path = Path(src)
         if recursive and src_path.is_dir():
+            if prefix and not prefix.endswith("/"):
+                prefix += "/"
             for f in src_path.rglob("*"):
                 if f.is_file():
-                    key = prefix.rstrip("/") + "/" + str(f.relative_to(src_path))
+                    key = prefix + str(f.relative_to(src_path))
                     print(f"  アップロード: {f} → {key}")
                     s3.upload_file(str(f), bucket, key)
         else:
@@ -262,26 +257,17 @@ def cmd_rm(s3, path: str, recursive: bool = False):
     if recursive:
         if prefix and not prefix.endswith("/"):
             prefix += "/"
-        
+            
         print(f"リモート '{prefix}' から削除対象を取得中...", flush=True)
+        files, _ = get_object_list(s3, bucket, prefix, recursive=True)
+        keys_to_delete = [obj["Key"] for obj in files]
         
-        keys_to_delete = []
-        for page in list_objects_all(s3, bucket, prefix):
-            contents = page.get("Contents", [])
-            for obj in contents:
-                keys_to_delete.append(obj["Key"])
-            # 進捗を表示
-            print(f"  リストアップ中... {len(keys_to_delete)} 件取得", end="\r", flush=True)
-        print() # 改行
-        
+        print(f"  リストアップ中... {len(keys_to_delete)} 件取得")
         if not keys_to_delete:
-            print("  削除対象のファイルが見つかりませんでした。", flush=True)
+            print("  削除対象のファイルが見つかりませんでした。")
             return
             
-        # ディレクトリ削除時の 'directory not empty' エラーを回避するため、
-        # 深い階層（/の数）から先に削除するようにソートする
         keys_to_delete.sort(key=lambda k: k.count('/'), reverse=True)
-
         total = len(keys_to_delete)
         print(f"計 {total} 件の削除を並列で開始します (Max 8スレッド)...", flush=True)
         
@@ -299,7 +285,11 @@ def cmd_rm(s3, path: str, recursive: bool = False):
             tasks = [(i, k) for i, k in enumerate(keys_to_delete, 1)]
             list(executor.map(delete_worker, tasks))
 
-        print(f"全 {total} 件の削除が完了しました。", flush=True)
+        print(f"全 {total} 件の削除が完了しました。")
+        try:
+            s3.delete_object(Bucket=bucket, Key=prefix)
+        except:
+            pass
     else:
         print(f"  削除: {prefix} ... ", end="", flush=True)
         try:
@@ -321,25 +311,26 @@ def cmd_mirror(s3, src: str, dst: str):
         sys.exit(1)
 
     bucket, prefix = resolve_path(dst)
+    if prefix and not prefix.endswith("/"):
+        prefix += "/"
+        
     src_path = Path(src)
-
     if not src_path.is_dir():
         print(f"エラー: ソース '{src}' はディレクトリではありません。", file=sys.stderr)
         sys.exit(1)
 
-    # リモートの状態を取得
     remote_files = {}
-    for page in list_objects_all(s3, bucket, prefix.rstrip("/") + "/"):
-        for obj in page.get("Contents", []):
-            rel_key = obj["Key"][len(prefix.rstrip("/")) + 1:]
-            remote_files[rel_key] = obj["LastModified"].replace(tzinfo=timezone.utc)
+    files, _ = get_object_list(s3, bucket, prefix, recursive=True)
+    for obj in files:
+        rel_key = obj["Key"][len(prefix):]
+        remote_files[rel_key] = obj["LastModified"].replace(tzinfo=timezone.utc)
 
     uploaded = 0
     for f in src_path.rglob("*"):
         if not f.is_file():
             continue
         rel = str(f.relative_to(src_path))
-        key = prefix.rstrip("/") + "/" + rel
+        key = prefix + rel
 
         should_upload = rel not in remote_files
         if not should_upload:
