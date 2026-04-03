@@ -63,7 +63,8 @@ prepare_venv() {
     export UV_PIP_CONSTRAINTS="$CONSTRAINTS_FILE"
     export PIP_CONSTRAINT="$CONSTRAINTS_FILE"
     # PyTorch インデックスを uv に優先させる
-    export UV_EXTRA_INDEX_URL="https://download.pytorch.org/whl/cu124"
+    export UV_EXTRA_INDEX_URL="https://download.pytorch.org/whl/cu129"
+
     echo "Environment constraints applied: $CONSTRAINTS_FILE"
 
 
@@ -81,7 +82,7 @@ check_pytorch_health() {
         # 制約ファイルに基づき、オリジナルのバージョンを再インストール
         # 注意: 指定されたインデックスから確実に cuXX 版を取得する
         uv pip install --force-reinstall --no-cache-dir \
-            --index-url https://download.pytorch.org/whl/cu124 \
+            --index-url https://download.pytorch.org/whl/cu129 \
             -r "$CONSTRAINTS_FILE"
 
         
@@ -109,12 +110,12 @@ install_comfyui() {
         grep -E -v '^torch(vision|audio)?([>=! ]|$)' /runpod-volume/ComfyUI/requirements.txt > /tmp/req_filtered.txt
         # 明示的に -c で制約ファイルを指定し、環境変数よりも確実に固定する
         uv pip install --no-cache-dir \
-            --extra-index-url https://download.pytorch.org/whl/cu124 \
+            --extra-index-url https://download.pytorch.org/whl/cu129 \
             -c "$CONSTRAINTS_FILE" -r /tmp/req_filtered.txt
         
         echo "Adding onnxruntime-gpu..."
         uv pip install --no-cache-dir \
-            --extra-index-url https://download.pytorch.org/whl/cu124 \
+            --extra-index-url https://download.pytorch.org/whl/cu129 \
             -c "$CONSTRAINTS_FILE" onnxruntime-gpu
 
 
@@ -150,7 +151,7 @@ install_manager_requirements() {
         if [ ! -f "$MANAGER_INSTALLED_FLAG" ] || [ "$MANAGER_REQ" -nt "$MANAGER_INSTALLED_FLAG" ]; then
             echo "Installing ComfyUI-Manager requirements with uv and strict constraints..."
             if uv pip install --no-cache-dir \
-                --extra-index-url https://download.pytorch.org/whl/cu124 \
+                --extra-index-url https://download.pytorch.org/whl/cu129 \
                 -c "$CONSTRAINTS_FILE" -r "$MANAGER_REQ"; then
                 touch "$MANAGER_INSTALLED_FLAG"
 
