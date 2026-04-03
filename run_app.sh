@@ -19,7 +19,9 @@ source "${SCRIPT_DIR}/comfy_runner.sh"
 prepare_directories
 prepare_venv
 install_comfyui
+check_pytorch_health
 externalize_custom_nodes
+
 install_manager_requirements
 
 # 2. 起動フロー

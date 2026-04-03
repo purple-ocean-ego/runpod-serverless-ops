@@ -1,2 +1,8 @@
 config/*.json
 wildcards/
+venv/
+.venv/
+__pycache__/
+*.log
+.DS_Store
+
