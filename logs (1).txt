@@ -1,0 +1,161 @@
+2026-04-03T03:26:19.594957437Z ==========
+2026-04-03T03:26:19.594961657Z == CUDA ==
+2026-04-03T03:26:19.594968967Z ==========
+2026-04-03T03:26:19.599987416Z CUDA Version 12.9.0
+2026-04-03T03:26:19.602753721Z Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+2026-04-03T03:26:19.604879976Z This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+2026-04-03T03:26:19.604883816Z By pulling and using the container, you accept the terms and conditions of this license:
+2026-04-03T03:26:19.604887126Z https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+2026-04-03T03:26:19.604892516Z A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+2026-04-03T03:26:19.632447110Z Cloning repository (Attempt 1/6)...
+2026-04-03T03:26:19.635270625Z Cloning into '/tmp/my-scripts'...
+2026-04-03T03:26:20.431585486Z Successfully cloned repository.
+2026-04-03T03:26:22.071495564Z setup_github_ssh: configured key at /root/.ssh/id_ed25519_github
+2026-04-03T03:26:22.080519985Z Preparing network volume directories...
+2026-04-03T03:26:22.107756940Z Creating python virtual environment with uv...
+2026-04-03T03:26:22.233566484Z Using CPython 3.12.3 interpreter at: /usr/local/bin/python
+2026-04-03T03:26:22.233587474Z Creating virtual environment at: /runpod-volume/venv
+2026-04-03T03:26:22.309956619Z Activate with: source runpod-volume/venv/bin/activate
+2026-04-03T03:26:22.322327074Z Generating version constraints from base environment...
+2026-04-03T03:26:22.653760161Z Environment constraints applied: /tmp/constraints.txt
+2026-04-03T03:26:22.653793280Z Checking PyTorch health...
+2026-04-03T03:26:24.473391453Z Torch OK: 2.9.1+cu129 (CUDA: True)
+2026-04-03T03:26:24.975001373Z ✅ PyTorch environment looks healthy.
+2026-04-03T03:26:24.975438962Z Cloning ComfyUI to /runpod-volume/ComfyUI...
+2026-04-03T03:26:24.982910157Z Cloning into '/runpod-volume/ComfyUI'...
+2026-04-03T03:26:41.950940735Z Updating files:  16% (127/774)Updating files:  17% (132/774)Updating files:  18% (140/774)Updating files:  19% (148/774)Updating files:  20% (155/774)Updating files:  21% (163/774)Updating files:  22% (171/774)Updating files:  23% (179/774)Updating files:  24% (186/774)Updating files:  25% (194/774)Updating files:  26% (202/774)Updating files:  27% (209/774)Updating files:  28% (217/774)Updating files:  29% (225/774)Updating files:  30% (233/774)Updating files:  31% (240/774)Updating files:  31% (243/774)Updating files:  32% (248/774)Updating files:  33% (256/774)Updating files:  34% (264/774)Updating files:  35% (271/774)Updating files:  36% (279/774)Updating files:  37% (287/774)Updating files:  38% (295/774)Updating files:  39% (302/774)Updating files:  40% (310/774)Updating files:  41% (318/774)Updating files:  42% (326/774)Updating files:  43% (333/774)Updating files:  44% (341/774)Updating files:  45% (349/774)Updating files:  46% (357/774)Updating files:  46% (359/774)Updating files:  47% (364/774)Updating files:  48% (372/774)Updating files:  49% (380/774)Updating files:  49% (382/774)Updating files:  50% (387/774)Updating files:  51% (395/774)Updating files:  52% (403/774)Updating files:  53% (411/774)Updating files:  54% (418/774)Updating files:  55% (426/774)Updating files:  56% (434/774)Updating files:  57% (442/774)Updating files:  58% (449/774)Updating files:  59% (457/774)Updating files:  60% (465/774)Updating files:  61% (473/774)Updating files:  62% (480/774)Updating files:  63% (488/774)Updating files:  64% (496/774)Updating files:  65% (504/774)Updating files:  66% (511/774)Updating files:  67% (519/774)Updating files:  67% (524/774)Updating files:  68% (527/774)Updating files:  69% (535/774)Updating files:  70% (542/774)Updating files:  71% (550/774)Updating files:  72% (558/774)Updating files:  73% (566/774)Updating files:  74% (573/774)Updating files:  75% (581/774)Updating files:  76% (589/774)Updating files:  77% (596/774)Updating files:  78% (604/774)Updating files:  79% (612/774)Updating files:  80% (620/774)Updating files:  81% (627/774)Updating files:  82% (635/774)Updating files:  83% (643/774)Updating files:  84% (651/774)Updating files:  85% (658/774)Updating files:  86% (666/774)Updating files:  87% (674/774)Updating files:  88% (682/774)Updating files:  89% (689/774)Updating files:  89% (692/774)Updating files:  90% (697/774)Updating files:  91% (705/774)Updating files:  92% (713/774)Updating files:  93% (720/774)Updating files:  94% (728/774)Updating files:  95% (736/774)Updating files:  96% (744/774)Updating files:  97% (751/774)Updating files:  98% (759/774)Updating files:  99% (767/774)Updating files: 100% (774/774)Updating files: 100% (774/774), done.
+2026-04-03T03:26:41.965833815Z Installing python requirements with uv and strict constraints...
+2026-04-03T03:26:42.106099239Z Using Python 3.12.3 environment at: /runpod-volume/venv
+2026-04-03T03:26:42.629359916Z   × No solution found when resolving dependencies:
+2026-04-03T03:26:42.629391996Z   ╰─▶ Because there is no version of torch==2.9.1+cu129 and all versions of
+2026-04-03T03:26:42.629397716Z       torchsde depend on torch==2.9.1+cu129, we can conclude that all versions
+2026-04-03T03:26:42.629403696Z       of torchsde cannot be used.
+2026-04-03T03:26:42.629408726Z       And because you require torchsde, we can conclude that your requirements
+2026-04-03T03:26:42.629413106Z       are unsatisfiable.
+2026-04-03T03:26:42.660456263Z Adding onnxruntime-gpu...
+2026-04-03T03:26:42.761101188Z Using Python 3.12.3 environment at: /runpod-volume/venv
+2026-04-03T03:26:43.118204033Z Resolved 7 packages in 352ms
+2026-04-03T03:26:43.141505785Z Downloading onnxruntime-gpu (241.1MiB)
+2026-04-03T03:26:43.141666925Z Downloading numpy (15.9MiB)
+2026-04-03T03:26:43.142053434Z Downloading sympy (6.0MiB)
+2026-04-03T03:26:43.921207511Z  Downloaded numpy
+2026-04-03T03:26:44.457981200Z  Downloaded sympy
+2026-04-03T03:27:01.610103173Z  Downloaded onnxruntime-gpu
+2026-04-03T03:27:01.610512372Z Prepared 7 packages in 18.49s
+2026-04-03T03:27:17.173974994Z Installed 7 packages in 15.56s
+2026-04-03T03:27:17.174039944Z  + flatbuffers==25.12.19
+2026-04-03T03:27:17.174046904Z  + mpmath==1.3.0
+2026-04-03T03:27:17.174056964Z  + numpy==2.4.4
+2026-04-03T03:27:17.174226133Z  + onnxruntime-gpu==1.24.4
+2026-04-03T03:27:17.174237943Z  + packaging==26.0
+2026-04-03T03:27:17.174311343Z  + protobuf==7.34.1
+2026-04-03T03:27:17.174472453Z  + sympy==1.14.0
+2026-04-03T03:27:17.395540264Z Checking PyTorch health...
+2026-04-03T03:27:20.817271200Z Torch OK: 2.9.1+cu129 (CUDA: True)
+2026-04-03T03:27:21.354546268Z ✅ PyTorch environment looks healthy.
+2026-04-03T03:27:21.354603908Z Checking custom_nodes link...
+2026-04-03T03:27:21.355548276Z Moving existing custom_nodes to central volume...
+2026-04-03T03:27:21.389244628Z Installing ComfyUI-Manager requirements with uv and strict constraints...
+2026-04-03T03:27:21.487790547Z Using Python 3.12.3 environment at: /runpod-volume/venv
+2026-04-03T03:27:22.209636881Z Resolved 43 packages in 710ms
+2026-04-03T03:27:22.239799169Z Downloading pynacl (1.3MiB)
+2026-04-03T03:27:22.239955119Z Downloading transformers (9.8MiB)
+2026-04-03T03:27:22.240940267Z Downloading pygments (1.2MiB)
+2026-04-03T03:27:22.241493356Z Downloading cryptography (4.3MiB)
+2026-04-03T03:27:22.242432954Z Downloading uv (23.5MiB)
+2026-04-03T03:27:22.242800303Z Downloading tokenizers (3.1MiB)
+2026-04-03T03:27:22.243004073Z Downloading hf-xet (4.0MiB)
+2026-04-03T03:27:22.506002368Z  Downloaded tokenizers
+2026-04-03T03:27:22.553663561Z  Downloaded hf-xet
+2026-04-03T03:27:22.558353822Z  Downloaded pynacl
+2026-04-03T03:27:22.713914346Z  Downloaded uv
+2026-04-03T03:27:22.727544298Z  Downloaded cryptography
+2026-04-03T03:27:22.769562763Z  Downloaded pygments
+2026-04-03T03:27:23.443208054Z  Downloaded transformers
+2026-04-03T03:27:23.443642933Z Prepared 41 packages in 1.22s
+2026-04-03T03:27:49.960062586Z Installed 41 packages in 26.51s
+2026-04-03T03:27:49.960320356Z  + annotated-doc==0.0.4
+2026-04-03T03:27:49.960374205Z  + anyio==4.13.0
+2026-04-03T03:27:49.960453525Z  + certifi==2026.2.25
+2026-04-03T03:27:49.960546965Z  + cffi==2.0.0
+2026-04-03T03:27:49.960662445Z  + chardet==7.4.0.post2
+2026-04-03T03:27:49.960713275Z  + charset-normalizer==3.4.7
+2026-04-03T03:27:49.960792875Z  + click==8.3.1
+2026-04-03T03:27:49.960932504Z  + comfyui-manager==4.1
+2026-04-03T03:27:49.960956284Z  + cryptography==46.0.6
+2026-04-03T03:27:49.961048604Z  + filelock==3.25.2
+2026-04-03T03:27:49.961135074Z  + fsspec==2026.3.0
+2026-04-03T03:27:49.961206254Z  + gitdb==4.0.12
+2026-04-03T03:27:49.961293294Z  + gitpython==3.1.46
+2026-04-03T03:27:49.961365883Z  + h11==0.16.0
+2026-04-03T03:27:49.961434423Z  + hf-xet==1.4.3
+2026-04-03T03:27:49.961526713Z  + httpcore==1.0.9
+2026-04-03T03:27:49.961601973Z  + httpx==0.28.1
+2026-04-03T03:27:49.961688873Z  + huggingface-hub==1.8.0
+2026-04-03T03:27:49.961767463Z  + idna==3.11
+2026-04-03T03:27:49.961875132Z  + markdown-it-py==4.0.0
+2026-04-03T03:27:49.961953652Z  + mdurl==0.1.2
+2026-04-03T03:27:49.962028482Z  + pycparser==3.0
+2026-04-03T03:27:49.962107272Z  + pygithub==2.9.0
+2026-04-03T03:27:49.962176302Z  + pygments==2.20.0
+2026-04-03T03:27:49.962267252Z  + pyjwt==2.12.1
+2026-04-03T03:27:49.962344211Z  + pynacl==1.6.2
+2026-04-03T03:27:49.962396771Z  + pyyaml==6.0.3
+2026-04-03T03:27:49.962486161Z  + regex==2026.3.32
+2026-04-03T03:27:49.962553281Z  + requests==2.33.1
+2026-04-03T03:27:49.962635091Z  + rich==14.3.3
+2026-04-03T03:27:49.962714521Z  + safetensors==0.7.0
+2026-04-03T03:27:49.962801341Z  + shellingham==1.5.4
+2026-04-03T03:27:49.962893240Z  + smmap==5.0.3
+2026-04-03T03:27:49.962964550Z  + tokenizers==0.22.2
+2026-04-03T03:27:49.963042690Z  + toml==0.10.2
+2026-04-03T03:27:49.963129300Z  + tqdm==4.67.3
+2026-04-03T03:27:49.963222590Z  + transformers==5.5.0
+2026-04-03T03:27:49.963286510Z  + typer==0.24.1
+2026-04-03T03:27:49.963373509Z  + typing-extensions==4.15.0
+2026-04-03T03:27:49.963453879Z  + urllib3==2.6.3
+2026-04-03T03:27:49.963554089Z  + uv==0.11.3
+2026-04-03T03:27:50.263086410Z ComfyUI-Manager requirements installed successfully.
+2026-04-03T03:27:50.264457167Z Starting ComfyUI in the background...
+2026-04-03T03:27:50.264958976Z Waiting for ComfyUI to respond on port 8188...
+2026-04-03T03:27:50.642779999Z Traceback (most recent call last):
+2026-04-03T03:27:50.642832849Z   File "/runpod-volume/ComfyUI/main.py", line 12, in <module>
+2026-04-03T03:27:50.644413335Z     from app.assets.seeder import asset_seeder
+2026-04-03T03:27:50.644430155Z   File "/runpod-volume/ComfyUI/app/assets/seeder.py", line 11, in <module>
+2026-04-03T03:27:50.645530183Z     from app.assets.scanner import (
+2026-04-03T03:27:50.645550233Z   File "/runpod-volume/ComfyUI/app/assets/scanner.py", line 7, in <module>
+2026-04-03T03:27:50.646544491Z     from app.assets.database.queries import (
+2026-04-03T03:27:50.646567591Z   File "/runpod-volume/ComfyUI/app/assets/database/queries/__init__.py", line 1, in <module>
+2026-04-03T03:27:50.648848396Z     from app.assets.database.queries.asset import (
+2026-04-03T03:27:50.648860586Z   File "/runpod-volume/ComfyUI/app/assets/database/queries/asset.py", line 1, in <module>
+2026-04-03T03:27:50.650541383Z     import sqlalchemy as sa
+2026-04-03T03:27:50.650559193Z ModuleNotFoundError: No module named 'sqlalchemy'
+2026-04-03T03:27:53.282639914Z Error: ComfyUI process terminated.
+2026-04-03T03:27:53.286253427Z Starting Nginx service...
+2026-04-03T03:27:53.305482887Z  * Starting nginx nginx
+2026-04-03T03:27:53.373700349Z    ...done.
+2026-04-03T03:27:53.374820597Z Pod Started
+2026-04-03T03:27:53.374863146Z Setting up SSH...
+2026-04-03T03:27:54.110049142Z RSA key fingerprint:
+2026-04-03T03:27:54.118474725Z 3072 SHA256:frN7B7G54pkOxFnU8QDWROJqAEr8z77fZ8y/ye8S4hw root@f519e691fcb7 (RSA)
+2026-04-03T03:27:54.221041577Z DSA key fingerprint:
+2026-04-03T03:27:54.224930829Z 1024 SHA256:tjZMoF+d6AKqHAxxvwUevEjDgweM+owE7+WzkGJQkfc root@f519e691fcb7 (DSA)
+2026-04-03T03:27:54.230016989Z ECDSA key fingerprint:
+2026-04-03T03:27:54.234042050Z 256 SHA256:3UPjnsaV7zVxhx7LoJi9sg9f51/Ea0jvg7ZM39AZkis root@f519e691fcb7 (ECDSA)
+2026-04-03T03:27:54.239687899Z ED25519 key fingerprint:
+2026-04-03T03:27:54.243719831Z 256 SHA256:gUNUPI4dV9jQuqosR0PZA8ya9QMSPNxUi80LEBRRq9c root@f519e691fcb7 (ED25519)
+2026-04-03T03:27:54.268497450Z  * Starting OpenBSD Secure Shell server sshd
+2026-04-03T03:27:54.285055637Z    ...done.
+2026-04-03T03:27:54.285605336Z SSH host keys:
+2026-04-03T03:27:54.285681775Z Key: /etc/ssh/ssh_host_dsa_key.pub
+2026-04-03T03:27:54.292167782Z 1024 SHA256:tjZMoF+d6AKqHAxxvwUevEjDgweM+owE7+WzkGJQkfc root@f519e691fcb7 (DSA)
+2026-04-03T03:27:54.292949031Z Key: /etc/ssh/ssh_host_ecdsa_key.pub
+2026-04-03T03:27:54.299200948Z 256 SHA256:3UPjnsaV7zVxhx7LoJi9sg9f51/Ea0jvg7ZM39AZkis root@f519e691fcb7 (ECDSA)
+2026-04-03T03:27:54.299949006Z Key: /etc/ssh/ssh_host_ed25519_key.pub
+2026-04-03T03:27:54.305969214Z 256 SHA256:gUNUPI4dV9jQuqosR0PZA8ya9QMSPNxUi80LEBRRq9c root@f519e691fcb7 (ED25519)
+2026-04-03T03:27:54.306688543Z Key: /etc/ssh/ssh_host_rsa_key.pub
+2026-04-03T03:27:54.313069550Z 3072 SHA256:frN7B7G54pkOxFnU8QDWROJqAEr8z77fZ8y/ye8S4hw root@f519e691fcb7 (RSA)
+2026-04-03T03:27:54.313885648Z Starting Jupyter Lab...
+2026-04-03T03:27:54.314477317Z Jupyter Lab started
+2026-04-03T03:27:54.314589797Z Exporting environment variables...
+2026-04-03T03:27:54.348860977Z Start script(s) finished, Pod is ready to use.
