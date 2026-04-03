@@ -54,10 +54,13 @@ prepare_venv() {
     # 起動時の「正しい状態」を記録して制約ファイルを作成
     if [ ! -f "$CONSTRAINTS_FILE" ]; then
         echo "Generating version constraints from base environment..."
-        pip freeze | grep -E '^(torch|torchvision|torchaudio|nvidia-|cuda-|triton)' > "$CONSTRAINTS_FILE"
+        # システム提供の PyTorch 関連はインデックス上のハッシュと合わないため除外
+        # それ以外の依存関係を固定する
+        pip freeze | grep -v -E '^(torch|torchvision|torchaudio|nvidia-|cuda-|triton)' > "$CONSTRAINTS_FILE"
         # uv リゾルバがインデックスで認識できるよう、ローカルバージョン表記 (+) 以降を削除
         sed -i 's/\+.*//' "$CONSTRAINTS_FILE"
     fi
+
     
     # 環境変数のエクスポート (Manager 等の外部プロセスにも適用させる)
     export UV_PIP_CONSTRAINTS="$CONSTRAINTS_FILE"

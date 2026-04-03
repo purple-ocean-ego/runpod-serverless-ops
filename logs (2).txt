@@ -1,0 +1,467 @@
+2026-04-03T04:03:14.704735860Z ==========
+2026-04-03T04:03:14.704740380Z == CUDA ==
+2026-04-03T04:03:14.704743210Z ==========
+2026-04-03T04:03:14.709080490Z CUDA Version 12.9.0
+2026-04-03T04:03:14.710151897Z Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+2026-04-03T04:03:14.712257041Z This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+2026-04-03T04:03:14.712260211Z By pulling and using the container, you accept the terms and conditions of this license:
+2026-04-03T04:03:14.712263551Z https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+2026-04-03T04:03:14.712269301Z A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+2026-04-03T04:03:14.727178113Z Cloning repository (Attempt 1/6)...
+2026-04-03T04:03:14.730126653Z Cloning into '/tmp/my-scripts'...
+2026-04-03T04:03:15.593906788Z Successfully cloned repository.
+2026-04-03T04:03:17.093471128Z setup_github_ssh: configured key at /root/.ssh/id_ed25519_github
+2026-04-03T04:03:17.099494149Z Preparing network volume directories...
+2026-04-03T04:03:17.122559866Z Creating python virtual environment with uv...
+2026-04-03T04:03:17.222107863Z Using CPython 3.12.3 interpreter at: /usr/local/bin/python
+2026-04-03T04:03:17.222139763Z Creating virtual environment at: /runpod-volume/venv
+2026-04-03T04:03:17.345676813Z Activate with: source runpod-volume/venv/bin/activate
+2026-04-03T04:03:17.357535454Z Generating version constraints from base environment...
+2026-04-03T04:03:17.687437737Z Environment constraints applied: /tmp/constraints.txt
+2026-04-03T04:03:17.687489638Z Checking PyTorch health...
+2026-04-03T04:03:19.405264182Z Torch OK: 2.9.1+cu129 (CUDA: True)
+2026-04-03T04:03:19.726132964Z ✅ PyTorch environment looks healthy.
+2026-04-03T04:03:19.726634828Z Cloning ComfyUI to /runpod-volume/ComfyUI...
+2026-04-03T04:03:19.732897290Z Cloning into '/runpod-volume/ComfyUI'...
+2026-04-03T04:03:33.966150781Z Updating files:  12% (99/774)Updating files:  13% (101/774)Updating files:  14% (109/774)Updating files:  15% (117/774)Updating files:  16% (124/774)Updating files:  17% (132/774)Updating files:  18% (140/774)Updating files:  19% (148/774)Updating files:  20% (155/774)Updating files:  21% (163/774)Updating files:  22% (171/774)Updating files:  23% (179/774)Updating files:  24% (186/774)Updating files:  25% (194/774)Updating files:  26% (202/774)Updating files:  27% (209/774)Updating files:  28% (217/774)Updating files:  29% (225/774)Updating files:  29% (228/774)Updating files:  30% (233/774)Updating files:  31% (240/774)Updating files:  32% (248/774)Updating files:  33% (256/774)Updating files:  34% (264/774)Updating files:  35% (271/774)Updating files:  36% (279/774)Updating files:  37% (287/774)Updating files:  38% (295/774)Updating files:  39% (302/774)Updating files:  40% (310/774)Updating files:  41% (318/774)Updating files:  42% (326/774)Updating files:  43% (333/774)Updating files:  44% (341/774)Updating files:  44% (347/774)Updating files:  45% (349/774)Updating files:  46% (357/774)Updating files:  47% (364/774)Updating files:  48% (372/774)Updating files:  49% (380/774)Updating files:  50% (387/774)Updating files:  51% (395/774)Updating files:  52% (403/774)Updating files:  52% (410/774)Updating files:  53% (411/774)Updating files:  54% (418/774)Updating files:  55% (426/774)Updating files:  56% (434/774)Updating files:  57% (442/774)Updating files:  58% (449/774)Updating files:  59% (457/774)Updating files:  60% (465/774)Updating files:  61% (473/774)Updating files:  62% (480/774)Updating files:  63% (488/774)Updating files:  64% (496/774)Updating files:  65% (504/774)Updating files:  66% (511/774)Updating files:  67% (519/774)Updating files:  68% (527/774)Updating files:  69% (535/774)Updating files:  69% (539/774)Updating files:  70% (542/774)Updating files:  71% (550/774)Updating files:  72% (558/774)Updating files:  73% (566/774)Updating files:  74% (573/774)Updating files:  75% (581/774)Updating files:  76% (589/774)Updating files:  77% (596/774)Updating files:  78% (604/774)Updating files:  79% (612/774)Updating files:  80% (620/774)Updating files:  81% (627/774)Updating files:  82% (635/774)Updating files:  83% (643/774)Updating files:  84% (651/774)Updating files:  85% (658/774)Updating files:  86% (666/774)Updating files:  86% (673/774)Updating files:  87% (674/774)Updating files:  88% (682/774)Updating files:  89% (689/774)Updating files:  90% (697/774)Updating files:  91% (705/774)Updating files:  92% (713/774)Updating files:  93% (720/774)Updating files:  94% (728/774)Updating files:  95% (736/774)Updating files:  96% (744/774)Updating files:  97% (751/774)Updating files:  98% (759/774)Updating files:  99% (767/774)Updating files: 100% (774/774)Updating files: 100% (774/774), done.
+2026-04-03T04:03:33.985064849Z Installing python requirements with uv and strict constraints...
+2026-04-03T04:03:34.077804900Z Using Python 3.12.3 environment at: /runpod-volume/venv
+2026-04-03T04:03:37.902828677Z Resolved 97 packages in 3.81s
+2026-04-03T04:03:37.922717482Z Downloading nvidia-cufile-cu12 (1.2MiB)
+2026-04-03T04:03:37.923164485Z Downloading nvidia-cusparselt-cu12 (273.9MiB)
+2026-04-03T04:03:37.933482115Z Downloading torch (1.2GiB)
+2026-04-03T04:03:37.951189426Z Downloading nvidia-nvshmem-cu12 (118.9MiB)
+2026-04-03T04:03:37.951789810Z Downloading nvidia-cuda-runtime-cu12 (3.3MiB)
+2026-04-03T04:03:37.952102722Z Downloading hf-xet (4.0MiB)
+2026-04-03T04:03:37.952675166Z Downloading kornia-rs (2.9MiB)
+2026-04-03T04:03:37.952932488Z Downloading comfyui-embedded-docs (10.1MiB)
+2026-04-03T04:03:37.953223750Z Downloading sqlalchemy (3.2MiB)
+2026-04-03T04:03:37.953483372Z Downloading av (34.7MiB)
+2026-04-03T04:03:37.953796774Z Downloading pyopengl (3.0MiB)
+2026-04-03T04:03:37.954089476Z Downloading tokenizers (3.1MiB)
+2026-04-03T04:03:37.963195527Z Downloading comfyui-frontend-package (20.9MiB)
+2026-04-03T04:03:37.963684831Z Downloading comfyui-workflow-templates-media-image (52.3MiB)
+2026-04-03T04:03:37.963877212Z Downloading scipy (33.6MiB)
+2026-04-03T04:03:37.964045623Z Downloading networkx (2.0MiB)
+2026-04-03T04:03:37.964381326Z Downloading comfyui-workflow-templates-media-video (88.7MiB)
+2026-04-03T04:03:37.964579927Z Downloading comfyui-workflow-templates-media-other (36.2MiB)
+2026-04-03T04:03:37.964815529Z Downloading pillow (6.7MiB)
+2026-04-03T04:03:37.964989300Z Downloading numpy (15.9MiB)
+2026-04-03T04:03:37.965130961Z Downloading comfyui-workflow-templates-media-api (75.1MiB)
+2026-04-03T04:03:37.965335032Z Downloading nvidia-cublas-cu12 (554.3MiB)
+2026-04-03T04:03:37.965542223Z Downloading nvidia-nvjitlink-cu12 (37.9MiB)
+2026-04-03T04:03:37.968397883Z Downloading transformers (9.8MiB)
+2026-04-03T04:03:37.982490269Z Downloading nvidia-curand-cu12 (65.1MiB)
+2026-04-03T04:03:37.982713710Z Downloading nvidia-cusparse-cu12 (349.5MiB)
+2026-04-03T04:03:37.982928852Z Downloading nvidia-cusolver-cu12 (322.5MiB)
+2026-04-03T04:03:37.983134143Z Downloading nvidia-nccl-cu12 (307.4MiB)
+2026-04-03T04:03:37.991511030Z Downloading nvidia-cufft-cu12 (191.6MiB)
+2026-04-03T04:03:37.991699311Z Downloading nvidia-cudnn-cu12 (674.0MiB)
+2026-04-03T04:03:37.991945783Z Downloading nvidia-cuda-cupti-cu12 (10.3MiB)
+2026-04-03T04:03:37.992158775Z Downloading nvidia-cuda-nvrtc-cu12 (85.4MiB)
+2026-04-03T04:03:38.055030862Z Downloading torchvision (8.7MiB)
+2026-04-03T04:03:38.070384337Z Downloading triton (162.6MiB)
+2026-04-03T04:03:38.070591138Z Downloading pydantic-core (2.0MiB)
+2026-04-03T04:03:38.092658088Z Downloading aiohttp (1.7MiB)
+2026-04-03T04:03:38.092895830Z Downloading sentencepiece (1.3MiB)
+2026-04-03T04:03:38.131324151Z Downloading pygments (1.2MiB)
+2026-04-03T04:03:38.131523272Z Downloading sympy (6.0MiB)
+2026-04-03T04:03:38.152521675Z Downloading kornia (1.0MiB)
+2026-04-03T04:03:38.298791440Z  Downloaded nvidia-cufile-cu12
+2026-04-03T04:03:38.917064706Z  Downloaded nvidia-cuda-runtime-cu12
+2026-04-03T04:03:40.123358580Z  Downloaded nvidia-cuda-cupti-cu12
+2026-04-03T04:03:41.106569668Z  Downloaded sentencepiece
+2026-04-03T04:03:41.593403739Z  Downloaded torchvision
+2026-04-03T04:03:42.177843764Z  Downloaded aiohttp
+2026-04-03T04:03:42.443870784Z  Downloaded pygments
+2026-04-03T04:03:42.576324815Z  Downloaded nvidia-curand-cu12
+2026-04-03T04:03:42.717467215Z  Downloaded pydantic-core
+2026-04-03T04:03:43.028444040Z  Downloaded kornia
+2026-04-03T04:03:43.792385216Z  Downloaded networkx
+2026-04-03T04:03:44.072927584Z  Downloaded kornia-rs
+2026-04-03T04:03:44.673055166Z  Downloaded sqlalchemy
+2026-04-03T04:03:45.069233771Z  Downloaded tokenizers
+2026-04-03T04:03:45.070817162Z  Downloaded nvidia-nvjitlink-cu12
+2026-04-03T04:03:45.527784410Z  Downloaded triton
+2026-04-03T04:03:46.200327314Z  Downloaded hf-xet
+2026-04-03T04:03:49.207997602Z  Downloaded nvidia-nvshmem-cu12
+2026-04-03T04:03:51.117775481Z  Downloaded pillow
+2026-04-03T04:03:51.242386259Z  Downloaded nvidia-cusparselt-cu12
+2026-04-03T04:03:51.461133976Z  Downloaded nvidia-cuda-nvrtc-cu12
+2026-04-03T04:03:51.470552041Z  Downloaded sympy
+2026-04-03T04:03:54.695345145Z  Downloaded nvidia-cusolver-cu12
+2026-04-03T04:03:55.906962346Z  Downloaded nvidia-nccl-cu12
+2026-04-03T04:03:56.216895094Z  Downloaded nvidia-cufft-cu12
+2026-04-03T04:03:57.649429578Z  Downloaded transformers
+2026-04-03T04:03:57.764517290Z  Downloaded numpy
+2026-04-03T04:03:58.797100054Z  Downloaded comfyui-frontend-package
+2026-04-03T04:03:59.677455792Z  Downloaded pyopengl
+2026-04-03T04:04:00.492898588Z  Downloaded nvidia-cublas-cu12
+2026-04-03T04:04:00.574439533Z  Downloaded comfyui-workflow-templates-media-other
+2026-04-03T04:04:00.823406586Z  Downloaded av
+2026-04-03T04:04:00.870019103Z  Downloaded scipy
+2026-04-03T04:04:01.053817723Z  Downloaded comfyui-workflow-templates-media-image
+2026-04-03T04:04:01.628602493Z  Downloaded comfyui-workflow-templates-media-api
+2026-04-03T04:04:01.809621344Z  Downloaded comfyui-workflow-templates-media-video
+2026-04-03T04:04:02.520579060Z  Downloaded nvidia-cudnn-cu12
+2026-04-03T04:04:03.153086222Z  Downloaded comfyui-embedded-docs
+2026-04-03T04:04:13.155635146Z  Downloaded torch
+2026-04-03T04:04:14.029188328Z Downloading nvidia-cusparse-cu12 (349.5MiB)
+2026-04-03T04:04:17.995336715Z  Downloaded nvidia-cusparse-cu12
+2026-04-03T04:04:17.995878608Z Prepared 97 packages in 40.08s
+2026-04-03T04:06:26.253615949Z Installed 97 packages in 2m 08s
+2026-04-03T04:06:26.253794310Z  + aiohappyeyeballs==2.6.1
+2026-04-03T04:06:26.253802900Z  + aiohttp==3.13.5
+2026-04-03T04:06:26.253825560Z  + aiosignal==1.4.0
+2026-04-03T04:06:26.253892351Z  + alembic==1.18.4
+2026-04-03T04:06:26.253896891Z  + annotated-doc==0.0.4
+2026-04-03T04:06:26.253926841Z  + annotated-types==0.7.0
+2026-04-03T04:06:26.253974021Z  + anyio==4.13.0
+2026-04-03T04:06:26.253980221Z  + attrs==26.1.0
+2026-04-03T04:06:26.254010102Z  + av==17.0.0
+2026-04-03T04:06:26.254036572Z  + blake3==1.0.8
+2026-04-03T04:06:26.254077352Z  + certifi==2022.12.7
+2026-04-03T04:06:26.254098772Z  + charset-normalizer==2.1.1
+2026-04-03T04:06:26.254128432Z  + click==8.3.1
+2026-04-03T04:06:26.254153563Z  + comfy-aimdo==0.2.12
+2026-04-03T04:06:26.254183773Z  + comfy-kitchen==0.2.8
+2026-04-03T04:06:26.254217803Z  + comfyui-embedded-docs==0.4.3
+2026-04-03T04:06:26.254253243Z  + comfyui-frontend-package==1.42.8
+2026-04-03T04:06:26.254275623Z  + comfyui-workflow-templates==0.9.41
+2026-04-03T04:06:26.254298724Z  + comfyui-workflow-templates-core==0.3.190
+2026-04-03T04:06:26.254349474Z  + comfyui-workflow-templates-media-api==0.3.68
+2026-04-03T04:06:26.254369234Z  + comfyui-workflow-templates-media-image==0.3.115
+2026-04-03T04:06:26.254386394Z  + comfyui-workflow-templates-media-other==0.3.163
+2026-04-03T04:06:26.254427334Z  + comfyui-workflow-templates-media-video==0.3.69
+2026-04-03T04:06:26.254443954Z  + einops==0.8.2
+2026-04-03T04:06:26.254484895Z  + filelock==3.25.2
+2026-04-03T04:06:26.254503195Z  + frozenlist==1.8.0
+2026-04-03T04:06:26.254552055Z  + fsspec==2026.2.0
+2026-04-03T04:06:26.254579835Z  + glfw==2.10.0
+2026-04-03T04:06:26.254596506Z  + greenlet==3.3.2
+2026-04-03T04:06:26.254630266Z  + h11==0.16.0
+2026-04-03T04:06:26.254647136Z  + hf-xet==1.4.3
+2026-04-03T04:06:26.254681836Z  + httpcore==1.0.9
+2026-04-03T04:06:26.254767197Z  + httpx==0.28.1
+2026-04-03T04:06:26.254790287Z  + huggingface-hub==1.8.0
+2026-04-03T04:06:26.254795717Z  + idna==3.4
+2026-04-03T04:06:26.254800817Z  + jinja2==3.1.6
+2026-04-03T04:06:26.254836907Z  + kornia==0.8.2
+2026-04-03T04:06:26.254857867Z  + kornia-rs==0.1.10
+2026-04-03T04:06:26.254891428Z  + mako==1.3.10
+2026-04-03T04:06:26.254919818Z  + markdown-it-py==4.0.0
+2026-04-03T04:06:26.254940668Z  + markupsafe==3.0.3
+2026-04-03T04:06:26.254969398Z  + mdurl==0.1.2
+2026-04-03T04:06:26.255010978Z  + mpmath==1.3.0
+2026-04-03T04:06:26.255044489Z  + multidict==6.7.1
+2026-04-03T04:06:26.255063499Z  + networkx==3.6.1
+2026-04-03T04:06:26.255093619Z  + numpy==2.4.3
+2026-04-03T04:06:26.255127889Z  + nvidia-cublas-cu12==12.9.1.4
+2026-04-03T04:06:26.255157859Z  + nvidia-cuda-cupti-cu12==12.9.79
+2026-04-03T04:06:26.255186990Z  + nvidia-cuda-nvrtc-cu12==12.9.86
+2026-04-03T04:06:26.255217370Z  + nvidia-cuda-runtime-cu12==12.9.79
+2026-04-03T04:06:26.255254540Z  + nvidia-cudnn-cu12==9.10.2.21
+2026-04-03T04:06:26.255280330Z  + nvidia-cufft-cu12==11.4.1.4
+2026-04-03T04:06:26.255316320Z  + nvidia-cufile-cu12==1.14.1.1
+2026-04-03T04:06:26.255346851Z  + nvidia-curand-cu12==10.3.10.19
+2026-04-03T04:06:26.255390221Z  + nvidia-cusolver-cu12==11.7.5.82
+2026-04-03T04:06:26.255423461Z  + nvidia-cusparse-cu12==12.5.10.65
+2026-04-03T04:06:26.255444581Z  + nvidia-cusparselt-cu12==0.7.1
+2026-04-03T04:06:26.255470441Z  + nvidia-nccl-cu12==2.27.5
+2026-04-03T04:06:26.255498282Z  + nvidia-nvjitlink-cu12==12.9.86
+2026-04-03T04:06:26.255531002Z  + nvidia-nvshmem-cu12==3.3.20
+2026-04-03T04:06:26.255561232Z  + nvidia-nvtx-cu12==12.9.79
+2026-04-03T04:06:26.255595422Z  + packaging==24.1
+2026-04-03T04:06:26.255614493Z  + pillow==12.1.1
+2026-04-03T04:06:26.255647183Z  + propcache==0.4.1
+2026-04-03T04:06:26.255675873Z  + psutil==7.2.2
+2026-04-03T04:06:26.255726903Z  + pydantic==2.12.5
+2026-04-03T04:06:26.255739883Z  + pydantic-core==2.41.5
+2026-04-03T04:06:26.255773363Z  + pydantic-settings==2.13.1
+2026-04-03T04:06:26.255797664Z  + pygments==2.20.0
+2026-04-03T04:06:26.255826664Z  + pyopengl==3.1.10
+2026-04-03T04:06:26.255859874Z  + python-dotenv==1.2.2
+2026-04-03T04:06:26.255885184Z  + pyyaml==6.0.3
+2026-04-03T04:06:26.255918344Z  + regex==2026.3.32
+2026-04-03T04:06:26.255948685Z  + requests==2.28.1
+2026-04-03T04:06:26.255977955Z  + rich==14.3.3
+2026-04-03T04:06:26.256008085Z  + safetensors==0.7.0
+2026-04-03T04:06:26.256033845Z  + scipy==1.17.1
+2026-04-03T04:06:26.256067096Z  + sentencepiece==0.2.1
+2026-04-03T04:06:26.256096336Z  + setuptools==70.2.0
+2026-04-03T04:06:26.256125126Z  + shellingham==1.5.4
+2026-04-03T04:06:26.256153506Z  + simpleeval==1.0.7
+2026-04-03T04:06:26.256186926Z  + spandrel==0.4.2
+2026-04-03T04:06:26.256217986Z  + sqlalchemy==2.0.48
+2026-04-03T04:06:26.256245057Z  + sympy==1.14.0
+2026-04-03T04:06:26.256270287Z  + tokenizers==0.22.2
+2026-04-03T04:06:26.256305837Z  + torch==2.9.1+cu129
+2026-04-03T04:06:26.256334337Z  + torchsde==0.2.6
+2026-04-03T04:06:26.256369507Z  + torchvision==0.24.1+cu129
+2026-04-03T04:06:26.256396268Z  + tqdm==4.66.5
+2026-04-03T04:06:26.256430398Z  + trampoline==0.1.2
+2026-04-03T04:06:26.256454658Z  + transformers==5.5.0
+2026-04-03T04:06:26.256484298Z  + triton==3.5.1
+2026-04-03T04:06:26.256522088Z  + typer==0.24.1
+2026-04-03T04:06:26.256555479Z  + typing-extensions==4.15.0
+2026-04-03T04:06:26.256586599Z  + typing-inspection==0.4.2
+2026-04-03T04:06:26.256603669Z  + urllib3==1.26.13
+2026-04-03T04:06:26.256629559Z  + yarl==1.23.0
+2026-04-03T04:06:28.121540354Z Adding onnxruntime-gpu...
+2026-04-03T04:06:28.217594527Z Using Python 3.12.3 environment at: /runpod-volume/venv
+2026-04-03T04:06:30.144396623Z Resolved 7 packages in 1.82s
+2026-04-03T04:06:30.163072470Z Downloading onnxruntime-gpu (241.1MiB)
+2026-04-03T04:06:32.699370061Z  Downloaded onnxruntime-gpu
+2026-04-03T04:06:32.699808714Z Prepared 3 packages in 2.54s
+2026-04-03T04:06:37.821175548Z Installed 3 packages in 5.12s
+2026-04-03T04:06:37.821234019Z  + flatbuffers==25.12.19
+2026-04-03T04:06:37.821247919Z  + onnxruntime-gpu==1.24.4
+2026-04-03T04:06:37.821274869Z  + protobuf==7.34.1
+2026-04-03T04:06:37.875190176Z Checking PyTorch health...
+2026-04-03T04:06:58.308317676Z Torch OK: 2.9.1+cu129 (CUDA: True)
+2026-04-03T04:07:00.546951942Z ✅ PyTorch environment looks healthy.
+2026-04-03T04:07:00.547020663Z Checking custom_nodes link...
+2026-04-03T04:07:00.547805138Z Moving existing custom_nodes to central volume...
+2026-04-03T04:07:00.576809636Z Installing ComfyUI-Manager requirements with uv and strict constraints...
+2026-04-03T04:07:00.670321581Z Using Python 3.12.3 environment at: /runpod-volume/venv
+2026-04-03T04:07:03.278945875Z Resolved 43 packages in 2.50s
+2026-04-03T04:07:03.365861086Z Downloading uv (23.5MiB)
+2026-04-03T04:07:03.367845539Z Downloading pynacl (1.3MiB)
+2026-04-03T04:07:03.368002041Z Downloading cryptography (4.3MiB)
+2026-04-03T04:07:03.643719816Z  Downloaded pynacl
+2026-04-03T04:07:03.645612238Z  Downloaded uv
+2026-04-03T04:07:03.658184314Z  Downloaded cryptography
+2026-04-03T04:07:03.666837593Z Prepared 13 packages in 321ms
+2026-04-03T04:07:05.667411860Z Installed 13 packages in 2.00s
+2026-04-03T04:07:05.667453421Z  + cffi==2.0.0
+2026-04-03T04:07:05.667498171Z  + chardet==7.4.0.post2
+2026-04-03T04:07:05.667532801Z  + comfyui-manager==4.1
+2026-04-03T04:07:05.667671942Z  + cryptography==46.0.6
+2026-04-03T04:07:05.667690922Z  + gitdb==4.0.12
+2026-04-03T04:07:05.667771513Z  + gitpython==3.1.46
+2026-04-03T04:07:05.667818953Z  + pycparser==3.0
+2026-04-03T04:07:05.667875084Z  + pygithub==2.9.0
+2026-04-03T04:07:05.667930044Z  + pyjwt==2.12.1
+2026-04-03T04:07:05.667989604Z  + pynacl==1.6.2
+2026-04-03T04:07:05.668048015Z  + smmap==5.0.3
+2026-04-03T04:07:05.668108295Z  + toml==0.10.2
+2026-04-03T04:07:05.668144325Z  + uv==0.11.3
+2026-04-03T04:07:05.714793613Z ComfyUI-Manager requirements installed successfully.
+2026-04-03T04:07:05.716589575Z Starting ComfyUI in the background...
+2026-04-03T04:07:05.717101648Z Waiting for ComfyUI to respond on port 8188...
+2026-04-03T04:07:08.729971471Z Check 1/100: Still waiting...
+2026-04-03T04:07:11.741402004Z Check 2/100: Still waiting...
+2026-04-03T04:07:14.751595488Z Check 3/100: Still waiting...
+2026-04-03T04:07:15.384150401Z Adding extra search path checkpoints /runpod-volume/models/checkpoints
+2026-04-03T04:07:15.384184031Z Adding extra search path clip /runpod-volume/models/clip
+2026-04-03T04:07:15.384189291Z Adding extra search path clip_vision /runpod-volume/models/clip_vision
+2026-04-03T04:07:15.384246121Z Adding extra search path configs /runpod-volume/models/configs
+2026-04-03T04:07:15.384282322Z Adding extra search path controlnet /runpod-volume/models/controlnet
+2026-04-03T04:07:15.384290912Z Adding extra search path embeddings /runpod-volume/models/embeddings
+2026-04-03T04:07:15.384300172Z Adding extra search path latent_upscale_models /runpod-volume/models/latent_upscale_models
+2026-04-03T04:07:15.384306672Z Adding extra search path loras /runpod-volume/models/loras
+2026-04-03T04:07:15.384341152Z Adding extra search path text_encoders /runpod-volume/models/text_encoders
+2026-04-03T04:07:15.384350342Z Adding extra search path ultralytics /runpod-volume/models/ultralytics
+2026-04-03T04:07:15.384426253Z Adding extra search path upscale_models /runpod-volume/models/upscale_models
+2026-04-03T04:07:15.384436373Z Adding extra search path vae /runpod-volume/models/vae
+2026-04-03T04:07:15.384444873Z Setting output directory to: /runpod-volume/output
+2026-04-03T04:07:17.767442991Z Check 4/100: Still waiting...
+2026-04-03T04:07:20.778934225Z Check 5/100: Still waiting...
+2026-04-03T04:07:22.210592032Z [START] Security scan
+2026-04-03T04:07:22.210643153Z [DONE] Security scan
+2026-04-03T04:07:22.210940535Z ** ComfyUI startup time: 2026-04-03 04:07:22.209
+2026-04-03T04:07:22.211517978Z ** Platform: Linux
+2026-04-03T04:07:22.212126163Z ** Python version: 3.12.3 (main, Nov  6 2025, 13:44:16) [GCC 13.3.0]
+2026-04-03T04:07:22.212680186Z ** Python executable: /runpod-volume/venv/bin/python
+2026-04-03T04:07:22.213239250Z ** ComfyUI Path: /runpod-volume/ComfyUI
+2026-04-03T04:07:22.213798774Z ** ComfyUI Base Folder Path: /runpod-volume/ComfyUI
+2026-04-03T04:07:22.214310877Z ** User directory: /runpod-volume/ComfyUI/user
+2026-04-03T04:07:22.214827261Z ** ComfyUI-Manager config path: /runpod-volume/ComfyUI/user/__manager/config.ini
+2026-04-03T04:07:22.215338215Z ** Log path: /runpod-volume/ComfyUI/user/comfyui.log
+2026-04-03T04:07:23.794818108Z Check 6/100: Still waiting...
+2026-04-03T04:07:24.876378784Z /runpod-volume/venv/lib/python3.12/site-packages/requests/__init__.py:109: RequestsDependencyWarning: urllib3 (1.26.13) or chardet (7.4.0.post2)/charset_normalizer (2.1.1) doesn't match a supported version!
+2026-04-03T04:07:24.876427855Z   warnings.warn(
+2026-04-03T04:07:24.876434675Z [PRE] ComfyUI-Manager
+2026-04-03T04:07:26.806082069Z Check 7/100: Still waiting...
+2026-04-03T04:07:29.817347891Z Check 8/100: Still waiting...
+2026-04-03T04:07:32.828786704Z Check 9/100: Still waiting...
+2026-04-03T04:07:35.840353788Z Check 10/100: Still waiting...
+2026-04-03T04:07:38.852674947Z Check 11/100: Still waiting...
+2026-04-03T04:07:41.864475362Z Check 12/100: Still waiting...
+2026-04-03T04:07:44.877182394Z Check 13/100: Still waiting...
+2026-04-03T04:07:47.889424742Z Check 14/100: Still waiting...
+2026-04-03T04:07:50.900621893Z Check 15/100: Still waiting...
+2026-04-03T04:07:52.300934237Z WARNING: You need pytorch with cu130 or higher to use optimized CUDA operations.
+2026-04-03T04:07:52.306131623Z Found comfy_kitchen backend eager: {'available': True, 'disabled': False, 'unavailable_reason': None, 'capabilities': ['apply_rope', 'apply_rope1', 'dequantize_mxfp8', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'quantize_mxfp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8', 'scaled_mm_mxfp8', 'scaled_mm_nvfp4']}
+2026-04-03T04:07:52.306234313Z Found comfy_kitchen backend triton: {'available': True, 'disabled': True, 'unavailable_reason': None, 'capabilities': ['apply_rope', 'apply_rope1', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'quantize_mxfp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8']}
+2026-04-03T04:07:52.306522475Z Found comfy_kitchen backend cuda: {'available': True, 'disabled': True, 'unavailable_reason': None, 'capabilities': ['apply_rope', 'apply_rope1', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'quantize_mxfp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8', 'scaled_mm_nvfp4']}
+2026-04-03T04:07:52.466834435Z Checkpoint files will always be loaded safely.
+2026-04-03T04:07:52.910719484Z Total VRAM 24124 MB, total RAM 1031814 MB
+2026-04-03T04:07:52.910837135Z pytorch version: 2.9.1+cu129
+2026-04-03T04:07:52.911618040Z Set vram state to: NORMAL_VRAM
+2026-04-03T04:07:52.912040873Z Device: cuda:0 NVIDIA GeForce RTX 3090 : cudaMallocAsync
+2026-04-03T04:07:52.912263165Z Using async weight offloading with 2 streams
+2026-04-03T04:07:52.912526996Z Enabled pinned memory 928632.0
+2026-04-03T04:07:53.031067693Z working around nvidia conv3d memory bug.
+2026-04-03T04:07:53.917256801Z Check 16/100: Still waiting...
+2026-04-03T04:07:56.932062976Z Check 17/100: Still waiting...
+2026-04-03T04:07:57.325392032Z Using pytorch attention
+2026-04-03T04:07:59.942877975Z Check 18/100: Still waiting...
+2026-04-03T04:08:02.956638173Z Check 19/100: Still waiting...
+2026-04-03T04:08:05.970672774Z Check 20/100: Still waiting...
+2026-04-03T04:08:08.983202194Z Check 21/100: Still waiting...
+2026-04-03T04:08:11.993400199Z Check 22/100: Still waiting...
+2026-04-03T04:08:15.007137837Z Check 23/100: Still waiting...
+2026-04-03T04:08:18.022111524Z Check 24/100: Still waiting...
+2026-04-03T04:08:21.034283232Z Check 25/100: Still waiting...
+2026-04-03T04:08:23.941695598Z aimdo: src/control.c:68:INFO:comfy-aimdo inited for GPU: NVIDIA GeForce RTX 3090 (VRAM: 24124 MB)
+2026-04-03T04:08:23.941832139Z DynamicVRAM support detected and enabled
+2026-04-03T04:08:23.942215771Z Python version: 3.12.3 (main, Nov  6 2025, 13:44:16) [GCC 13.3.0]
+2026-04-03T04:08:23.942286072Z ComfyUI version: 0.18.1
+2026-04-03T04:08:23.944691268Z comfy-aimdo version: 0.2.12
+2026-04-03T04:08:23.946461460Z comfy-kitchen version: 0.2.8
+2026-04-03T04:08:23.949749513Z ComfyUI frontend version: 1.42.8
+2026-04-03T04:08:23.964249961Z [Prompt Server] web root: /runpod-volume/venv/lib/python3.12/site-packages/comfyui_frontend_package/static
+2026-04-03T04:08:23.966516956Z Asset seeder disabled
+2026-04-03T04:08:23.967112600Z [START] ComfyUI-Manager
+2026-04-03T04:08:24.047654599Z Check 26/100: Still waiting...
+2026-04-03T04:08:25.446204781Z [ComfyUI-Manager] network_mode: public
+2026-04-03T04:08:25.475055867Z [ComfyUI-Manager] The matrix sharing feature has been disabled because the `matrix-nio` dependency is not installed.
+2026-04-03T04:08:25.475098677Z 	To use this feature, please run the following command:
+2026-04-03T04:08:25.475103297Z 	/runpod-volume/venv/bin/python -m pip install matrix-nio
+2026-04-03T04:08:27.060867983Z Check 27/100: Still waiting...
+2026-04-03T04:08:30.075382147Z Check 28/100: Still waiting...
+2026-04-03T04:08:33.087120232Z Check 29/100: Still waiting...
+2026-04-03T04:08:36.102753164Z Check 30/100: Still waiting...
+2026-04-03T04:08:39.117588440Z Check 31/100: Still waiting...
+2026-04-03T04:08:40.735046291Z Import times for custom nodes:
+2026-04-03T04:08:40.735144412Z    0.0 seconds: /runpod-volume/ComfyUI/custom_nodes/websocket_image_save.py
+2026-04-03T04:08:40.745373121Z Context impl SQLiteImpl.
+2026-04-03T04:08:40.745620373Z Will assume non-transactional DDL.
+2026-04-03T04:08:40.844809718Z Context impl SQLiteImpl.
+2026-04-03T04:08:40.844911598Z Will assume non-transactional DDL.
+2026-04-03T04:08:40.886717333Z Running upgrade  -> 0001_assets, Initial assets schema
+2026-04-03T04:08:40.886741173Z Revision ID: 0001_assets
+2026-04-03T04:08:40.886748233Z Revises: None
+2026-04-03T04:08:40.886754553Z Create Date: 2025-12-10 00:00:00
+2026-04-03T04:08:41.457857187Z Running upgrade 0001_assets -> 0002_merge_to_asset_references, Merge AssetInfo and AssetCacheState into unified asset_references table.
+2026-04-03T04:08:42.130995076Z Check 32/100: Still waiting...
+2026-04-03T04:08:42.132052953Z Running upgrade 0002_merge_to_asset_references -> 0003_add_metadata_job_id, Add system_metadata and job_id columns to asset_references.
+2026-04-03T04:08:42.132096073Z Change preview_id FK from assets.id to asset_references.id.
+2026-04-03T04:08:42.214134151Z Database upgraded from None to 0003_add_metadata_job_id
+2026-04-03T04:08:42.876424256Z Starting server
+2026-04-03T04:08:42.876860879Z To see the GUI go to: http://0.0.0.0:8188
+2026-04-03T04:08:45.142466109Z Check 33/100: Still waiting...
+2026-04-03T04:08:45.172531234Z Applying Manager settings (Security & UV) and restarting...
+2026-04-03T04:08:45.206023752Z Restarting ComfyUI to apply manager settings...
+2026-04-03T04:08:45.575338713Z Starting ComfyUI in the background...
+2026-04-03T04:08:45.575938088Z Waiting for ComfyUI to respond on port 8188...
+2026-04-03T04:08:48.259591901Z Adding extra search path checkpoints /runpod-volume/models/checkpoints
+2026-04-03T04:08:48.259661162Z Adding extra search path clip /runpod-volume/models/clip
+2026-04-03T04:08:48.259666711Z Adding extra search path clip_vision /runpod-volume/models/clip_vision
+2026-04-03T04:08:48.259877943Z Adding extra search path configs /runpod-volume/models/configs
+2026-04-03T04:08:48.259951513Z Adding extra search path controlnet /runpod-volume/models/controlnet
+2026-04-03T04:08:48.259957993Z Adding extra search path embeddings /runpod-volume/models/embeddings
+2026-04-03T04:08:48.259961773Z Adding extra search path latent_upscale_models /runpod-volume/models/latent_upscale_models
+2026-04-03T04:08:48.259966953Z Adding extra search path loras /runpod-volume/models/loras
+2026-04-03T04:08:48.259970633Z Adding extra search path text_encoders /runpod-volume/models/text_encoders
+2026-04-03T04:08:48.259974574Z Adding extra search path ultralytics /runpod-volume/models/ultralytics
+2026-04-03T04:08:48.259977854Z Adding extra search path upscale_models /runpod-volume/models/upscale_models
+2026-04-03T04:08:48.259981094Z Adding extra search path vae /runpod-volume/models/vae
+2026-04-03T04:08:48.259984374Z Setting output directory to: /runpod-volume/output
+2026-04-03T04:08:48.587763193Z Check 1/100: Still waiting...
+2026-04-03T04:08:49.882913283Z /runpod-volume/venv/lib/python3.12/site-packages/requests/__init__.py:109: RequestsDependencyWarning: urllib3 (1.26.13) or chardet (7.4.0.post2)/charset_normalizer (2.1.1) doesn't match a supported version!
+2026-04-03T04:08:49.882955353Z   warnings.warn(
+2026-04-03T04:08:49.882960343Z [ComfyUI-Manager] Using uv as Python module for pip operations.
+2026-04-03T04:08:50.172946695Z Using Python 3.12.3 environment at: /runpod-volume/venv
+2026-04-03T04:08:50.508863410Z [START] Security scan
+2026-04-03T04:08:50.508913260Z [DONE] Security scan
+2026-04-03T04:08:50.508972591Z ** ComfyUI startup time: 2026-04-03 04:08:50.508
+2026-04-03T04:08:50.509235272Z ** Platform: Linux
+2026-04-03T04:08:50.509489024Z ** Python version: 3.12.3 (main, Nov  6 2025, 13:44:16) [GCC 13.3.0]
+2026-04-03T04:08:50.509737426Z ** Python executable: /runpod-volume/venv/bin/python
+2026-04-03T04:08:50.510008848Z ** ComfyUI Path: /runpod-volume/ComfyUI
+2026-04-03T04:08:50.510250949Z ** ComfyUI Base Folder Path: /runpod-volume/ComfyUI
+2026-04-03T04:08:50.510489991Z ** User directory: /runpod-volume/ComfyUI/user
+2026-04-03T04:08:50.510742363Z ** ComfyUI-Manager config path: /runpod-volume/ComfyUI/user/__manager/config.ini
+2026-04-03T04:08:50.510994595Z ** Log path: /runpod-volume/ComfyUI/user/comfyui.log
+2026-04-03T04:08:50.589127606Z Using Python 3.12.3 environment at: /runpod-volume/venv
+2026-04-03T04:08:50.754104398Z Using Python 3.12.3 environment at: /runpod-volume/venv
+2026-04-03T04:08:50.833060865Z [ComfyUI-Manager] PyTorch is not installed
+2026-04-03T04:08:50.833633189Z [PRE] ComfyUI-Manager
+2026-04-03T04:08:51.601898254Z Check 2/100: Still waiting...
+2026-04-03T04:08:54.659199799Z Check 3/100: Still waiting...
+2026-04-03T04:08:57.672646736Z Check 4/100: Still waiting...
+2026-04-03T04:09:00.685563629Z Check 5/100: Still waiting...
+2026-04-03T04:09:03.696657460Z Check 6/100: Still waiting...
+2026-04-03T04:09:04.094547196Z WARNING: You need pytorch with cu130 or higher to use optimized CUDA operations.
+2026-04-03T04:09:04.095290021Z Found comfy_kitchen backend triton: {'available': True, 'disabled': True, 'unavailable_reason': None, 'capabilities': ['apply_rope', 'apply_rope1', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'quantize_mxfp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8']}
+2026-04-03T04:09:04.095378292Z Found comfy_kitchen backend cuda: {'available': True, 'disabled': True, 'unavailable_reason': None, 'capabilities': ['apply_rope', 'apply_rope1', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'quantize_mxfp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8', 'scaled_mm_nvfp4']}
+2026-04-03T04:09:04.095517602Z Found comfy_kitchen backend eager: {'available': True, 'disabled': False, 'unavailable_reason': None, 'capabilities': ['apply_rope', 'apply_rope1', 'dequantize_mxfp8', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'quantize_mxfp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8', 'scaled_mm_mxfp8', 'scaled_mm_nvfp4']}
+2026-04-03T04:09:04.137107755Z Checkpoint files will always be loaded safely.
+2026-04-03T04:09:04.381150915Z Total VRAM 24124 MB, total RAM 1031814 MB
+2026-04-03T04:09:04.381369227Z pytorch version: 2.9.1+cu129
+2026-04-03T04:09:04.382000871Z Set vram state to: NORMAL_VRAM
+2026-04-03T04:09:04.382438074Z Device: cuda:0 NVIDIA GeForce RTX 3090 : cudaMallocAsync
+2026-04-03T04:09:04.382807107Z Using async weight offloading with 2 streams
+2026-04-03T04:09:04.383085428Z Enabled pinned memory 928632.0
+2026-04-03T04:09:04.432216252Z working around nvidia conv3d memory bug.
+2026-04-03T04:09:05.886919997Z Using pytorch attention
+2026-04-03T04:09:06.712143570Z Check 7/100: Still waiting...
+2026-04-03T04:09:09.728201864Z Check 8/100: Still waiting...
+2026-04-03T04:09:12.740726465Z Check 9/100: Still waiting...
+2026-04-03T04:09:15.753132724Z Check 10/100: Still waiting...
+2026-04-03T04:09:18.764619027Z Check 11/100: Still waiting...
+2026-04-03T04:09:19.184061250Z aimdo: src/control.c:68:INFO:comfy-aimdo inited for GPU: NVIDIA GeForce RTX 3090 (VRAM: 24124 MB)
+2026-04-03T04:09:19.184227271Z DynamicVRAM support detected and enabled
+2026-04-03T04:09:19.185415770Z Python version: 3.12.3 (main, Nov  6 2025, 13:44:16) [GCC 13.3.0]
+2026-04-03T04:09:19.185565740Z ComfyUI version: 0.18.1
+2026-04-03T04:09:19.187793946Z comfy-aimdo version: 0.2.12
+2026-04-03T04:09:19.189765069Z comfy-kitchen version: 0.2.8
+2026-04-03T04:09:19.196668256Z ComfyUI frontend version: 1.42.8
+2026-04-03T04:09:19.207884112Z [Prompt Server] web root: /runpod-volume/venv/lib/python3.12/site-packages/comfyui_frontend_package/static
+2026-04-03T04:09:19.210267688Z Asset seeder disabled
+2026-04-03T04:09:19.210562481Z [START] ComfyUI-Manager
+2026-04-03T04:09:19.626259578Z [ComfyUI-Manager] network_mode: personal_cloud
+2026-04-03T04:09:19.638332070Z [ComfyUI-Manager] The matrix sharing feature has been disabled because the `matrix-nio` dependency is not installed.
+2026-04-03T04:09:19.638347170Z 	To use this feature, please run the following command:
+2026-04-03T04:09:19.638351470Z 	/runpod-volume/venv/bin/python -m pip install matrix-nio
+2026-04-03T04:09:21.777541641Z Check 12/100: Still waiting...
+2026-04-03T04:09:24.764578007Z Import times for custom nodes:
+2026-04-03T04:09:24.764826259Z    0.0 seconds: /runpod-volume/ComfyUI/custom_nodes/websocket_image_save.py
+2026-04-03T04:09:24.771894327Z Context impl SQLiteImpl.
+2026-04-03T04:09:24.771989048Z Will assume non-transactional DDL.
+2026-04-03T04:09:24.790176681Z Check 13/100: Still waiting...
+2026-04-03T04:09:25.368856957Z Starting server
+2026-04-03T04:09:25.369317271Z To see the GUI go to: http://0.0.0.0:8188
+2026-04-03T04:09:27.800587617Z Check 14/100: Still waiting...
+2026-04-03T04:09:27.818388509Z ComfyUI has been restarted with updated settings.
+2026-04-03T04:09:27.818417679Z ComfyUI is now ready and accessible on port 8188!
+2026-04-03T04:09:27.822183294Z Starting Nginx service...
+2026-04-03T04:09:27.836151989Z  * Starting nginx nginx
+2026-04-03T04:09:27.848336492Z    ...done.
+2026-04-03T04:09:27.849136828Z Pod Started
+2026-04-03T04:09:27.849191158Z Setting up SSH...
+2026-04-03T04:09:28.197196735Z RSA key fingerprint:
+2026-04-03T04:09:28.202267849Z 3072 SHA256:f9EztdET4GSXmTE9vrT+rnZK4lWf7sZAUA2b6C2SVcM root@f96aad01fc56 (RSA)
+2026-04-03T04:09:28.242771715Z DSA key fingerprint:
+2026-04-03T04:09:28.246410570Z 1024 SHA256:0SwgzL7xyElx7LLnbEZGNfAr0CNm6giWwxRA0ARX9J8 root@f96aad01fc56 (DSA)
+2026-04-03T04:09:28.250884870Z ECDSA key fingerprint:
+2026-04-03T04:09:28.256220147Z 256 SHA256:aPelA2UOXWqB2wv6Q49ewv4DzIrRvClpCKB+WyUeg6U root@f96aad01fc56 (ECDSA)
+2026-04-03T04:09:28.261782874Z ED25519 key fingerprint:
+2026-04-03T04:09:28.265931222Z 256 SHA256:sNk99Zbec7mEBtONGb4WwypJzckrTpNyQt9yiqhSpUo root@f96aad01fc56 (ED25519)
+2026-04-03T04:09:28.281159186Z  * Starting OpenBSD Secure Shell server sshd
+2026-04-03T04:09:28.291263945Z    ...done.
+2026-04-03T04:09:28.291617467Z SSH host keys:
+2026-04-03T04:09:28.291636588Z Key: /etc/ssh/ssh_host_dsa_key.pub
+2026-04-03T04:09:28.295594504Z 1024 SHA256:0SwgzL7xyElx7LLnbEZGNfAr0CNm6giWwxRA0ARX9J8 root@f96aad01fc56 (DSA)
+2026-04-03T04:09:28.295887006Z Key: /etc/ssh/ssh_host_ecdsa_key.pub
+2026-04-03T04:09:28.299903214Z 256 SHA256:aPelA2UOXWqB2wv6Q49ewv4DzIrRvClpCKB+WyUeg6U root@f96aad01fc56 (ECDSA)
+2026-04-03T04:09:28.300259066Z Key: /etc/ssh/ssh_host_ed25519_key.pub
+2026-04-03T04:09:28.303924771Z 256 SHA256:sNk99Zbec7mEBtONGb4WwypJzckrTpNyQt9yiqhSpUo root@f96aad01fc56 (ED25519)
+2026-04-03T04:09:28.304272893Z Key: /etc/ssh/ssh_host_rsa_key.pub
+2026-04-03T04:09:28.308250521Z 3072 SHA256:f9EztdET4GSXmTE9vrT+rnZK4lWf7sZAUA2b6C2SVcM root@f96aad01fc56 (RSA)
+2026-04-03T04:09:28.308661793Z Starting Jupyter Lab...
+2026-04-03T04:09:28.308956295Z Jupyter Lab started
+2026-04-03T04:09:28.308972275Z Exporting environment variables...
+2026-04-03T04:09:28.316018883Z Start script(s) finished, Pod is ready to use.
