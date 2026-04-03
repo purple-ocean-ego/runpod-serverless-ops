@@ -6,3 +6,5 @@ __pycache__/
 *.log
 .DS_Store
 
+# ローカル作業ファイル置き場（ログ、メモ、草稿など）
+local/

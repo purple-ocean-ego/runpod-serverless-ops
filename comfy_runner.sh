@@ -57,8 +57,8 @@ apply_manager_settings_and_restart() {
             update_needed=true
         fi
         
-        # pip_non_uv を True に設定 (uv を禁止し、互換性を最優先する標準 pip を強制)
-        if ! grep -q "pip_non_uv = True" "$MANAGER_CONFIG"; then
+        # use_uv を False に設定 (uv を禁止し、互換性を最優先する標準 pip を強制)
+        if ! grep -q "use_uv = False" "$MANAGER_CONFIG"; then
             update_needed=true
         fi
 
@@ -70,10 +70,10 @@ apply_manager_settings_and_restart() {
             sed -i 's/network_mode = .*/network_mode = personal_cloud/' "$MANAGER_CONFIG"
             
             # UVを無効化 (もし設定がなければ追加、あれば置換)
-            if grep -q "pip_non_uv =" "$MANAGER_CONFIG"; then
-                sed -i 's/pip_non_uv = .*/pip_non_uv = True/' "$MANAGER_CONFIG"
+            if grep -q "use_uv =" "$MANAGER_CONFIG"; then
+                sed -i 's/use_uv = .*/use_uv = False/' "$MANAGER_CONFIG"
             else
-                echo "pip_non_uv = True" >> "$MANAGER_CONFIG"
+                echo "use_uv = False" >> "$MANAGER_CONFIG"
             fi
 
             
