@@ -54,12 +54,10 @@ prepare_venv() {
     # 起動時の「正しい状態」を記録して制約ファイルを作成
     if [ ! -f "$CONSTRAINTS_FILE" ]; then
         echo "Generating version constraints from base environment..."
-        # システム提供の PyTorch 関連はインデックス上のハッシュと合わないため除外
-        # それ以外の依存関係を固定する
-        pip freeze | grep -v -E '^(torch|torchvision|torchaudio|nvidia-|cuda-|triton)' > "$CONSTRAINTS_FILE"
-        # uv リゾルバがインデックスで認識できるよう、ローカルバージョン表記 (+) 以降を削除
-        sed -i 's/\+.*//' "$CONSTRAINTS_FILE"
+        # 全ての基本パッケージ（PyTorch含む）の完全なバージョンを記録
+        pip freeze > "$CONSTRAINTS_FILE"
     fi
+
 
     
     # 環境変数のエクスポート (Manager 等の外部プロセスにも適用させる)
@@ -80,10 +78,10 @@ prepare_venv() {
 check_pytorch_health() {
     echo "Checking PyTorch health..."
     if ! python -c "import torch; print(f'Torch OK: {torch.__version__} (CUDA: {torch.cuda.is_available()})')" 2>/dev/null; then
-        echo "⚠️ PyTorch environment is broken or mismatched. Repairing..."
-        # 制約ファイルに基づき、オリジナルのバージョンを再インストール
-        # 注意: 指定されたインデックスから確実に cuXX 版を取得する
-        uv pip install --force-reinstall --no-cache-dir \
+        echo "⚠️ PyTorch environment is broken or mismatched. Repairing with pip..."
+        # 互換性重視のため、コアの修復には標準 pip を使用
+        pip install --force-reinstall --no-cache-dir \
+
             --index-url https://download.pytorch.org/whl/cu129 \
             -r "$CONSTRAINTS_FILE"
 
@@ -107,14 +105,15 @@ install_comfyui() {
         echo "Cloning ComfyUI to /runpod-volume/ComfyUI..."
         git clone https://github.com/comfy-org/ComfyUI.git /runpod-volume/ComfyUI
         
-        echo "Installing python requirements with uv and strict constraints..."
-        # torch などを除外した requirements を作成してインストール
+        echo "Installing python requirements with pip and strict constraints..."
+        # 確実性を期すため、初期構築は標準 pip を使用 (制約によるシステムPyTorchの保護)
+        # torch などを除外した requirements を作成
         grep -E -v '^torch(vision|audio)?([>=! ]|$)' /runpod-volume/ComfyUI/requirements.txt > /tmp/req_filtered.txt
-        # 明示的に -c で制約ファイルを指定し、環境変数よりも確実に固定する
-        uv pip install --no-cache-dir -c "$CONSTRAINTS_FILE" -r /tmp/req_filtered.txt
+        pip install --no-cache-dir -c "$CONSTRAINTS_FILE" -r /tmp/req_filtered.txt
         
         echo "Adding onnxruntime-gpu..."
-        uv pip install --no-cache-dir -c "$CONSTRAINTS_FILE" onnxruntime-gpu
+        pip install --no-cache-dir -c "$CONSTRAINTS_FILE" onnxruntime-gpu
+
 
 
 
@@ -148,8 +147,9 @@ install_manager_requirements() {
 
     if [ -f "$MANAGER_REQ" ]; then
         if [ ! -f "$MANAGER_INSTALLED_FLAG" ] || [ "$MANAGER_REQ" -nt "$MANAGER_INSTALLED_FLAG" ]; then
-            echo "Installing ComfyUI-Manager requirements with uv and strict constraints..."
-            if uv pip install --no-cache-dir -c "$CONSTRAINTS_FILE" -r "$MANAGER_REQ"; then
+            echo "Installing ComfyUI-Manager requirements with pip and strict constraints..."
+            if pip install --no-cache-dir -c "$CONSTRAINTS_FILE" -r "$MANAGER_REQ"; then
+
                 touch "$MANAGER_INSTALLED_FLAG"
 
 
