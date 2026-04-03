@@ -5,3 +5,7 @@ RUN apt-get update && apt-get install -y \
     curl git zstd aria2 libgl1 libglib2.0-0 ffmpeg unzip \
     htop nvtop tmux jq rclone gh \
     && rm -rf /var/lib/apt/lists/*
+
+# uv のインストール
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+ENV PATH="/root/.local/bin:$PATH"

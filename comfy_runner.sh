@@ -49,19 +49,41 @@ wait_for_comfyui() {
 # -------------------------------------------------------------
 apply_manager_settings_and_restart() {
     if [ -f "$MANAGER_CONFIG" ]; then
+        # 設定の変数を準備
+        local update_needed=false
+        
+        # セキュリティ設定のチェック
         if ! grep -q "security_level = normal" "$MANAGER_CONFIG" || ! grep -q "network_mode = personal_cloud" "$MANAGER_CONFIG"; then
-            echo "Applying security settings and restarting..."
+            update_needed=true
+        fi
+        
+        # pip_non_uv を False に設定 (uv を許可して高速化し、UV_PIP_CONSTRAINTS で制御する)
+        if ! grep -q "pip_non_uv = False" "$MANAGER_CONFIG"; then
+            update_needed=true
+        fi
+
+        if [ "$update_needed" = true ]; then
+            echo "Applying Manager settings (Security & UV) and restarting..."
+            # セキュリティ
             sed -i 's/security_level = .*/security_level = normal/' "$MANAGER_CONFIG"
             sed -i 's/network_mode = .*/network_mode = personal_cloud/' "$MANAGER_CONFIG"
+            
+            # UVを有効化 (もし設定がなければ追加、あれば置換)
+            if grep -q "pip_non_uv =" "$MANAGER_CONFIG"; then
+                sed -i 's/pip_non_uv = .*/pip_non_uv = False/' "$MANAGER_CONFIG"
+            else
+                echo "pip_non_uv = False" >> "$MANAGER_CONFIG"
+            fi
             
             echo "Restarting ComfyUI to apply manager settings..."
             kill $COMFY_PID
             wait $COMFY_PID 2>/dev/null
             
-            # 再起動
+            # 再起動 (環境変数は既にエクスポートされているはず)
             start_comfyui
             wait_for_comfyui
-            echo "ComfyUI has been restarted with updated security settings."
+            echo "ComfyUI has been restarted with updated settings."
         fi
     fi
 }
+

@@ -24,9 +24,10 @@ echo "Acquiring lock for setup..."
     
     # Serverlessハンドラ用追加ライブラリ（インストール済みならスキップして venv 競合を回避）
     if ! python -c "import runpod, requests" 2>/dev/null; then
-        echo "Installing missing handler dependencies..."
-        pip install --no-cache-dir -q runpod requests
+        echo "Installing missing handler dependencies with uv..."
+        uv pip install --no-cache-dir -q runpod requests
     fi
+
 
     # 本体のインストールとカスタムノードの外部化
     install_comfyui
