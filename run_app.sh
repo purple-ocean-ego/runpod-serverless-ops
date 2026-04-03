@@ -17,7 +17,11 @@ source "${SCRIPT_DIR}/comfy_runner.sh"
 
 # 1. 前準備
 prepare_directories
+# デバッグ用：ベースイメージのパッケージリストを保存
+/usr/bin/pip list > /runpod-volume/base_pip_list.txt
+
 prepare_venv
+
 install_comfyui
 check_pytorch_health
 externalize_custom_nodes
