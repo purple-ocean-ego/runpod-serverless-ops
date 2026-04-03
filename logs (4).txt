@@ -1,662 +1,0 @@
-2026-04-03T04:38:23.232235818Z ==========
-2026-04-03T04:38:23.232240498Z == CUDA ==
-2026-04-03T04:38:23.232243907Z ==========
-2026-04-03T04:38:23.238025520Z CUDA Version 12.9.0
-2026-04-03T04:38:23.240162217Z Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
-2026-04-03T04:38:23.242280956Z This container image and its contents are governed by the NVIDIA Deep Learning Container License.
-2026-04-03T04:38:23.242287466Z By pulling and using the container, you accept the terms and conditions of this license:
-2026-04-03T04:38:23.242292926Z https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
-2026-04-03T04:38:23.242300546Z A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
-2026-04-03T04:38:23.262703454Z Cloning repository (Attempt 1/6)...
-2026-04-03T04:38:23.266149967Z Cloning into '/tmp/my-scripts'...
-2026-04-03T04:38:24.063231271Z Successfully cloned repository.
-2026-04-03T04:38:25.580515127Z setup_github_ssh: configured key at /root/.ssh/id_ed25519_github
-2026-04-03T04:38:25.586868911Z Preparing network volume directories...
-2026-04-03T04:38:25.970973684Z Creating python virtual environment with uv...
-2026-04-03T04:38:26.070805364Z Using CPython 3.12.3 interpreter at: /usr/local/bin/python
-2026-04-03T04:38:26.070834454Z Creating virtual environment at: /runpod-volume/venv
-2026-04-03T04:38:26.158223977Z Activate with: source runpod-volume/venv/bin/activate
-2026-04-03T04:38:26.170080662Z Generating version constraints from base environment...
-2026-04-03T04:38:26.450188178Z Environment constraints applied: /tmp/constraints.txt
-2026-04-03T04:38:26.450240358Z Checking PyTorch health...
-2026-04-03T04:38:28.093174863Z Torch OK: 2.9.1+cu129 (CUDA: True)
-2026-04-03T04:38:28.400069841Z ✅ PyTorch environment looks healthy.
-2026-04-03T04:38:28.404769019Z Cloning ComfyUI to /runpod-volume/ComfyUI...
-2026-04-03T04:38:28.413601073Z Cloning into '/runpod-volume/ComfyUI'...
-2026-04-03T04:38:42.888141087Z Updating files:  19% (148/774)Updating files:  20% (155/774)Updating files:  21% (163/774)Updating files:  22% (171/774)Updating files:  23% (179/774)Updating files:  24% (186/774)Updating files:  25% (194/774)Updating files:  26% (202/774)Updating files:  27% (209/774)Updating files:  28% (217/774)Updating files:  29% (225/774)Updating files:  30% (233/774)Updating files:  31% (240/774)Updating files:  32% (248/774)Updating files:  33% (256/774)Updating files:  34% (264/774)Updating files:  35% (271/774)Updating files:  36% (279/774)Updating files:  37% (287/774)Updating files:  38% (295/774)Updating files:  38% (296/774)Updating files:  39% (302/774)Updating files:  40% (310/774)Updating files:  41% (318/774)Updating files:  42% (326/774)Updating files:  43% (333/774)Updating files:  44% (341/774)Updating files:  45% (349/774)Updating files:  46% (357/774)Updating files:  47% (364/774)Updating files:  48% (372/774)Updating files:  48% (377/774)Updating files:  49% (380/774)Updating files:  50% (387/774)Updating files:  51% (395/774)Updating files:  52% (403/774)Updating files:  53% (411/774)Updating files:  54% (418/774)Updating files:  55% (426/774)Updating files:  56% (434/774)Updating files:  57% (442/774)Updating files:  58% (449/774)Updating files:  59% (457/774)Updating files:  60% (465/774)Updating files:  61% (473/774)Updating files:  62% (480/774)Updating files:  63% (488/774)Updating files:  64% (496/774)Updating files:  65% (504/774)Updating files:  65% (506/774)Updating files:  66% (511/774)Updating files:  67% (519/774)Updating files:  68% (527/774)Updating files:  69% (535/774)Updating files:  70% (542/774)Updating files:  71% (550/774)Updating files:  72% (558/774)Updating files:  73% (566/774)Updating files:  74% (573/774)Updating files:  75% (581/774)Updating files:  76% (589/774)Updating files:  77% (596/774)Updating files:  78% (604/774)Updating files:  79% (612/774)Updating files:  80% (620/774)Updating files:  81% (627/774)Updating files:  82% (635/774)Updating files:  83% (643/774)Updating files:  84% (651/774)Updating files:  84% (655/774)Updating files:  85% (658/774)Updating files:  86% (666/774)Updating files:  87% (674/774)Updating files:  88% (682/774)Updating files:  89% (689/774)Updating files:  90% (697/774)Updating files:  91% (705/774)Updating files:  92% (713/774)Updating files:  93% (720/774)Updating files:  94% (728/774)Updating files:  95% (736/774)Updating files:  96% (744/774)Updating files:  97% (751/774)Updating files:  98% (759/774)Updating files:  99% (767/774)Updating files: 100% (774/774)Updating files: 100% (774/774), done.
-2026-04-03T04:38:42.904082908Z Installing python requirements with uv and strict constraints...
-2026-04-03T04:38:43.008843627Z Using Python 3.12.3 environment at: /runpod-volume/venv
-2026-04-03T04:38:43.869360243Z Resolved 100 packages in 853ms
-2026-04-03T04:38:43.887751133Z Downloading nvidia-cuda-cupti (10.2MiB)
-2026-04-03T04:38:43.887918943Z Downloading networkx (2.0MiB)
-2026-04-03T04:38:43.889477879Z Downloading sqlalchemy (3.2MiB)
-2026-04-03T04:38:43.889698570Z Downloading tokenizers (3.1MiB)
-2026-04-03T04:38:43.889899341Z Downloading nvidia-nvjitlink (38.8MiB)
-2026-04-03T04:38:43.895961194Z Downloading pydantic-core (2.0MiB)
-2026-04-03T04:38:43.896121734Z Downloading aiohttp (1.7MiB)
-2026-04-03T04:38:43.896277455Z Downloading setuptools (1.1MiB)
-2026-04-03T04:38:43.896431115Z Downloading nvidia-cusolver (191.6MiB)
-2026-04-03T04:38:43.896574736Z Downloading nvidia-cufft (204.2MiB)
-2026-04-03T04:38:43.896717927Z Downloading av (34.7MiB)
-2026-04-03T04:38:43.896900547Z Downloading nvidia-cublas (403.5MiB)
-2026-04-03T04:38:43.897073068Z Downloading pygments (1.2MiB)
-2026-04-03T04:38:43.901007933Z Downloading sentencepiece (1.3MiB)
-2026-04-03T04:38:43.901167464Z Downloading numpy (15.9MiB)
-2026-04-03T04:38:43.901341734Z Downloading nvidia-cusparselt-cu13 (162.0MiB)
-2026-04-03T04:38:43.901518795Z Downloading scipy (33.6MiB)
-2026-04-03T04:38:43.901698076Z Downloading comfyui-workflow-templates-media-api (75.1MiB)
-2026-04-03T04:38:43.901868376Z Downloading kornia-rs (2.9MiB)
-2026-04-03T04:38:43.902044327Z Downloading pillow (6.8MiB)
-2026-04-03T04:38:43.902363258Z Downloading nvidia-cuda-runtime (2.1MiB)
-2026-04-03T04:38:43.902536849Z Downloading sympy (6.0MiB)
-2026-04-03T04:38:43.902722830Z Downloading torch (506.1MiB)
-2026-04-03T04:38:43.903031231Z Downloading kornia (1.0MiB)
-2026-04-03T04:38:43.903201501Z Downloading nvidia-curand (56.8MiB)
-2026-04-03T04:38:43.903379282Z Downloading hf-xet (4.0MiB)
-2026-04-03T04:38:43.903546953Z Downloading nvidia-cufile (1.2MiB)
-2026-04-03T04:38:43.903736983Z Downloading comfyui-workflow-templates-media-video (88.7MiB)
-2026-04-03T04:38:43.903917364Z Downloading comfyui-workflow-templates-media-image (52.3MiB)
-2026-04-03T04:38:43.904091105Z Downloading nvidia-cuda-nvrtc (86.0MiB)
-2026-04-03T04:38:43.904267905Z Downloading nvidia-cudnn-cu13 (349.1MiB)
-2026-04-03T04:38:43.904454336Z Downloading pyopengl (3.0MiB)
-2026-04-03T04:38:43.904657447Z Downloading nvidia-nccl-cu13 (187.4MiB)
-2026-04-03T04:38:43.904858988Z Downloading torchvision (7.2MiB)
-2026-04-03T04:38:43.905045138Z Downloading nvidia-nvshmem-cu13 (57.6MiB)
-2026-04-03T04:38:43.905406840Z Downloading triton (179.5MiB)
-2026-04-03T04:38:43.905611141Z Downloading transformers (9.8MiB)
-2026-04-03T04:38:43.905831911Z Downloading comfyui-embedded-docs (10.1MiB)
-2026-04-03T04:38:43.906047212Z Downloading cuda-bindings (6.0MiB)
-2026-04-03T04:38:43.906240763Z Downloading comfyui-frontend-package (20.9MiB)
-2026-04-03T04:38:43.906453664Z Downloading nvidia-cusparse (139.2MiB)
-2026-04-03T04:38:43.906680634Z Downloading comfyui-workflow-templates-media-other (36.2MiB)
-2026-04-03T04:38:44.555431574Z  Downloaded nvidia-cufile
-2026-04-03T04:38:44.621417726Z  Downloaded sentencepiece
-2026-04-03T04:38:44.803578869Z  Downloaded pygments
-2026-04-03T04:38:44.835357960Z  Downloaded aiohttp
-2026-04-03T04:38:44.944213024Z  Downloaded pydantic-core
-2026-04-03T04:38:45.022167881Z  Downloaded nvidia-cuda-runtime
-2026-04-03T04:38:45.077423711Z  Downloaded setuptools
-2026-04-03T04:38:45.096833376Z  Downloaded kornia
-2026-04-03T04:38:45.180172993Z  Downloaded networkx
-2026-04-03T04:38:45.285929095Z  Downloaded kornia-rs
-2026-04-03T04:38:45.343301024Z  Downloaded tokenizers
-2026-04-03T04:38:45.427155263Z  Downloaded sqlalchemy
-2026-04-03T04:38:45.625475778Z  Downloaded hf-xet
-2026-04-03T04:38:46.161225328Z  Downloaded sympy
-2026-04-03T04:38:46.213921368Z  Downloaded cuda-bindings
-2026-04-03T04:38:46.327519550Z  Downloaded pillow
-2026-04-03T04:38:46.391344464Z  Downloaded torchvision
-2026-04-03T04:38:46.980985738Z  Downloaded nvidia-cuda-cupti
-2026-04-03T04:38:47.392941337Z  Downloaded transformers
-2026-04-03T04:38:47.894770747Z  Downloaded numpy
-2026-04-03T04:38:48.311446513Z  Downloaded pyopengl
-2026-04-03T04:38:48.389368250Z  Downloaded comfyui-frontend-package
-2026-04-03T04:38:50.178935793Z  Downloaded scipy
-2026-04-03T04:38:50.433087380Z  Downloaded av
-2026-04-03T04:38:50.436170262Z  Downloaded comfyui-workflow-templates-media-other
-2026-04-03T04:38:50.615226984Z  Downloaded nvidia-nvjitlink
-2026-04-03T04:38:51.077073772Z  Downloaded comfyui-embedded-docs
-2026-04-03T04:38:51.476140901Z  Downloaded comfyui-workflow-templates-media-image
-2026-04-03T04:38:51.788767932Z  Downloaded nvidia-curand
-2026-04-03T04:38:51.841640633Z  Downloaded nvidia-nvshmem-cu13
-2026-04-03T04:38:53.025017708Z  Downloaded comfyui-workflow-templates-media-api
-2026-04-03T04:38:53.224764198Z  Downloaded nvidia-cuda-nvrtc
-2026-04-03T04:38:53.336153652Z  Downloaded comfyui-workflow-templates-media-video
-2026-04-03T04:38:55.145669861Z  Downloaded nvidia-cusparse
-2026-04-03T04:38:55.787764825Z  Downloaded nvidia-cusparselt-cu13
-2026-04-03T04:38:56.508896341Z  Downloaded nvidia-nccl-cu13
-2026-04-03T04:38:56.607960498Z  Downloaded nvidia-cusolver
-2026-04-03T04:38:56.648309101Z  Downloaded triton
-2026-04-03T04:38:56.721236849Z  Downloaded nvidia-cufft
-2026-04-03T04:38:59.092342146Z  Downloaded nvidia-cudnn-cu13
-2026-04-03T04:38:59.290972472Z  Downloaded nvidia-cublas
-2026-04-03T04:39:02.465445799Z  Downloaded torch
-2026-04-03T04:39:02.465901451Z Prepared 100 packages in 18.59s
-2026-04-03T04:41:23.388395494Z Installed 100 packages in 2m 20s
-2026-04-03T04:41:23.388537325Z  + aiohappyeyeballs==2.6.1
-2026-04-03T04:41:23.388542875Z  + aiohttp==3.13.5
-2026-04-03T04:41:23.388589065Z  + aiosignal==1.4.0
-2026-04-03T04:41:23.388618045Z  + alembic==1.18.4
-2026-04-03T04:41:23.388672995Z  + annotated-doc==0.0.4
-2026-04-03T04:41:23.388680165Z  + annotated-types==0.7.0
-2026-04-03T04:41:23.388711695Z  + anyio==4.12.0
-2026-04-03T04:41:23.388725136Z  + attrs==25.4.0
-2026-04-03T04:41:23.388754816Z  + av==17.0.0
-2026-04-03T04:41:23.388786736Z  + blake3==1.0.8
-2026-04-03T04:41:23.388822356Z  + certifi==2025.11.12
-2026-04-03T04:41:23.388900466Z  + charset-normalizer==3.4.4
-2026-04-03T04:41:23.388928636Z  + click==8.3.1
-2026-04-03T04:41:23.388952936Z  + comfy-aimdo==0.2.12
-2026-04-03T04:41:23.388958926Z  + comfy-kitchen==0.2.8
-2026-04-03T04:41:23.388963766Z  + comfyui-embedded-docs==0.4.3
-2026-04-03T04:41:23.389002897Z  + comfyui-frontend-package==1.42.8
-2026-04-03T04:41:23.389028977Z  + comfyui-workflow-templates==0.9.41
-2026-04-03T04:41:23.389061937Z  + comfyui-workflow-templates-core==0.3.190
-2026-04-03T04:41:23.389084997Z  + comfyui-workflow-templates-media-api==0.3.68
-2026-04-03T04:41:23.389115207Z  + comfyui-workflow-templates-media-image==0.3.115
-2026-04-03T04:41:23.389143357Z  + comfyui-workflow-templates-media-other==0.3.163
-2026-04-03T04:41:23.389174847Z  + comfyui-workflow-templates-media-video==0.3.69
-2026-04-03T04:41:23.389204857Z  + cuda-bindings==13.2.0
-2026-04-03T04:41:23.389247547Z  + cuda-pathfinder==1.5.0
-2026-04-03T04:41:23.389270038Z  + cuda-toolkit==13.0.2
-2026-04-03T04:41:23.389297488Z  + einops==0.8.2
-2026-04-03T04:41:23.389321408Z  + filelock==3.20.1
-2026-04-03T04:41:23.389345568Z  + frozenlist==1.8.0
-2026-04-03T04:41:23.389380168Z  + fsspec==2025.12.0
-2026-04-03T04:41:23.389419188Z  + glfw==2.10.0
-2026-04-03T04:41:23.389442778Z  + greenlet==3.3.2
-2026-04-03T04:41:23.389475778Z  + h11==0.16.0
-2026-04-03T04:41:23.389511279Z  + hf-xet==1.4.3
-2026-04-03T04:41:23.389526939Z  + httpcore==1.0.9
-2026-04-03T04:41:23.389553529Z  + httpx==0.28.1
-2026-04-03T04:41:23.389586769Z  + huggingface-hub==1.8.0
-2026-04-03T04:41:23.389633659Z  + idna==3.11
-2026-04-03T04:41:23.389647009Z  + jinja2==3.1.6
-2026-04-03T04:41:23.389697409Z  + kornia==0.8.2
-2026-04-03T04:41:23.389719629Z  + kornia-rs==0.1.10
-2026-04-03T04:41:23.389743589Z  + mako==1.3.10
-2026-04-03T04:41:23.389768229Z  + markdown-it-py==4.0.0
-2026-04-03T04:41:23.389806940Z  + markupsafe==3.0.3
-2026-04-03T04:41:23.389825000Z  + mdurl==0.1.2
-2026-04-03T04:41:23.389857120Z  + mpmath==1.3.0
-2026-04-03T04:41:23.389890840Z  + multidict==6.7.1
-2026-04-03T04:41:23.389923270Z  + networkx==3.6.1
-2026-04-03T04:41:23.389949080Z  + numpy==2.4.4
-2026-04-03T04:41:23.389981250Z  + nvidia-cublas==13.1.0.3
-2026-04-03T04:41:23.390010610Z  + nvidia-cuda-cupti==13.0.85
-2026-04-03T04:41:23.390045530Z  + nvidia-cuda-nvrtc==13.0.88
-2026-04-03T04:41:23.390070991Z  + nvidia-cuda-runtime==13.0.96
-2026-04-03T04:41:23.390108481Z  + nvidia-cudnn-cu13==9.19.0.56
-2026-04-03T04:41:23.390146321Z  + nvidia-cufft==12.0.0.61
-2026-04-03T04:41:23.390173971Z  + nvidia-cufile==1.15.1.6
-2026-04-03T04:41:23.390204861Z  + nvidia-curand==10.4.0.35
-2026-04-03T04:41:23.390247611Z  + nvidia-cusolver==12.0.4.66
-2026-04-03T04:41:23.390274021Z  + nvidia-cusparse==12.6.3.3
-2026-04-03T04:41:23.390298662Z  + nvidia-cusparselt-cu13==0.8.0
-2026-04-03T04:41:23.390340602Z  + nvidia-nccl-cu13==2.28.9
-2026-04-03T04:41:23.390371242Z  + nvidia-nvjitlink==13.0.88
-2026-04-03T04:41:23.390394652Z  + nvidia-nvshmem-cu13==3.4.5
-2026-04-03T04:41:23.390435592Z  + nvidia-nvtx==13.0.85
-2026-04-03T04:41:23.390444252Z  + packaging==25.0
-2026-04-03T04:41:23.390483142Z  + pillow==12.2.0
-2026-04-03T04:41:23.390510022Z  + propcache==0.4.1
-2026-04-03T04:41:23.390543432Z  + psutil==7.1.3
-2026-04-03T04:41:23.390564132Z  + pydantic==2.12.5
-2026-04-03T04:41:23.390611223Z  + pydantic-core==2.41.5
-2026-04-03T04:41:23.390637233Z  + pydantic-settings==2.13.1
-2026-04-03T04:41:23.390664313Z  + pygments==2.19.2
-2026-04-03T04:41:23.390688973Z  + pyopengl==3.1.10
-2026-04-03T04:41:23.390718083Z  + python-dotenv==1.2.2
-2026-04-03T04:41:23.390745353Z  + pyyaml==6.0.3
-2026-04-03T04:41:23.390776773Z  + regex==2026.3.32
-2026-04-03T04:41:23.390806883Z  + requests==2.32.5
-2026-04-03T04:41:23.390842224Z  + rich==14.3.3
-2026-04-03T04:41:23.390869474Z  + safetensors==0.7.0
-2026-04-03T04:41:23.390893834Z  + scipy==1.17.1
-2026-04-03T04:41:23.390943694Z  + sentencepiece==0.2.1
-2026-04-03T04:41:23.390957254Z  + setuptools==80.9.0
-2026-04-03T04:41:23.390982654Z  + shellingham==1.5.4
-2026-04-03T04:41:23.391012294Z  + simpleeval==1.0.7
-2026-04-03T04:41:23.391043064Z  + spandrel==0.4.2
-2026-04-03T04:41:23.391082425Z  + sqlalchemy==2.0.48
-2026-04-03T04:41:23.391104574Z  + sympy==1.14.0
-2026-04-03T04:41:23.391141235Z  + tokenizers==0.22.2
-2026-04-03T04:41:23.391168865Z  + torch==2.11.0
-2026-04-03T04:41:23.391190075Z  + torchsde==0.2.6
-2026-04-03T04:41:23.391219235Z  + torchvision==0.26.0
-2026-04-03T04:41:23.391246225Z  + tqdm==4.67.3
-2026-04-03T04:41:23.391277335Z  + trampoline==0.1.2
-2026-04-03T04:41:23.391304465Z  + transformers==5.5.0
-2026-04-03T04:41:23.391339125Z  + triton==3.6.0
-2026-04-03T04:41:23.391377635Z  + typer==0.24.1
-2026-04-03T04:41:23.391407416Z  + typing-extensions==4.15.0
-2026-04-03T04:41:23.391432916Z  + typing-inspection==0.4.2
-2026-04-03T04:41:23.391458976Z  + urllib3==2.6.2
-2026-04-03T04:41:23.391491336Z  + yarl==1.23.0
-2026-04-03T04:41:25.448472934Z Adding onnxruntime-gpu...
-2026-04-03T04:41:25.556071452Z Using Python 3.12.3 environment at: /runpod-volume/venv
-2026-04-03T04:41:25.981565105Z Resolved 7 packages in 273ms
-2026-04-03T04:41:25.998081557Z Downloading onnxruntime-gpu (241.1MiB)
-2026-04-03T04:41:28.854804377Z  Downloaded onnxruntime-gpu
-2026-04-03T04:41:28.855176028Z Prepared 3 packages in 2.86s
-2026-04-03T04:41:33.879805516Z Installed 3 packages in 5.02s
-2026-04-03T04:41:33.879876866Z  + flatbuffers==25.12.19
-2026-04-03T04:41:33.879888836Z  + onnxruntime-gpu==1.24.4
-2026-04-03T04:41:33.879896406Z  + protobuf==7.34.1
-2026-04-03T04:41:33.942686324Z Checking PyTorch health...
-2026-04-03T04:41:54.790781517Z Torch OK: 2.11.0+cu130 (CUDA: True)
-2026-04-03T04:41:57.224336212Z ✅ PyTorch environment looks healthy.
-2026-04-03T04:41:57.224371383Z Checking custom_nodes link...
-2026-04-03T04:41:57.226179399Z Moving existing custom_nodes to central volume...
-2026-04-03T04:41:57.262048195Z Installing ComfyUI-Manager requirements with uv and strict constraints...
-2026-04-03T04:41:57.364804235Z Using Python 3.12.3 environment at: /runpod-volume/venv
-2026-04-03T04:41:58.303210042Z Resolved 43 packages in 811ms
-2026-04-03T04:41:58.390967665Z Downloading uv (23.5MiB)
-2026-04-03T04:41:58.392171549Z Downloading pynacl (1.3MiB)
-2026-04-03T04:41:58.392454270Z Downloading cryptography (4.2MiB)
-2026-04-03T04:41:58.484648000Z  Downloaded pynacl
-2026-04-03T04:41:58.578096964Z  Downloaded cryptography
-2026-04-03T04:41:58.704886925Z  Downloaded uv
-2026-04-03T04:41:58.707672245Z Prepared 13 packages in 341ms
-2026-04-03T04:42:00.905408947Z Installed 13 packages in 2.19s
-2026-04-03T04:42:00.905445097Z  + cffi==2.0.0
-2026-04-03T04:42:00.905452067Z  + chardet==7.4.0.post2
-2026-04-03T04:42:00.905456187Z  + comfyui-manager==4.1
-2026-04-03T04:42:00.905477917Z  + cryptography==41.0.7
-2026-04-03T04:42:00.905513047Z  + gitdb==4.0.12
-2026-04-03T04:42:00.905539697Z  + gitpython==3.1.46
-2026-04-03T04:42:00.905569697Z  + pycparser==2.23
-2026-04-03T04:42:00.905648568Z  + pygithub==2.9.0
-2026-04-03T04:42:00.905683098Z  + pyjwt==2.7.0
-2026-04-03T04:42:00.905687778Z  + pynacl==1.6.2
-2026-04-03T04:42:00.905698158Z  + smmap==5.0.3
-2026-04-03T04:42:00.905721118Z  + toml==0.10.2
-2026-04-03T04:42:00.905752898Z  + uv==0.11.3
-2026-04-03T04:42:00.959810173Z ComfyUI-Manager requirements installed successfully.
-2026-04-03T04:42:00.961191888Z Starting ComfyUI in the background...
-2026-04-03T04:42:00.961645650Z Waiting for ComfyUI to respond on port 8188...
-2026-04-03T04:42:03.977683633Z Check 1/100: Still waiting...
-2026-04-03T04:42:06.994212279Z Check 2/100: Still waiting...
-2026-04-03T04:42:10.008163384Z Check 3/100: Still waiting...
-2026-04-03T04:42:11.518973121Z Adding extra search path checkpoints /runpod-volume/models/checkpoints
-2026-04-03T04:42:11.519469023Z Adding extra search path clip /runpod-volume/models/clip
-2026-04-03T04:42:11.519487303Z Adding extra search path clip_vision /runpod-volume/models/clip_vision
-2026-04-03T04:42:11.519495114Z Adding extra search path configs /runpod-volume/models/configs
-2026-04-03T04:42:11.519502754Z Adding extra search path controlnet /runpod-volume/models/controlnet
-2026-04-03T04:42:11.519508654Z Adding extra search path embeddings /runpod-volume/models/embeddings
-2026-04-03T04:42:11.519514263Z Adding extra search path latent_upscale_models /runpod-volume/models/latent_upscale_models
-2026-04-03T04:42:11.519521263Z Adding extra search path loras /runpod-volume/models/loras
-2026-04-03T04:42:11.519526634Z Adding extra search path text_encoders /runpod-volume/models/text_encoders
-2026-04-03T04:42:11.519532384Z Adding extra search path ultralytics /runpod-volume/models/ultralytics
-2026-04-03T04:42:11.519537714Z Adding extra search path upscale_models /runpod-volume/models/upscale_models
-2026-04-03T04:42:11.519548784Z Adding extra search path vae /runpod-volume/models/vae
-2026-04-03T04:42:11.519558514Z Setting output directory to: /runpod-volume/output
-2026-04-03T04:42:13.022709012Z Check 4/100: Still waiting...
-2026-04-03T04:42:16.035260162Z Check 5/100: Still waiting...
-2026-04-03T04:42:19.048818476Z Check 6/100: Still waiting...
-2026-04-03T04:42:19.552783947Z [START] Security scan
-2026-04-03T04:42:19.552844097Z [DONE] Security scan
-2026-04-03T04:42:19.553218198Z ** ComfyUI startup time: 2026-04-03 04:42:19.551
-2026-04-03T04:42:19.554048741Z ** Platform: Linux
-2026-04-03T04:42:19.554949185Z ** Python version: 3.12.3 (main, Nov  6 2025, 13:44:16) [GCC 13.3.0]
-2026-04-03T04:42:19.555778518Z ** Python executable: /runpod-volume/venv/bin/python
-2026-04-03T04:42:19.556553331Z ** ComfyUI Path: /runpod-volume/ComfyUI
-2026-04-03T04:42:19.557369774Z ** ComfyUI Base Folder Path: /runpod-volume/ComfyUI
-2026-04-03T04:42:19.558161277Z ** User directory: /runpod-volume/ComfyUI/user
-2026-04-03T04:42:19.559008050Z ** ComfyUI-Manager config path: /runpod-volume/ComfyUI/user/__manager/config.ini
-2026-04-03T04:42:19.559758783Z ** Log path: /runpod-volume/ComfyUI/user/comfyui.log
-2026-04-03T04:42:22.062572471Z Check 7/100: Still waiting...
-2026-04-03T04:42:23.332890727Z /runpod-volume/venv/lib/python3.12/site-packages/requests/__init__.py:113: RequestsDependencyWarning: urllib3 (2.6.2) or chardet (7.4.0.post2)/charset_normalizer (3.4.4) doesn't match a supported version!
-2026-04-03T04:42:23.332947797Z   warnings.warn(
-2026-04-03T04:42:23.332954767Z [PRE] ComfyUI-Manager
-2026-04-03T04:42:25.078037892Z Check 8/100: Still waiting...
-2026-04-03T04:42:28.092763481Z Check 9/100: Still waiting...
-2026-04-03T04:42:31.105358991Z Check 10/100: Still waiting...
-2026-04-03T04:42:34.118206782Z Check 11/100: Still waiting...
-2026-04-03T04:42:37.131233874Z Check 12/100: Still waiting...
-2026-04-03T04:42:40.146497595Z Check 13/100: Still waiting...
-2026-04-03T04:42:43.161803906Z Check 14/100: Still waiting...
-2026-04-03T04:42:46.175517040Z Check 15/100: Still waiting...
-2026-04-03T04:42:49.189040824Z Check 16/100: Still waiting...
-2026-04-03T04:42:52.204345025Z Check 17/100: Still waiting...
-2026-04-03T04:42:55.219199224Z Check 18/100: Still waiting...
-2026-04-03T04:42:55.231863242Z Found comfy_kitchen backend triton: {'available': True, 'disabled': True, 'unavailable_reason': None, 'capabilities': ['apply_rope', 'apply_rope1', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'quantize_mxfp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8']}
-2026-04-03T04:42:55.232189833Z Found comfy_kitchen backend cuda: {'available': True, 'disabled': False, 'unavailable_reason': None, 'capabilities': ['apply_rope', 'apply_rope1', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'quantize_mxfp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8', 'scaled_mm_nvfp4']}
-2026-04-03T04:42:55.232592885Z Found comfy_kitchen backend eager: {'available': True, 'disabled': False, 'unavailable_reason': None, 'capabilities': ['apply_rope', 'apply_rope1', 'dequantize_mxfp8', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'quantize_mxfp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8', 'scaled_mm_mxfp8', 'scaled_mm_nvfp4']}
-2026-04-03T04:42:55.412193155Z Checkpoint files will always be loaded safely.
-2026-04-03T04:42:55.793044509Z Total VRAM 24124 MB, total RAM 1031808 MB
-2026-04-03T04:42:55.793524641Z pytorch version: 2.11.0+cu130
-2026-04-03T04:42:55.797000934Z Set vram state to: NORMAL_VRAM
-2026-04-03T04:42:55.797453126Z Device: cuda:0 NVIDIA GeForce RTX 3090 : cudaMallocAsync
-2026-04-03T04:42:55.799535744Z Using async weight offloading with 2 streams
-2026-04-03T04:42:55.799900085Z Enabled pinned memory 928627.0
-2026-04-03T04:42:58.232006395Z Check 19/100: Still waiting...
-2026-04-03T04:42:59.876558539Z Using pytorch attention
-2026-04-03T04:43:00.414684839Z torchaudio missing, ACE model will be broken
-2026-04-03T04:43:00.455386893Z torchaudio missing, ACE model will be broken
-2026-04-03T04:43:00.642375202Z torchaudio missing, MMAudio VAE model will be broken
-2026-04-03T04:43:01.246562503Z Check 20/100: Still waiting...
-2026-04-03T04:43:04.259320124Z Check 21/100: Still waiting...
-2026-04-03T04:43:07.273830681Z Check 22/100: Still waiting...
-2026-04-03T04:43:10.287094074Z Check 23/100: Still waiting...
-2026-04-03T04:43:13.302145984Z Check 24/100: Still waiting...
-2026-04-03T04:43:16.314935335Z Check 25/100: Still waiting...
-2026-04-03T04:43:19.328288721Z Check 26/100: Still waiting...
-2026-04-03T04:43:22.342883509Z Check 27/100: Still waiting...
-2026-04-03T04:43:25.356055591Z Check 28/100: Still waiting...
-2026-04-03T04:43:28.370691129Z Check 29/100: Still waiting...
-2026-04-03T04:43:31.384804415Z Check 30/100: Still waiting...
-2026-04-03T04:43:31.884513031Z aimdo: src/control.c:68:INFO:comfy-aimdo inited for GPU: NVIDIA GeForce RTX 3090 (VRAM: 24124 MB)
-2026-04-03T04:43:31.884678662Z DynamicVRAM support detected and enabled
-2026-04-03T04:43:31.885562355Z Python version: 3.12.3 (main, Nov  6 2025, 13:44:16) [GCC 13.3.0]
-2026-04-03T04:43:31.885710986Z ComfyUI version: 0.18.1
-2026-04-03T04:43:31.888733027Z comfy-aimdo version: 0.2.12
-2026-04-03T04:43:31.892057440Z comfy-kitchen version: 0.2.8
-2026-04-03T04:43:31.898154953Z ComfyUI frontend version: 1.42.8
-2026-04-03T04:43:32.042474444Z [Prompt Server] web root: /runpod-volume/venv/lib/python3.12/site-packages/comfyui_frontend_package/static
-2026-04-03T04:43:32.044747392Z Asset seeder disabled
-2026-04-03T04:43:32.045199084Z [START] ComfyUI-Manager
-2026-04-03T04:43:33.728894825Z [ComfyUI-Manager] network_mode: public
-2026-04-03T04:43:33.763564528Z [ComfyUI-Manager] The matrix sharing feature has been disabled because the `matrix-nio` dependency is not installed.
-2026-04-03T04:43:33.763628618Z 	To use this feature, please run the following command:
-2026-04-03T04:43:33.763639878Z 	/runpod-volume/venv/bin/python -m pip install matrix-nio
-2026-04-03T04:43:34.398699430Z Check 31/100: Still waiting...
-2026-04-03T04:43:37.411959453Z Check 32/100: Still waiting...
-2026-04-03T04:43:40.425542717Z Check 33/100: Still waiting...
-2026-04-03T04:43:43.440942007Z Check 34/100: Still waiting...
-2026-04-03T04:43:46.454169850Z Check 35/100: Still waiting...
-2026-04-03T04:43:47.429552370Z Traceback (most recent call last):
-2026-04-03T04:43:47.429668150Z   File "/runpod-volume/venv/lib/python3.12/site-packages/torch/_ops.py", line 1503, in load_library
-2026-04-03T04:43:47.429681800Z     ctypes.CDLL(path)
-2026-04-03T04:43:47.429689840Z   File "/usr/lib/python3.12/ctypes/__init__.py", line 379, in __init__
-2026-04-03T04:43:47.429696711Z     self._handle = _dlopen(self._name, mode)
-2026-04-03T04:43:47.429702300Z                    ^^^^^^^^^^^^^^^^^^^^^^^^^
-2026-04-03T04:43:47.429708031Z OSError: /usr/local/lib/python3.12/dist-packages/torchaudio/lib/libtorchaudio.so: undefined symbol: _ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib
-2026-04-03T04:43:47.429720231Z The above exception was the direct cause of the following exception:
-2026-04-03T04:43:47.429732611Z Traceback (most recent call last):
-2026-04-03T04:43:47.429738460Z   File "/runpod-volume/ComfyUI/nodes.py", line 2227, in load_custom_node
-2026-04-03T04:43:47.429744140Z     module_spec.loader.exec_module(module)
-2026-04-03T04:43:47.429749621Z   File "<frozen importlib._bootstrap_external>", line 995, in exec_module
-2026-04-03T04:43:47.429754951Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
-2026-04-03T04:43:47.429760421Z   File "/runpod-volume/ComfyUI/comfy_extras/nodes_audio.py", line 4, in <module>
-2026-04-03T04:43:47.429766131Z     import torchaudio
-2026-04-03T04:43:47.429771651Z   File "/usr/local/lib/python3.12/dist-packages/torchaudio/__init__.py", line 7, in <module>
-2026-04-03T04:43:47.429777971Z     from . import _extension  # noqa  # usort: skip
-2026-04-03T04:43:47.429784571Z     ^^^^^^^^^^^^^^^^^^^^^^^^
-2026-04-03T04:43:47.429791291Z   File "/usr/local/lib/python3.12/dist-packages/torchaudio/_extension/__init__.py", line 37, in <module>
-2026-04-03T04:43:47.429796851Z     _load_lib("libtorchaudio")
-2026-04-03T04:43:47.429802501Z   File "/usr/local/lib/python3.12/dist-packages/torchaudio/_extension/utils.py", line 58, in _load_lib
-2026-04-03T04:43:47.429807951Z     torch.ops.load_library(path)
-2026-04-03T04:43:47.429813721Z   File "/runpod-volume/venv/lib/python3.12/site-packages/torch/_ops.py", line 1505, in load_library
-2026-04-03T04:43:47.429819221Z     raise OSError(f"Could not load this library: {path}") from e
-2026-04-03T04:43:47.429824671Z OSError: Could not load this library: /usr/local/lib/python3.12/dist-packages/torchaudio/lib/libtorchaudio.so
-2026-04-03T04:43:47.430264743Z Cannot import /runpod-volume/ComfyUI/comfy_extras/nodes_audio.py module for custom nodes: Could not load this library: /usr/local/lib/python3.12/dist-packages/torchaudio/lib/libtorchaudio.so
-2026-04-03T04:43:47.877710989Z Traceback (most recent call last):
-2026-04-03T04:43:47.877744489Z   File "/runpod-volume/venv/lib/python3.12/site-packages/torch/_ops.py", line 1503, in load_library
-2026-04-03T04:43:47.877753059Z     ctypes.CDLL(path)
-2026-04-03T04:43:47.877760459Z   File "/usr/lib/python3.12/ctypes/__init__.py", line 379, in __init__
-2026-04-03T04:43:47.877768589Z     self._handle = _dlopen(self._name, mode)
-2026-04-03T04:43:47.877774040Z                    ^^^^^^^^^^^^^^^^^^^^^^^^^
-2026-04-03T04:43:47.877779520Z OSError: /usr/local/lib/python3.12/dist-packages/torchaudio/lib/libtorchaudio.so: undefined symbol: _ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib
-2026-04-03T04:43:47.877792369Z The above exception was the direct cause of the following exception:
-2026-04-03T04:43:47.877803669Z Traceback (most recent call last):
-2026-04-03T04:43:47.877809149Z   File "/runpod-volume/ComfyUI/nodes.py", line 2227, in load_custom_node
-2026-04-03T04:43:47.877814800Z     module_spec.loader.exec_module(module)
-2026-04-03T04:43:47.877820460Z   File "<frozen importlib._bootstrap_external>", line 995, in exec_module
-2026-04-03T04:43:47.877825750Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
-2026-04-03T04:43:47.877831080Z   File "/runpod-volume/ComfyUI/comfy_extras/nodes_lt_audio.py", line 6, in <module>
-2026-04-03T04:43:47.877867100Z     from comfy.ldm.lightricks.vae.audio_vae import AudioVAE
-2026-04-03T04:43:47.877873100Z   File "/runpod-volume/ComfyUI/comfy/ldm/lightricks/vae/audio_vae.py", line 5, in <module>
-2026-04-03T04:43:47.877878660Z     import torchaudio
-2026-04-03T04:43:47.877883980Z   File "/usr/local/lib/python3.12/dist-packages/torchaudio/__init__.py", line 7, in <module>
-2026-04-03T04:43:47.877889750Z     from . import _extension  # noqa  # usort: skip
-2026-04-03T04:43:47.877895120Z     ^^^^^^^^^^^^^^^^^^^^^^^^
-2026-04-03T04:43:47.877901910Z   File "/usr/local/lib/python3.12/dist-packages/torchaudio/_extension/__init__.py", line 37, in <module>
-2026-04-03T04:43:47.877907860Z     _load_lib("libtorchaudio")
-2026-04-03T04:43:47.877913140Z   File "/usr/local/lib/python3.12/dist-packages/torchaudio/_extension/utils.py", line 58, in _load_lib
-2026-04-03T04:43:47.877918500Z     torch.ops.load_library(path)
-2026-04-03T04:43:47.877923920Z   File "/runpod-volume/venv/lib/python3.12/site-packages/torch/_ops.py", line 1505, in load_library
-2026-04-03T04:43:47.877929610Z     raise OSError(f"Could not load this library: {path}") from e
-2026-04-03T04:43:47.877935120Z OSError: Could not load this library: /usr/local/lib/python3.12/dist-packages/torchaudio/lib/libtorchaudio.so
-2026-04-03T04:43:47.878124891Z Cannot import /runpod-volume/ComfyUI/comfy_extras/nodes_lt_audio.py module for custom nodes: Could not load this library: /usr/local/lib/python3.12/dist-packages/torchaudio/lib/libtorchaudio.so
-2026-04-03T04:43:48.782207039Z Traceback (most recent call last):
-2026-04-03T04:43:48.782299299Z   File "/runpod-volume/venv/lib/python3.12/site-packages/torch/_ops.py", line 1503, in load_library
-2026-04-03T04:43:48.782308349Z     ctypes.CDLL(path)
-2026-04-03T04:43:48.782315879Z   File "/usr/lib/python3.12/ctypes/__init__.py", line 379, in __init__
-2026-04-03T04:43:48.782323429Z     self._handle = _dlopen(self._name, mode)
-2026-04-03T04:43:48.782328999Z                    ^^^^^^^^^^^^^^^^^^^^^^^^^
-2026-04-03T04:43:48.782334670Z OSError: /usr/local/lib/python3.12/dist-packages/torchaudio/lib/libtorchaudio.so: undefined symbol: _ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib
-2026-04-03T04:43:48.782350239Z The above exception was the direct cause of the following exception:
-2026-04-03T04:43:48.782361110Z Traceback (most recent call last):
-2026-04-03T04:43:48.782366999Z   File "/runpod-volume/ComfyUI/nodes.py", line 2227, in load_custom_node
-2026-04-03T04:43:48.782372539Z     module_spec.loader.exec_module(module)
-2026-04-03T04:43:48.782377910Z   File "<frozen importlib._bootstrap_external>", line 995, in exec_module
-2026-04-03T04:43:48.782383610Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
-2026-04-03T04:43:48.782388910Z   File "/runpod-volume/ComfyUI/comfy_extras/nodes_audio_encoder.py", line 2, in <module>
-2026-04-03T04:43:48.782395270Z     import comfy.audio_encoders.audio_encoders
-2026-04-03T04:43:48.782400640Z   File "/runpod-volume/ComfyUI/comfy/audio_encoders/audio_encoders.py", line 2, in <module>
-2026-04-03T04:43:48.782406230Z     from .whisper import WhisperLargeV3
-2026-04-03T04:43:48.782411880Z   File "/runpod-volume/ComfyUI/comfy/audio_encoders/whisper.py", line 4, in <module>
-2026-04-03T04:43:48.782417470Z     import torchaudio
-2026-04-03T04:43:48.782422840Z   File "/usr/local/lib/python3.12/dist-packages/torchaudio/__init__.py", line 7, in <module>
-2026-04-03T04:43:48.782428210Z     from . import _extension  # noqa  # usort: skip
-2026-04-03T04:43:48.782434600Z     ^^^^^^^^^^^^^^^^^^^^^^^^
-2026-04-03T04:43:48.782441260Z   File "/usr/local/lib/python3.12/dist-packages/torchaudio/_extension/__init__.py", line 37, in <module>
-2026-04-03T04:43:48.782446870Z     _load_lib("libtorchaudio")
-2026-04-03T04:43:48.782452110Z   File "/usr/local/lib/python3.12/dist-packages/torchaudio/_extension/utils.py", line 58, in _load_lib
-2026-04-03T04:43:48.782457790Z     torch.ops.load_library(path)
-2026-04-03T04:43:48.782463140Z   File "/runpod-volume/venv/lib/python3.12/site-packages/torch/_ops.py", line 1505, in load_library
-2026-04-03T04:43:48.782484230Z     raise OSError(f"Could not load this library: {path}") from e
-2026-04-03T04:43:48.782490030Z OSError: Could not load this library: /usr/local/lib/python3.12/dist-packages/torchaudio/lib/libtorchaudio.so
-2026-04-03T04:43:48.782595560Z Cannot import /runpod-volume/ComfyUI/comfy_extras/nodes_audio_encoder.py module for custom nodes: Could not load this library: /usr/local/lib/python3.12/dist-packages/torchaudio/lib/libtorchaudio.so
-2026-04-03T04:43:49.467945714Z Check 36/100: Still waiting...
-2026-04-03T04:43:51.851308415Z Import times for custom nodes:
-2026-04-03T04:43:51.851597716Z    0.0 seconds: /runpod-volume/ComfyUI/custom_nodes/websocket_image_save.py
-2026-04-03T04:43:51.852091847Z WARNING: some comfy_extras/ nodes did not import correctly. This may be because they are missing some dependencies.
-2026-04-03T04:43:51.852360688Z IMPORT FAILED: nodes_audio.py
-2026-04-03T04:43:51.852585920Z IMPORT FAILED: nodes_lt_audio.py
-2026-04-03T04:43:51.852820120Z IMPORT FAILED: nodes_audio_encoder.py
-2026-04-03T04:43:51.853042351Z This issue might be caused by new missing dependencies added the last time you updated ComfyUI.
-2026-04-03T04:43:51.853312032Z Please do a: pip install -r requirements.txt
-2026-04-03T04:43:51.870171616Z Context impl SQLiteImpl.
-2026-04-03T04:43:51.870486418Z Will assume non-transactional DDL.
-2026-04-03T04:43:51.966041362Z Context impl SQLiteImpl.
-2026-04-03T04:43:51.966340723Z Will assume non-transactional DDL.
-2026-04-03T04:43:52.025263258Z Running upgrade  -> 0001_assets, Initial assets schema
-2026-04-03T04:43:52.025286818Z Revision ID: 0001_assets
-2026-04-03T04:43:52.025294598Z Revises: None
-2026-04-03T04:43:52.025300988Z Create Date: 2025-12-10 00:00:00
-2026-04-03T04:43:52.481854420Z Check 37/100: Still waiting...
-2026-04-03T04:43:52.567272395Z Running upgrade 0001_assets -> 0002_merge_to_asset_references, Merge AssetInfo and AssetCacheState into unified asset_references table.
-2026-04-03T04:43:52.997299495Z Running upgrade 0002_merge_to_asset_references -> 0003_add_metadata_job_id, Add system_metadata and job_id columns to asset_references.
-2026-04-03T04:43:52.997349526Z Change preview_id FK from assets.id to asset_references.id.
-2026-04-03T04:43:53.131112796Z Database upgraded from None to 0003_add_metadata_job_id
-2026-04-03T04:43:53.911716003Z Starting server
-2026-04-03T04:43:53.912305655Z To see the GUI go to: http://0.0.0.0:8188
-2026-04-03T04:43:55.496354857Z Check 38/100: Still waiting...
-2026-04-03T04:43:55.537565274Z Applying Manager settings (Security & UV) and restarting...
-2026-04-03T04:43:55.588507078Z Restarting ComfyUI to apply manager settings...
-2026-04-03T04:43:55.913847759Z Starting ComfyUI in the background...
-2026-04-03T04:43:55.914392401Z Waiting for ComfyUI to respond on port 8188...
-2026-04-03T04:43:58.928953209Z Check 1/100: Still waiting...
-2026-04-03T04:43:59.286951224Z Adding extra search path checkpoints /runpod-volume/models/checkpoints
-2026-04-03T04:43:59.287029104Z Adding extra search path clip /runpod-volume/models/clip
-2026-04-03T04:43:59.287037495Z Adding extra search path clip_vision /runpod-volume/models/clip_vision
-2026-04-03T04:43:59.287132675Z Adding extra search path configs /runpod-volume/models/configs
-2026-04-03T04:43:59.287179245Z Adding extra search path controlnet /runpod-volume/models/controlnet
-2026-04-03T04:43:59.287186555Z Adding extra search path embeddings /runpod-volume/models/embeddings
-2026-04-03T04:43:59.287191635Z Adding extra search path latent_upscale_models /runpod-volume/models/latent_upscale_models
-2026-04-03T04:43:59.287209385Z Adding extra search path loras /runpod-volume/models/loras
-2026-04-03T04:43:59.287213125Z Adding extra search path text_encoders /runpod-volume/models/text_encoders
-2026-04-03T04:43:59.287265655Z Adding extra search path ultralytics /runpod-volume/models/ultralytics
-2026-04-03T04:43:59.287293696Z Adding extra search path upscale_models /runpod-volume/models/upscale_models
-2026-04-03T04:43:59.287388566Z Adding extra search path vae /runpod-volume/models/vae
-2026-04-03T04:43:59.287445176Z Setting output directory to: /runpod-volume/output
-2026-04-03T04:44:01.365954944Z /runpod-volume/venv/lib/python3.12/site-packages/requests/__init__.py:113: RequestsDependencyWarning: urllib3 (2.6.2) or chardet (7.4.0.post2)/charset_normalizer (3.4.4) doesn't match a supported version!
-2026-04-03T04:44:01.366006114Z   warnings.warn(
-2026-04-03T04:44:01.366013284Z [ComfyUI-Manager] Using uv as Python module for pip operations.
-2026-04-03T04:44:01.672500063Z Using Python 3.12.3 environment at: /runpod-volume/venv
-2026-04-03T04:44:01.943989068Z Check 2/100: Still waiting...
-2026-04-03T04:44:02.161596108Z [START] Security scan
-2026-04-03T04:44:02.161667668Z [DONE] Security scan
-2026-04-03T04:44:02.161966089Z ** ComfyUI startup time: 2026-04-03 04:44:02.160
-2026-04-03T04:44:02.162464081Z ** Platform: Linux
-2026-04-03T04:44:02.162915903Z ** Python version: 3.12.3 (main, Nov  6 2025, 13:44:16) [GCC 13.3.0]
-2026-04-03T04:44:02.163353175Z ** Python executable: /runpod-volume/venv/bin/python
-2026-04-03T04:44:02.163825017Z ** ComfyUI Path: /runpod-volume/ComfyUI
-2026-04-03T04:44:02.164240118Z ** ComfyUI Base Folder Path: /runpod-volume/ComfyUI
-2026-04-03T04:44:02.164711220Z ** User directory: /runpod-volume/ComfyUI/user
-2026-04-03T04:44:02.165144692Z ** ComfyUI-Manager config path: /runpod-volume/ComfyUI/user/__manager/config.ini
-2026-04-03T04:44:02.165577433Z ** Log path: /runpod-volume/ComfyUI/user/comfyui.log
-2026-04-03T04:44:02.261661110Z Using Python 3.12.3 environment at: /runpod-volume/venv
-2026-04-03T04:44:02.493316413Z Using Python 3.12.3 environment at: /runpod-volume/venv
-2026-04-03T04:44:02.611574514Z [ComfyUI-Manager] PyTorch is not installed
-2026-04-03T04:44:02.612903080Z [PRE] ComfyUI-Manager
-2026-04-03T04:44:04.957485442Z Check 3/100: Still waiting...
-2026-04-03T04:44:07.971696758Z Check 4/100: Still waiting...
-2026-04-03T04:44:10.988054512Z Check 5/100: Still waiting...
-2026-04-03T04:44:14.002178178Z Check 6/100: Still waiting...
-2026-04-03T04:44:17.018156761Z Check 7/100: Still waiting...
-2026-04-03T04:44:18.258476501Z Found comfy_kitchen backend eager: {'available': True, 'disabled': False, 'unavailable_reason': None, 'capabilities': ['apply_rope', 'apply_rope1', 'dequantize_mxfp8', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'quantize_mxfp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8', 'scaled_mm_mxfp8', 'scaled_mm_nvfp4']}
-2026-04-03T04:44:18.259119134Z Found comfy_kitchen backend triton: {'available': True, 'disabled': True, 'unavailable_reason': None, 'capabilities': ['apply_rope', 'apply_rope1', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'quantize_mxfp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8']}
-2026-04-03T04:44:18.259181544Z Found comfy_kitchen backend cuda: {'available': True, 'disabled': False, 'unavailable_reason': None, 'capabilities': ['apply_rope', 'apply_rope1', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'quantize_mxfp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8', 'scaled_mm_nvfp4']}
-2026-04-03T04:44:18.295785504Z Checkpoint files will always be loaded safely.
-2026-04-03T04:44:18.531735684Z Total VRAM 24124 MB, total RAM 1031808 MB
-2026-04-03T04:44:18.531940064Z pytorch version: 2.11.0+cu130
-2026-04-03T04:44:18.532684737Z Set vram state to: NORMAL_VRAM
-2026-04-03T04:44:18.533164119Z Device: cuda:0 NVIDIA GeForce RTX 3090 : cudaMallocAsync
-2026-04-03T04:44:18.533482421Z Using async weight offloading with 2 streams
-2026-04-03T04:44:18.533784732Z Enabled pinned memory 928627.0
-2026-04-03T04:44:20.030720081Z Check 8/100: Still waiting...
-2026-04-03T04:44:20.036165672Z Using pytorch attention
-2026-04-03T04:44:20.171480118Z torchaudio missing, ACE model will be broken
-2026-04-03T04:44:20.183089172Z torchaudio missing, ACE model will be broken
-2026-04-03T04:44:20.246258563Z torchaudio missing, MMAudio VAE model will be broken
-2026-04-03T04:44:23.045392279Z Check 9/100: Still waiting...
-2026-04-03T04:44:26.058777192Z Check 10/100: Still waiting...
-2026-04-03T04:44:29.074817845Z Check 11/100: Still waiting...
-2026-04-03T04:44:32.089180472Z Check 12/100: Still waiting...
-2026-04-03T04:44:35.102990457Z Check 13/100: Still waiting...
-2026-04-03T04:44:35.438513846Z aimdo: src/control.c:68:INFO:comfy-aimdo inited for GPU: NVIDIA GeForce RTX 3090 (VRAM: 24124 MB)
-2026-04-03T04:44:35.438681427Z DynamicVRAM support detected and enabled
-2026-04-03T04:44:35.440414864Z Python version: 3.12.3 (main, Nov  6 2025, 13:44:16) [GCC 13.3.0]
-2026-04-03T04:44:35.440563274Z ComfyUI version: 0.18.1
-2026-04-03T04:44:35.442873773Z comfy-aimdo version: 0.2.12
-2026-04-03T04:44:35.445860705Z comfy-kitchen version: 0.2.8
-2026-04-03T04:44:35.452592730Z ComfyUI frontend version: 1.42.8
-2026-04-03T04:44:35.459528986Z [Prompt Server] web root: /runpod-volume/venv/lib/python3.12/site-packages/comfyui_frontend_package/static
-2026-04-03T04:44:35.461127383Z Asset seeder disabled
-2026-04-03T04:44:35.461387054Z [START] ComfyUI-Manager
-2026-04-03T04:44:35.895742450Z [ComfyUI-Manager] network_mode: personal_cloud
-2026-04-03T04:44:35.915502636Z [ComfyUI-Manager] The matrix sharing feature has been disabled because the `matrix-nio` dependency is not installed.
-2026-04-03T04:44:35.915536006Z 	To use this feature, please run the following command:
-2026-04-03T04:44:35.915540896Z 	/runpod-volume/venv/bin/python -m pip install matrix-nio
-2026-04-03T04:44:38.114953314Z Check 14/100: Still waiting...
-2026-04-03T04:44:40.148507990Z Traceback (most recent call last):
-2026-04-03T04:44:40.148586081Z   File "/runpod-volume/venv/lib/python3.12/site-packages/torch/_ops.py", line 1503, in load_library
-2026-04-03T04:44:40.148593401Z     ctypes.CDLL(path)
-2026-04-03T04:44:40.148598791Z   File "/usr/lib/python3.12/ctypes/__init__.py", line 379, in __init__
-2026-04-03T04:44:40.148622821Z     self._handle = _dlopen(self._name, mode)
-2026-04-03T04:44:40.148628131Z                    ^^^^^^^^^^^^^^^^^^^^^^^^^
-2026-04-03T04:44:40.148632291Z OSError: /usr/local/lib/python3.12/dist-packages/torchaudio/lib/libtorchaudio.so: undefined symbol: _ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib
-2026-04-03T04:44:40.148641811Z The above exception was the direct cause of the following exception:
-2026-04-03T04:44:40.148649141Z Traceback (most recent call last):
-2026-04-03T04:44:40.148652641Z   File "/runpod-volume/ComfyUI/nodes.py", line 2227, in load_custom_node
-2026-04-03T04:44:40.148656411Z     module_spec.loader.exec_module(module)
-2026-04-03T04:44:40.148659891Z   File "<frozen importlib._bootstrap_external>", line 995, in exec_module
-2026-04-03T04:44:40.148663551Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
-2026-04-03T04:44:40.148666981Z   File "/runpod-volume/ComfyUI/comfy_extras/nodes_audio.py", line 4, in <module>
-2026-04-03T04:44:40.148670461Z     import torchaudio
-2026-04-03T04:44:40.148680481Z   File "/usr/local/lib/python3.12/dist-packages/torchaudio/__init__.py", line 7, in <module>
-2026-04-03T04:44:40.148685321Z     from . import _extension  # noqa  # usort: skip
-2026-04-03T04:44:40.148689191Z     ^^^^^^^^^^^^^^^^^^^^^^^^
-2026-04-03T04:44:40.148693961Z   File "/usr/local/lib/python3.12/dist-packages/torchaudio/_extension/__init__.py", line 37, in <module>
-2026-04-03T04:44:40.148697651Z     _load_lib("libtorchaudio")
-2026-04-03T04:44:40.148701111Z   File "/usr/local/lib/python3.12/dist-packages/torchaudio/_extension/utils.py", line 58, in _load_lib
-2026-04-03T04:44:40.148704811Z     torch.ops.load_library(path)
-2026-04-03T04:44:40.148708671Z   File "/runpod-volume/venv/lib/python3.12/site-packages/torch/_ops.py", line 1505, in load_library
-2026-04-03T04:44:40.148712531Z     raise OSError(f"Could not load this library: {path}") from e
-2026-04-03T04:44:40.148716251Z OSError: Could not load this library: /usr/local/lib/python3.12/dist-packages/torchaudio/lib/libtorchaudio.so
-2026-04-03T04:44:40.148833932Z Cannot import /runpod-volume/ComfyUI/comfy_extras/nodes_audio.py module for custom nodes: Could not load this library: /usr/local/lib/python3.12/dist-packages/torchaudio/lib/libtorchaudio.so
-2026-04-03T04:44:40.269637192Z Traceback (most recent call last):
-2026-04-03T04:44:40.269708263Z   File "/runpod-volume/venv/lib/python3.12/site-packages/torch/_ops.py", line 1503, in load_library
-2026-04-03T04:44:40.269717273Z     ctypes.CDLL(path)
-2026-04-03T04:44:40.269725343Z   File "/usr/lib/python3.12/ctypes/__init__.py", line 379, in __init__
-2026-04-03T04:44:40.269729993Z     self._handle = _dlopen(self._name, mode)
-2026-04-03T04:44:40.269749313Z                    ^^^^^^^^^^^^^^^^^^^^^^^^^
-2026-04-03T04:44:40.269752313Z OSError: /usr/local/lib/python3.12/dist-packages/torchaudio/lib/libtorchaudio.so: undefined symbol: _ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib
-2026-04-03T04:44:40.269762043Z The above exception was the direct cause of the following exception:
-2026-04-03T04:44:40.269767733Z Traceback (most recent call last):
-2026-04-03T04:44:40.269771073Z   File "/runpod-volume/ComfyUI/nodes.py", line 2227, in load_custom_node
-2026-04-03T04:44:40.269774743Z     module_spec.loader.exec_module(module)
-2026-04-03T04:44:40.269777613Z   File "<frozen importlib._bootstrap_external>", line 995, in exec_module
-2026-04-03T04:44:40.269780763Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
-2026-04-03T04:44:40.269783613Z   File "/runpod-volume/ComfyUI/comfy_extras/nodes_lt_audio.py", line 6, in <module>
-2026-04-03T04:44:40.269787973Z     from comfy.ldm.lightricks.vae.audio_vae import AudioVAE
-2026-04-03T04:44:40.269792393Z   File "/runpod-volume/ComfyUI/comfy/ldm/lightricks/vae/audio_vae.py", line 5, in <module>
-2026-04-03T04:44:40.269796233Z     import torchaudio
-2026-04-03T04:44:40.269799103Z   File "/usr/local/lib/python3.12/dist-packages/torchaudio/__init__.py", line 7, in <module>
-2026-04-03T04:44:40.269801973Z     from . import _extension  # noqa  # usort: skip
-2026-04-03T04:44:40.269804803Z     ^^^^^^^^^^^^^^^^^^^^^^^^
-2026-04-03T04:44:40.269809373Z   File "/usr/local/lib/python3.12/dist-packages/torchaudio/_extension/__init__.py", line 37, in <module>
-2026-04-03T04:44:40.269812523Z     _load_lib("libtorchaudio")
-2026-04-03T04:44:40.269815363Z   File "/usr/local/lib/python3.12/dist-packages/torchaudio/_extension/utils.py", line 58, in _load_lib
-2026-04-03T04:44:40.269819043Z     torch.ops.load_library(path)
-2026-04-03T04:44:40.269821903Z   File "/runpod-volume/venv/lib/python3.12/site-packages/torch/_ops.py", line 1505, in load_library
-2026-04-03T04:44:40.269825913Z     raise OSError(f"Could not load this library: {path}") from e
-2026-04-03T04:44:40.269829763Z OSError: Could not load this library: /usr/local/lib/python3.12/dist-packages/torchaudio/lib/libtorchaudio.so
-2026-04-03T04:44:40.269851093Z Cannot import /runpod-volume/ComfyUI/comfy_extras/nodes_lt_audio.py module for custom nodes: Could not load this library: /usr/local/lib/python3.12/dist-packages/torchaudio/lib/libtorchaudio.so
-2026-04-03T04:44:40.478771810Z Traceback (most recent call last):
-2026-04-03T04:44:40.478846040Z   File "/runpod-volume/venv/lib/python3.12/site-packages/torch/_ops.py", line 1503, in load_library
-2026-04-03T04:44:40.478852140Z     ctypes.CDLL(path)
-2026-04-03T04:44:40.478856900Z   File "/usr/lib/python3.12/ctypes/__init__.py", line 379, in __init__
-2026-04-03T04:44:40.478861850Z     self._handle = _dlopen(self._name, mode)
-2026-04-03T04:44:40.478866080Z                    ^^^^^^^^^^^^^^^^^^^^^^^^^
-2026-04-03T04:44:40.478869630Z OSError: /usr/local/lib/python3.12/dist-packages/torchaudio/lib/libtorchaudio.so: undefined symbol: _ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib
-2026-04-03T04:44:40.478877880Z The above exception was the direct cause of the following exception:
-2026-04-03T04:44:40.478884621Z Traceback (most recent call last):
-2026-04-03T04:44:40.478888230Z   File "/runpod-volume/ComfyUI/nodes.py", line 2227, in load_custom_node
-2026-04-03T04:44:40.478891461Z     module_spec.loader.exec_module(module)
-2026-04-03T04:44:40.478894990Z   File "<frozen importlib._bootstrap_external>", line 995, in exec_module
-2026-04-03T04:44:40.478898170Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
-2026-04-03T04:44:40.478901390Z   File "/runpod-volume/ComfyUI/comfy_extras/nodes_audio_encoder.py", line 2, in <module>
-2026-04-03T04:44:40.478905890Z     import comfy.audio_encoders.audio_encoders
-2026-04-03T04:44:40.478909390Z   File "/runpod-volume/ComfyUI/comfy/audio_encoders/audio_encoders.py", line 2, in <module>
-2026-04-03T04:44:40.478913270Z     from .whisper import WhisperLargeV3
-2026-04-03T04:44:40.478938761Z   File "/runpod-volume/ComfyUI/comfy/audio_encoders/whisper.py", line 4, in <module>
-2026-04-03T04:44:40.478942451Z     import torchaudio
-2026-04-03T04:44:40.478945771Z   File "/usr/local/lib/python3.12/dist-packages/torchaudio/__init__.py", line 7, in <module>
-2026-04-03T04:44:40.478949011Z     from . import _extension  # noqa  # usort: skip
-2026-04-03T04:44:40.478952981Z     ^^^^^^^^^^^^^^^^^^^^^^^^
-2026-04-03T04:44:40.478957481Z   File "/usr/local/lib/python3.12/dist-packages/torchaudio/_extension/__init__.py", line 37, in <module>
-2026-04-03T04:44:40.478960991Z     _load_lib("libtorchaudio")
-2026-04-03T04:44:40.478964441Z   File "/usr/local/lib/python3.12/dist-packages/torchaudio/_extension/utils.py", line 58, in _load_lib
-2026-04-03T04:44:40.478968261Z     torch.ops.load_library(path)
-2026-04-03T04:44:40.478971521Z   File "/runpod-volume/venv/lib/python3.12/site-packages/torch/_ops.py", line 1505, in load_library
-2026-04-03T04:44:40.478975021Z     raise OSError(f"Could not load this library: {path}") from e
-2026-04-03T04:44:40.478978291Z OSError: Could not load this library: /usr/local/lib/python3.12/dist-packages/torchaudio/lib/libtorchaudio.so
-2026-04-03T04:44:40.478991441Z Cannot import /runpod-volume/ComfyUI/comfy_extras/nodes_audio_encoder.py module for custom nodes: Could not load this library: /usr/local/lib/python3.12/dist-packages/torchaudio/lib/libtorchaudio.so
-2026-04-03T04:44:41.129953294Z Check 15/100: Still waiting...
-2026-04-03T04:44:41.769532003Z Import times for custom nodes:
-2026-04-03T04:44:41.769702844Z    0.0 seconds: /runpod-volume/ComfyUI/custom_nodes/websocket_image_save.py
-2026-04-03T04:44:41.769895974Z WARNING: some comfy_extras/ nodes did not import correctly. This may be because they are missing some dependencies.
-2026-04-03T04:44:41.770029965Z IMPORT FAILED: nodes_audio.py
-2026-04-03T04:44:41.770112235Z IMPORT FAILED: nodes_lt_audio.py
-2026-04-03T04:44:41.770328906Z IMPORT FAILED: nodes_audio_encoder.py
-2026-04-03T04:44:41.770406316Z This issue might be caused by new missing dependencies added the last time you updated ComfyUI.
-2026-04-03T04:44:41.770572087Z Please do a: pip install -r requirements.txt
-2026-04-03T04:44:41.782794094Z Context impl SQLiteImpl.
-2026-04-03T04:44:41.782941354Z Will assume non-transactional DDL.
-2026-04-03T04:44:42.458763852Z Starting server
-2026-04-03T04:44:42.459413284Z To see the GUI go to: http://0.0.0.0:8188
-2026-04-03T04:44:44.143689588Z Check 16/100: Still waiting...
-2026-04-03T04:44:44.165067509Z ComfyUI has been restarted with updated settings.
-2026-04-03T04:44:44.165092320Z ComfyUI is now ready and accessible on port 8188!
-2026-04-03T04:44:44.168544113Z Starting Nginx service...
-2026-04-03T04:44:44.187143734Z  * Starting nginx nginx
-2026-04-03T04:44:44.201979120Z    ...done.
-2026-04-03T04:44:44.202539872Z Pod Started
-2026-04-03T04:44:44.202556163Z Setting up SSH...
-2026-04-03T04:44:45.232965433Z RSA key fingerprint:
-2026-04-03T04:44:45.237905892Z 3072 SHA256:yEtnkE+gXWJdzG9ECGkV25YGQ9USvYwrzPoXgywJHUI root@5c42cbdef632 (RSA)
-2026-04-03T04:44:45.282935583Z DSA key fingerprint:
-2026-04-03T04:44:45.287300120Z 1024 SHA256:hST0Cb/1jbmWJIk412dm//FHwdcT02gWDs5Jjip/WAg root@5c42cbdef632 (DSA)
-2026-04-03T04:44:45.293372403Z ECDSA key fingerprint:
-2026-04-03T04:44:45.297830410Z 256 SHA256:rm39BA9c4X+j5lvMdWm0G7rEWI1YjtDuieiyHjwoDh0 root@5c42cbdef632 (ECDSA)
-2026-04-03T04:44:45.304298145Z ED25519 key fingerprint:
-2026-04-03T04:44:45.308759062Z 256 SHA256:YasRP1ozuPSNHUM3kM0MQBNYes9B3XU3VahNzpN8iMs root@5c42cbdef632 (ED25519)
-2026-04-03T04:44:45.327240632Z  * Starting OpenBSD Secure Shell server sshd
-2026-04-03T04:44:45.336957539Z    ...done.
-2026-04-03T04:44:45.337389761Z SSH host keys:
-2026-04-03T04:44:45.337451031Z Key: /etc/ssh/ssh_host_dsa_key.pub
-2026-04-03T04:44:45.342223789Z 1024 SHA256:hST0Cb/1jbmWJIk412dm//FHwdcT02gWDs5Jjip/WAg root@5c42cbdef632 (DSA)
-2026-04-03T04:44:45.342756861Z Key: /etc/ssh/ssh_host_ecdsa_key.pub
-2026-04-03T04:44:45.346967217Z 256 SHA256:rm39BA9c4X+j5lvMdWm0G7rEWI1YjtDuieiyHjwoDh0 root@5c42cbdef632 (ECDSA)
-2026-04-03T04:44:45.347418749Z Key: /etc/ssh/ssh_host_ed25519_key.pub
-2026-04-03T04:44:45.351550485Z 256 SHA256:YasRP1ozuPSNHUM3kM0MQBNYes9B3XU3VahNzpN8iMs root@5c42cbdef632 (ED25519)
-2026-04-03T04:44:45.351981016Z Key: /etc/ssh/ssh_host_rsa_key.pub
-2026-04-03T04:44:45.357155536Z 3072 SHA256:yEtnkE+gXWJdzG9ECGkV25YGQ9USvYwrzPoXgywJHUI root@5c42cbdef632 (RSA)
-2026-04-03T04:44:45.357655718Z Starting Jupyter Lab...
-2026-04-03T04:44:45.358164690Z Jupyter Lab started
-2026-04-03T04:44:45.358180480Z Exporting environment variables...
-2026-04-03T04:44:45.371206240Z Start script(s) finished, Pod is ready to use.

@@ -1,159 +1,0 @@
-2026-04-03T04:25:20.989878688Z ==========
-2026-04-03T04:25:20.989885178Z == CUDA ==
-2026-04-03T04:25:20.989888798Z ==========
-2026-04-03T04:25:20.994895872Z CUDA Version 12.9.0
-2026-04-03T04:25:21.000847563Z Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
-2026-04-03T04:25:21.000854443Z This container image and its contents are governed by the NVIDIA Deep Learning Container License.
-2026-04-03T04:25:21.000857603Z By pulling and using the container, you accept the terms and conditions of this license:
-2026-04-03T04:25:21.000860223Z https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
-2026-04-03T04:25:21.000866323Z A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
-2026-04-03T04:25:21.014293895Z Cloning repository (Attempt 1/6)...
-2026-04-03T04:25:21.017794329Z Cloning into '/tmp/my-scripts'...
-2026-04-03T04:25:21.776851892Z Successfully cloned repository.
-2026-04-03T04:25:23.330158247Z setup_github_ssh: configured key at /root/.ssh/id_ed25519_github
-2026-04-03T04:25:23.337882630Z Preparing network volume directories...
-2026-04-03T04:25:23.353652718Z /tmp/my-scripts/run_app.sh: line 21: /usr/bin/pip: No such file or directory
-2026-04-03T04:25:23.354254572Z Creating python virtual environment with uv...
-2026-04-03T04:25:23.452154720Z Using CPython 3.12.3 interpreter at: /usr/local/bin/python
-2026-04-03T04:25:23.452170950Z Creating virtual environment at: /runpod-volume/venv
-2026-04-03T04:25:23.536690137Z Activate with: source runpod-volume/venv/bin/activate
-2026-04-03T04:25:23.548421998Z Generating version constraints from base environment...
-2026-04-03T04:25:23.877870177Z Environment constraints applied: /tmp/constraints.txt
-2026-04-03T04:25:23.877924447Z Checking PyTorch health...
-2026-04-03T04:25:25.582971719Z Torch OK: 2.9.1+cu129 (CUDA: True)
-2026-04-03T04:25:25.969903811Z ✅ PyTorch environment looks healthy.
-2026-04-03T04:25:25.970958408Z Cloning ComfyUI to /runpod-volume/ComfyUI...
-2026-04-03T04:25:25.978648580Z Cloning into '/runpod-volume/ComfyUI'...
-2026-04-03T04:25:40.292814104Z Updating files:  12% (100/774)Updating files:  13% (101/774)Updating files:  14% (109/774)Updating files:  15% (117/774)Updating files:  16% (124/774)Updating files:  17% (132/774)Updating files:  18% (140/774)Updating files:  19% (148/774)Updating files:  20% (155/774)Updating files:  21% (163/774)Updating files:  22% (171/774)Updating files:  23% (179/774)Updating files:  24% (186/774)Updating files:  25% (194/774)Updating files:  26% (202/774)Updating files:  27% (209/774)Updating files:  28% (217/774)Updating files:  29% (225/774)Updating files:  30% (233/774)Updating files:  31% (240/774)Updating files:  32% (248/774)Updating files:  33% (256/774)Updating files:  34% (264/774)Updating files:  35% (271/774)Updating files:  36% (279/774)Updating files:  37% (287/774)Updating files:  38% (295/774)Updating files:  39% (302/774)Updating files:  40% (310/774)Updating files:  41% (318/774)Updating files:  42% (326/774)Updating files:  43% (333/774)Updating files:  44% (341/774)Updating files:  45% (349/774)Updating files:  45% (354/774)Updating files:  46% (357/774)Updating files:  47% (364/774)Updating files:  48% (372/774)Updating files:  49% (380/774)Updating files:  50% (387/774)Updating files:  51% (395/774)Updating files:  52% (403/774)Updating files:  53% (411/774)Updating files:  54% (418/774)Updating files:  54% (420/774)Updating files:  55% (426/774)Updating files:  56% (434/774)Updating files:  57% (442/774)Updating files:  58% (449/774)Updating files:  59% (457/774)Updating files:  60% (465/774)Updating files:  61% (473/774)Updating files:  62% (480/774)Updating files:  63% (488/774)Updating files:  64% (496/774)Updating files:  65% (504/774)Updating files:  66% (511/774)Updating files:  67% (519/774)Updating files:  68% (527/774)Updating files:  69% (535/774)Updating files:  70% (542/774)Updating files:  71% (550/774)Updating files:  72% (558/774)Updating files:  73% (566/774)Updating files:  74% (573/774)Updating files:  74% (576/774)Updating files:  75% (581/774)Updating files:  76% (589/774)Updating files:  77% (596/774)Updating files:  78% (604/774)Updating files:  79% (612/774)Updating files:  80% (620/774)Updating files:  81% (627/774)Updating files:  82% (635/774)Updating files:  83% (643/774)Updating files:  84% (651/774)Updating files:  85% (658/774)Updating files:  86% (666/774)Updating files:  87% (674/774)Updating files:  88% (682/774)Updating files:  89% (689/774)Updating files:  90% (697/774)Updating files:  91% (705/774)Updating files:  92% (713/774)Updating files:  93% (720/774)Updating files:  94% (728/774)Updating files:  95% (736/774)Updating files:  96% (744/774)Updating files:  97% (751/774)Updating files:  98% (759/774)Updating files:  99% (767/774)Updating files: 100% (774/774)Updating files: 100% (774/774), done.
-2026-04-03T04:25:40.310337384Z Installing python requirements with uv and strict constraints...
-2026-04-03T04:25:40.408408793Z Using Python 3.12.3 environment at: /runpod-volume/venv
-2026-04-03T04:25:41.438546167Z   × No solution found when resolving dependencies:
-2026-04-03T04:25:41.438577117Z   ╰─▶ Because there is no version of requests==2.32.5 and you require
-2026-04-03T04:25:41.438582457Z       requests==2.32.5, we can conclude that your requirements are
-2026-04-03T04:25:41.438585987Z       unsatisfiable.
-2026-04-03T04:25:41.438593007Z       hint: `requests` was found on https://download.pytorch.org/whl/cu129,
-2026-04-03T04:25:41.438596317Z       but not at the requested version (requests==2.32.5). A
-2026-04-03T04:25:41.438599877Z       compatible version may be available on a subsequent index (e.g.,
-2026-04-03T04:25:41.438603157Z       https://pypi.org/simple). By default, uv will only consider versions
-2026-04-03T04:25:41.438606377Z       that are published on the first index that contains a given package, to
-2026-04-03T04:25:41.438609507Z       avoid dependency confusion attacks. If all indexes are equally trusted,
-2026-04-03T04:25:41.438612708Z       use `--index-strategy unsafe-best-match` to consider all versions from
-2026-04-03T04:25:41.438615917Z       all indexes, regardless of the order in which they were defined.
-2026-04-03T04:25:41.461964647Z Adding onnxruntime-gpu...
-2026-04-03T04:25:41.548251846Z Using Python 3.12.3 environment at: /runpod-volume/venv
-2026-04-03T04:25:43.146870951Z   × No solution found when resolving dependencies:
-2026-04-03T04:25:43.146982092Z   ╰─▶ Because only the following versions of onnxruntime-gpu are available:
-2026-04-03T04:25:43.147000122Z           onnxruntime-gpu==1.11.0
-2026-04-03T04:25:43.147007052Z           onnxruntime-gpu==1.11.1
-2026-04-03T04:25:43.147012522Z           onnxruntime-gpu==1.12.0
-2026-04-03T04:25:43.147017752Z           onnxruntime-gpu==1.12.1
-2026-04-03T04:25:43.147023442Z           onnxruntime-gpu==1.13.1
-2026-04-03T04:25:43.147028692Z           onnxruntime-gpu==1.14.0
-2026-04-03T04:25:43.147033902Z           onnxruntime-gpu==1.14.1
-2026-04-03T04:25:43.147039282Z           onnxruntime-gpu==1.15.0
-2026-04-03T04:25:43.147044562Z           onnxruntime-gpu==1.15.1
-2026-04-03T04:25:43.147049782Z           onnxruntime-gpu==1.16.0
-2026-04-03T04:25:43.147054952Z           onnxruntime-gpu==1.16.1
-2026-04-03T04:25:43.147060132Z           onnxruntime-gpu==1.16.2
-2026-04-03T04:25:43.147065422Z           onnxruntime-gpu==1.16.3
-2026-04-03T04:25:43.147070692Z           onnxruntime-gpu==1.17.0
-2026-04-03T04:25:43.147075862Z           onnxruntime-gpu==1.17.1
-2026-04-03T04:25:43.147081102Z           onnxruntime-gpu==1.18.0
-2026-04-03T04:25:43.147086293Z           onnxruntime-gpu==1.18.1
-2026-04-03T04:25:43.147091533Z           onnxruntime-gpu==1.19.0
-2026-04-03T04:25:43.147096762Z           onnxruntime-gpu==1.19.2
-2026-04-03T04:25:43.147101962Z           onnxruntime-gpu==1.20.0
-2026-04-03T04:25:43.147107283Z           onnxruntime-gpu==1.20.1
-2026-04-03T04:25:43.147112483Z           onnxruntime-gpu==1.20.2
-2026-04-03T04:25:43.147117703Z           onnxruntime-gpu==1.21.0
-2026-04-03T04:25:43.147122923Z           onnxruntime-gpu==1.21.1
-2026-04-03T04:25:43.147151933Z           onnxruntime-gpu==1.22.0
-2026-04-03T04:25:43.147157363Z           onnxruntime-gpu==1.23.0
-2026-04-03T04:25:43.147162643Z           onnxruntime-gpu==1.23.2
-2026-04-03T04:25:43.147167823Z           onnxruntime-gpu==1.24.1
-2026-04-03T04:25:43.147173823Z           onnxruntime-gpu==1.24.2
-2026-04-03T04:25:43.147179043Z           onnxruntime-gpu==1.24.3
-2026-04-03T04:25:43.147184263Z           onnxruntime-gpu==1.24.4
-2026-04-03T04:25:43.147189533Z       and onnxruntime-gpu<=1.16.3 has no wheels with a matching Python ABI tag
-2026-04-03T04:25:43.147195233Z       (e.g., `cp312`), we can conclude that onnxruntime-gpu<=1.16.3 cannot be
-2026-04-03T04:25:43.147200543Z       used. (1)
-2026-04-03T04:25:43.147211423Z       Because there is no version of packaging==25.0 and
-2026-04-03T04:25:43.147217613Z       onnxruntime-gpu>=1.17.0 depends on packaging==25.0, we can conclude that
-2026-04-03T04:25:43.147222893Z       onnxruntime-gpu>=1.17.0 cannot be used.
-2026-04-03T04:25:43.147228274Z       And because we know from (1) that onnxruntime-gpu<=1.16.3 cannot be
-2026-04-03T04:25:43.147233563Z       used, we can conclude that all versions of onnxruntime-gpu cannot be
-2026-04-03T04:25:43.147238803Z       used.
-2026-04-03T04:25:43.147244174Z       And because you require onnxruntime-gpu, we can conclude that your
-2026-04-03T04:25:43.147249503Z       requirements are unsatisfiable.
-2026-04-03T04:25:43.147260144Z       hint: You require CPython 3.12 (`cp312`), but we only found wheels for
-2026-04-03T04:25:43.147265404Z       `onnxruntime-gpu` (v1.16.3) with the following Python ABI tags: `cp38`,
-2026-04-03T04:25:43.147270654Z       `cp39`, `cp310`, `cp311`
-2026-04-03T04:25:43.147282044Z       hint: `packaging` was found on https://download.pytorch.org/whl/cu129,
-2026-04-03T04:25:43.147288004Z       but not at the requested version (packaging==25.0). A compatible version
-2026-04-03T04:25:43.147293434Z       may be available on a subsequent index (e.g., https://pypi.org/simple).
-2026-04-03T04:25:43.147298844Z       By default, uv will only consider versions that are published on the
-2026-04-03T04:25:43.147304204Z       first index that contains a given package, to avoid dependency confusion
-2026-04-03T04:25:43.147309464Z       attacks. If all indexes are equally trusted, use `--index-strategy
-2026-04-03T04:25:43.147314764Z       unsafe-best-match` to consider all versions from all indexes, regardless
-2026-04-03T04:25:43.147320054Z       of the order in which they were defined.
-2026-04-03T04:25:43.160901657Z Checking PyTorch health...
-2026-04-03T04:25:44.827254224Z Torch OK: 2.9.1+cu129 (CUDA: True)
-2026-04-03T04:25:45.166614491Z ✅ PyTorch environment looks healthy.
-2026-04-03T04:25:45.166693592Z Checking custom_nodes link...
-2026-04-03T04:25:45.167582178Z Moving existing custom_nodes to central volume...
-2026-04-03T04:25:45.198436888Z Installing ComfyUI-Manager requirements with uv and strict constraints...
-2026-04-03T04:25:45.278207493Z Using Python 3.12.3 environment at: /runpod-volume/venv
-2026-04-03T04:25:49.452606765Z   × Failed to build `pygithub==1.44`
-2026-04-03T04:25:49.452648635Z   ├─▶ The build backend returned an error
-2026-04-03T04:25:49.452653885Z   ╰─▶ Call to `setuptools.build_meta:__legacy__.build_wheel` failed (exit
-2026-04-03T04:25:49.452659315Z       status: 1)
-2026-04-03T04:25:49.452666895Z       [stderr]
-2026-04-03T04:25:49.452670165Z       error in PyGithub setup command: use_2to3 is invalid.
-2026-04-03T04:25:49.452678426Z       hint: This usually indicates a problem with the package or the build
-2026-04-03T04:25:49.452682255Z       environment.
-2026-04-03T04:25:49.452686575Z   help: `pygithub` (v1.44) was included because `comfyui-manager` (v4.1)
-2026-04-03T04:25:49.452690135Z         depends on `pygithub`
-2026-04-03T04:25:49.541455392Z Error: Failed to install ComfyUI-Manager requirements.
-2026-04-03T04:25:49.542374938Z Starting ComfyUI in the background...
-2026-04-03T04:25:49.543128113Z Waiting for ComfyUI to respond on port 8188...
-2026-04-03T04:25:49.798600377Z Traceback (most recent call last):
-2026-04-03T04:25:49.798648718Z   File "/runpod-volume/ComfyUI/main.py", line 12, in <module>
-2026-04-03T04:25:49.798878249Z     from app.assets.seeder import asset_seeder
-2026-04-03T04:25:49.798894299Z   File "/runpod-volume/ComfyUI/app/assets/seeder.py", line 11, in <module>
-2026-04-03T04:25:49.805410114Z     from app.assets.scanner import (
-2026-04-03T04:25:49.805425914Z   File "/runpod-volume/ComfyUI/app/assets/scanner.py", line 7, in <module>
-2026-04-03T04:25:49.806809804Z     from app.assets.database.queries import (
-2026-04-03T04:25:49.806823473Z   File "/runpod-volume/ComfyUI/app/assets/database/queries/__init__.py", line 1, in <module>
-2026-04-03T04:25:49.808113412Z     from app.assets.database.queries.asset import (
-2026-04-03T04:25:49.808127853Z   File "/runpod-volume/ComfyUI/app/assets/database/queries/asset.py", line 1, in <module>
-2026-04-03T04:25:49.812645753Z     import sqlalchemy as sa
-2026-04-03T04:25:49.812661003Z ModuleNotFoundError: No module named 'sqlalchemy'
-2026-04-03T04:25:52.557251313Z Error: ComfyUI process terminated.
-2026-04-03T04:25:52.562611279Z Starting Nginx service...
-2026-04-03T04:25:52.582806447Z  * Starting nginx nginx
-2026-04-03T04:25:52.609927603Z    ...done.
-2026-04-03T04:25:52.610642707Z Pod Started
-2026-04-03T04:25:52.610671748Z Setting up SSH...
-2026-04-03T04:25:52.898407912Z RSA key fingerprint:
-2026-04-03T04:25:52.904197742Z 3072 SHA256:UsEsOsOvByrwppmQzrPt1c2JFq/Ai/71gexg4t9DYtk root@7833cc2ad6c6 (RSA)
-2026-04-03T04:25:52.936336441Z DSA key fingerprint:
-2026-04-03T04:25:52.942048120Z 1024 SHA256:jbcNp3Fl+w0CH28ErkXUSc8v9ad0U663REO9gfq5uLM root@7833cc2ad6c6 (DSA)
-2026-04-03T04:25:52.947380456Z ECDSA key fingerprint:
-2026-04-03T04:25:52.951776557Z 256 SHA256:qLXW2L+NdpJQwU1COU7yA7kI3oZvpd8Gb3ax4cacDIU root@7833cc2ad6c6 (ECDSA)
-2026-04-03T04:25:52.957631526Z ED25519 key fingerprint:
-2026-04-03T04:25:52.963080894Z 256 SHA256:tslUiH3zaakJd7aw+ROGIFvzDyVSb7BBK5aNU/QTgsU root@7833cc2ad6c6 (ED25519)
-2026-04-03T04:25:52.979128393Z  * Starting OpenBSD Secure Shell server sshd
-2026-04-03T04:25:52.988267116Z    ...done.
-2026-04-03T04:25:52.988560788Z SSH host keys:
-2026-04-03T04:25:52.988602698Z Key: /etc/ssh/ssh_host_dsa_key.pub
-2026-04-03T04:25:52.992376804Z 1024 SHA256:jbcNp3Fl+w0CH28ErkXUSc8v9ad0U663REO9gfq5uLM root@7833cc2ad6c6 (DSA)
-2026-04-03T04:25:52.992644656Z Key: /etc/ssh/ssh_host_ecdsa_key.pub
-2026-04-03T04:25:52.996960525Z 256 SHA256:qLXW2L+NdpJQwU1COU7yA7kI3oZvpd8Gb3ax4cacDIU root@7833cc2ad6c6 (ECDSA)
-2026-04-03T04:25:52.997319348Z Key: /etc/ssh/ssh_host_ed25519_key.pub
-2026-04-03T04:25:53.001444745Z 256 SHA256:tslUiH3zaakJd7aw+ROGIFvzDyVSb7BBK5aNU/QTgsU root@7833cc2ad6c6 (ED25519)
-2026-04-03T04:25:53.001812648Z Key: /etc/ssh/ssh_host_rsa_key.pub
-2026-04-03T04:25:53.006296829Z 3072 SHA256:UsEsOsOvByrwppmQzrPt1c2JFq/Ai/71gexg4t9DYtk root@7833cc2ad6c6 (RSA)
-2026-04-03T04:25:53.006700132Z Starting Jupyter Lab...
-2026-04-03T04:25:53.006974093Z Jupyter Lab started
-2026-04-03T04:25:53.007020214Z Exporting environment variables...
-2026-04-03T04:25:53.014774267Z Start script(s) finished, Pod is ready to use.
