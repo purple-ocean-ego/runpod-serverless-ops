@@ -9,6 +9,10 @@ MANAGER_REQ="/runpod-volume/ComfyUI/manager_requirements.txt"
 MANAGER_INSTALLED_FLAG="/runpod-volume/venv/.comfyui_manager_installed"
 PYTORCH_INDEX="https://download.pytorch.org/whl/cu126"
 
+# uv のグローバル設定 (Manager 等の外部 uv 呼び出しにも適用される)
+export UV_EXTRA_INDEX_URL="$PYTORCH_INDEX"
+export UV_LINK_MODE=copy
+
 # -------------------------------------------------------------
 # 1. ネットワークボリュームのディレクトリ構成準備
 # -------------------------------------------------------------
@@ -40,9 +44,6 @@ prepare_venv() {
         uv venv /runpod-volume/venv --python 3.12
     fi
     source /runpod-volume/venv/bin/activate
-
-    # ハードリンクエラーによるログの汚れを防止
-    export UV_LINK_MODE=copy
 
     # PyTorch が未インストールなら導入
     if ! python -c "import torch" 2>/dev/null; then
