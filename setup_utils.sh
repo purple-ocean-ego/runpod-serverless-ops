@@ -65,10 +65,9 @@ prepare_venv() {
     # 環境変数のエクスポート (Manager 等の外部プロセスにも適用させる)
     export UV_PIP_CONSTRAINTS="$CONSTRAINTS_FILE"
     export PIP_CONSTRAINT="$CONSTRAINTS_FILE"
-    # PyTorch インデックスを uv に優先させる
-    export UV_EXTRA_INDEX_URL="https://download.pytorch.org/whl/cu129"
 
     echo "Environment constraints applied: $CONSTRAINTS_FILE"
+
 
 
     # PyTorch の状態チェックと修復
@@ -112,14 +111,11 @@ install_comfyui() {
         # torch などを除外した requirements を作成してインストール
         grep -E -v '^torch(vision|audio)?([>=! ]|$)' /runpod-volume/ComfyUI/requirements.txt > /tmp/req_filtered.txt
         # 明示的に -c で制約ファイルを指定し、環境変数よりも確実に固定する
-        uv pip install --no-cache-dir \
-            --extra-index-url https://download.pytorch.org/whl/cu129 \
-            -c "$CONSTRAINTS_FILE" -r /tmp/req_filtered.txt
+        uv pip install --no-cache-dir -c "$CONSTRAINTS_FILE" -r /tmp/req_filtered.txt
         
         echo "Adding onnxruntime-gpu..."
-        uv pip install --no-cache-dir \
-            --extra-index-url https://download.pytorch.org/whl/cu129 \
-            -c "$CONSTRAINTS_FILE" onnxruntime-gpu
+        uv pip install --no-cache-dir -c "$CONSTRAINTS_FILE" onnxruntime-gpu
+
 
 
     fi
@@ -153,10 +149,9 @@ install_manager_requirements() {
     if [ -f "$MANAGER_REQ" ]; then
         if [ ! -f "$MANAGER_INSTALLED_FLAG" ] || [ "$MANAGER_REQ" -nt "$MANAGER_INSTALLED_FLAG" ]; then
             echo "Installing ComfyUI-Manager requirements with uv and strict constraints..."
-            if uv pip install --no-cache-dir \
-                --extra-index-url https://download.pytorch.org/whl/cu129 \
-                -c "$CONSTRAINTS_FILE" -r "$MANAGER_REQ"; then
+            if uv pip install --no-cache-dir -c "$CONSTRAINTS_FILE" -r "$MANAGER_REQ"; then
                 touch "$MANAGER_INSTALLED_FLAG"
+
 
 
                 echo "ComfyUI-Manager requirements installed successfully."

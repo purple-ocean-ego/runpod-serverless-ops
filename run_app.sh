@@ -18,7 +18,8 @@ source "${SCRIPT_DIR}/comfy_runner.sh"
 # 1. 前準備
 prepare_directories
 # デバッグ用：ベースイメージのパッケージリストを保存
-/usr/bin/pip list > /runpod-volume/base_pip_list.txt
+/usr/local/bin/python -m pip list > /runpod-volume/base_pip_list.txt 2>/dev/null || true
+
 
 prepare_venv
 
