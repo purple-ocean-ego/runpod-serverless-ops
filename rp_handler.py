@@ -27,7 +27,8 @@ def start_comfyui():
             "--listen", "127.0.0.1",
             "--port", "8188",
             "--output-directory", "/runpod-volume/output",
-            "--extra-model-paths-config", "/tmp/my-scripts/extra_model_paths.yaml"
+            "--extra-model-paths-config", "/tmp/my-scripts/extra_model_paths.yaml",
+            "--highvram"
         ]
         # stdout/stderrは引き続きファイルに保存
         with open("/runpod-volume/comfyui.log", "w") as log_file:
