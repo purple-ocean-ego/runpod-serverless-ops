@@ -55,6 +55,12 @@ prepare_venv() {
 
     # PyTorch の状態チェック
     check_pytorch_health
+
+    # huggingface-cli (huggingface_hub) の導入
+    if ! python -c "import huggingface_hub" 2>/dev/null; then
+        echo "Installing huggingface_hub (huggingface-cli) with uv..."
+        uv pip install --no-cache-dir huggingface_hub
+    fi
 }
 
 # -------------------------------------------------------------
