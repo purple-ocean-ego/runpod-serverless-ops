@@ -28,6 +28,8 @@ prepare_directories() {
              /runpod-volume/models/ultralytics/bbox \
              /runpod-volume/models/ultralytics/segm \
              /runpod-volume/models/upscale_models \
+             /runpod-volume/models/unet \
+             /runpod-volume/models/diffusion_models \
              /runpod-volume/models/vae \
              /runpod-volume/models/latent_upscale_models \
              /runpod-volume/models/text_encoders \

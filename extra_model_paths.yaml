@@ -10,5 +10,7 @@ comfyui:
     loras: loras
     text_encoders: text_encoders
     ultralytics: ultralytics
+    unet: unet
+    diffusion_models: unet
     upscale_models: upscale_models
     vae: vae
