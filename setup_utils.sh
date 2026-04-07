@@ -33,6 +33,8 @@ prepare_directories() {
              /runpod-volume/models/vae \
              /runpod-volume/models/latent_upscale_models \
              /runpod-volume/models/text_encoders \
+             /runpod-volume/models/audio_encoders \
+             /runpod-volume/models/model_patches \
              /runpod-volume/custom_nodes \
              /runpod-volume/output
 }
