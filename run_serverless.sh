@@ -10,6 +10,16 @@ SCRIPT_DIR=$(cd $(dirname $0); pwd)
 # ユーティリティの読み込み
 source "${SCRIPT_DIR}/setup_utils.sh"
 
+# 引数解析 (デフォルト: --highvram)
+VRAM_FLAG="--highvram"
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        --lowvram) VRAM_FLAG="--lowvram --weight-streaming" ;;
+    esac
+    shift
+done
+export COMFY_VRAM_FLAGS="$VRAM_FLAG"
+
 LOCK_FILE="/runpod-volume/setup.lock"
 
 echo "Acquiring lock for setup..."

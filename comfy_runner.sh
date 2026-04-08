@@ -11,14 +11,16 @@ MANAGER_CONFIG="/runpod-volume/ComfyUI/user/__manager/config.ini"
 # 6. ComfyUI 起動・管理関数
 # -------------------------------------------------------------
 start_comfyui() {
-    echo "Starting ComfyUI in the background..."
+    # 第1引数が省略された場合は --highvram をデフォルト値として使用（オーバーロード）
+    local vram_flag="${1:---highvram}"
+    echo "Starting ComfyUI in the background... (vram: ${vram_flag})"
     python main.py \
         --listen 0.0.0.0 \
         --port 8188 \
         --enable-manager \
         --output-directory /runpod-volume/output \
         --extra-model-paths-config /tmp/my-scripts/extra_model_paths.yaml \
-        --highvram &
+        ${vram_flag} &
     COMFY_PID=$!
 }
 
@@ -49,6 +51,10 @@ wait_for_comfyui() {
 # 7. セキュリティ設定の適用と再起動
 # -------------------------------------------------------------
 apply_manager_settings_and_restart() {
+    # 第1引数が省略された場合は --highvram をデフォルト値として使用（オーバーロード）
+    # 再起動時に start_comfyui へ同じ vram_flag を引き継ぐ
+    local vram_flag="${1:---highvram}"
+
     if [ -f "$MANAGER_CONFIG" ]; then
         # 設定の変数を準備
         local update_needed=false
@@ -82,8 +88,8 @@ apply_manager_settings_and_restart() {
             kill $COMFY_PID
             wait $COMFY_PID 2>/dev/null
             
-            # 再起動
-            start_comfyui
+            # 再起動時に vram_flag を引き継いで渡す
+            start_comfyui "$vram_flag"
             wait_for_comfyui
             echo "ComfyUI has been restarted with updated settings."
         fi

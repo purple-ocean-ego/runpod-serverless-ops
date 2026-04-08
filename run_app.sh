@@ -11,6 +11,15 @@ SCRIPT_DIR=$(cd $(dirname $0); pwd)
 source "${SCRIPT_DIR}/setup_utils.sh"
 source "${SCRIPT_DIR}/comfy_runner.sh"
 
+# 引数解析 (デフォルト: --highvram)
+VRAM_FLAG="--highvram"
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        --lowvram) VRAM_FLAG="--lowvram --weight-streaming" ;;
+    esac
+    shift
+done
+
 # ==============================================================================
 # メイン実行セクション
 # ==============================================================================
@@ -30,10 +39,10 @@ install_manager_requirements
 
 # 2. 起動フロー
 cd /runpod-volume/ComfyUI
-start_comfyui
+start_comfyui "$VRAM_FLAG"
 wait_for_comfyui
 
 # 3. 設定適用 (初回起動後に config.ini が作られるのを待ってから適用)
-apply_manager_settings_and_restart
+apply_manager_settings_and_restart "$VRAM_FLAG"
 
 echo "ComfyUI is now ready and accessible on port 8188!"

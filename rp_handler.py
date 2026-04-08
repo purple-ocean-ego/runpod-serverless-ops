@@ -14,11 +14,16 @@ OUTPUT_DIR = "/runpod-volume/output"
 
 is_comfyui_started = False
 
-def start_comfyui():
+def start_comfyui(vram_flags=None):
     """
     ComfyUIのプロセスをバックグラウンドで起動します。
+    vram_flags: VRAMオプションのリスト（省略時はオーバーロード：環境変数 COMFY_VRAM_FLAGS or --highvram を使用）
     """
-    print("Launching ComfyUI in the background...", flush=True)
+    # 引数なし（None）の場合はデフォルト値を使用（オーバーロードパターン）
+    if vram_flags is None:
+        vram_flags = os.environ.get("COMFY_VRAM_FLAGS", "--highvram").split()
+
+    print(f"Launching ComfyUI in the background... (vram: {' '.join(vram_flags)})", flush=True)
     try:
         # 仮想環境内のpythonを絶対パスで使用
         python_path = "/runpod-volume/venv/bin/python"
@@ -28,8 +33,7 @@ def start_comfyui():
             "--port", "8188",
             "--output-directory", "/runpod-volume/output",
             "--extra-model-paths-config", "/tmp/my-scripts/extra_model_paths.yaml",
-            "--highvram"
-        ]
+        ] + vram_flags
         # stdout/stderrは引き続きファイルに保存
         with open("/runpod-volume/comfyui.log", "w") as log_file:
             subprocess.Popen(cmd, stdout=log_file, stderr=log_file, cwd="/runpod-volume/ComfyUI")
