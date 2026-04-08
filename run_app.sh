@@ -15,7 +15,7 @@ source "${SCRIPT_DIR}/comfy_runner.sh"
 VRAM_FLAG="--highvram"
 while [[ "$#" -gt 0 ]]; do
     case $1 in
-        --lowvram) VRAM_FLAG="--lowvram --weight-streaming" ;;
+        --lowvram) VRAM_FLAG="--lowvram" ;;
     esac
     shift
 done
