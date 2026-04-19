@@ -36,7 +36,8 @@ prepare_directories() {
              /runpod-volume/models/audio_encoders \
              /runpod-volume/models/model_patches \
              /runpod-volume/custom_nodes \
-             /runpod-volume/output
+             /runpod-volume/output \
+             /runpod-volume/input
 }
 
 # -------------------------------------------------------------

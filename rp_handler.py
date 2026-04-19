@@ -11,6 +11,7 @@ import subprocess
 
 COMFY_API_URL = "http://127.0.0.1:8188"
 OUTPUT_DIR = "/runpod-volume/output"
+INPUT_DIR = "/runpod-volume/input"
 
 is_comfyui_started = False
 
@@ -31,7 +32,8 @@ def start_comfyui(vram_flags=None):
             python_path, "-u", "/runpod-volume/ComfyUI/main.py",
             "--listen", "127.0.0.1",
             "--port", "8188",
-            "--output-directory", "/runpod-volume/output",
+            "--output-directory", OUTPUT_DIR,
+            "--input-directory", INPUT_DIR,
             "--extra-model-paths-config", "/tmp/my-scripts/extra_model_paths.yaml",
         ] + vram_flags
         # stdout/stderrは引き続きファイルに保存

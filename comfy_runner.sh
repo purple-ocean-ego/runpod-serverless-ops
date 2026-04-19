@@ -19,6 +19,7 @@ start_comfyui() {
         --port 8188 \
         --enable-manager \
         --output-directory /runpod-volume/output \
+        --input-directory /runpod-volume/input \
         --extra-model-paths-config /tmp/my-scripts/extra_model_paths.yaml \
         ${vram_flag} &
     COMFY_PID=$!
