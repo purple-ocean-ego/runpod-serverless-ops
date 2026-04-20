@@ -12,10 +12,13 @@ comfyui:
     embeddings: embeddings
     latent_upscale_models: latent_upscale_models
     loras: loras
+    LLM: LLM
     model_patches: model_patches
     text_encoders: |
       text_encoders
       clip     
     ultralytics: ultralytics
+    ultralytics_bbox: ultralytics/bbox
+    ultralytics_segm: ultralytics/segm
     upscale_models: upscale_models
     vae: vae

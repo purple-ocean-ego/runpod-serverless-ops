@@ -24,6 +24,7 @@ prepare_directories() {
              /runpod-volume/models/configs \
              /runpod-volume/models/controlnet \
              /runpod-volume/models/embeddings \
+             /runpod-volume/models/LLM \
              /runpod-volume/models/loras \
              /runpod-volume/models/ultralytics/bbox \
              /runpod-volume/models/ultralytics/segm \
