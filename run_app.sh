@@ -37,6 +37,8 @@ externalize_custom_nodes
 
 install_manager_requirements
 
+install_llama_cpp
+
 # 2. 起動フロー
 cd /runpod-volume/ComfyUI
 start_comfyui "$VRAM_FLAG"

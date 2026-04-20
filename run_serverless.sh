@@ -43,6 +43,7 @@ echo "Acquiring lock for setup..."
     install_comfyui
     externalize_custom_nodes
 
+    install_llama_cpp
 
     echo "Setup finished. Releasing lock..."
 ) 200>"$LOCK_FILE"

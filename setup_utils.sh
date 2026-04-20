@@ -92,6 +92,28 @@ check_pytorch_health() {
 
 
 # -------------------------------------------------------------
+# 2.7 llama-cpp-python (GPU対応) の導入
+# -------------------------------------------------------------
+install_llama_cpp() {
+    if python -c "import llama_cpp" 2>/dev/null; then
+        echo "✅ llama-cpp-python is already installed."
+        return 0
+    fi
+
+    echo "Installing llama-cpp-python with CUDA support..."
+    # CMAKE_ARGS="-DGGML_CUDA=on" を付与してビルド
+    CMAKE_ARGS="-DGGML_CUDA=on" \
+        uv pip install --no-cache-dir llama-cpp-python
+
+    if python -c "import llama_cpp; print(f'llama-cpp-python OK: {llama_cpp.__version__}')" 2>/dev/null; then
+        echo "✅ llama-cpp-python installed successfully."
+    else
+        echo "⚠️ llama-cpp-python installation may have issues."
+    fi
+}
+
+
+# -------------------------------------------------------------
 # 3. ComfyUI 本体のインストール
 # -------------------------------------------------------------
 install_comfyui() {
