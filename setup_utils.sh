@@ -51,6 +51,12 @@ prepare_venv() {
     fi
     source /runpod-volume/venv/bin/activate
 
+    # Alekpet 等のカスタムノードとの互換性のために pip 本体を導入 (置物として利用)
+    if ! python -c "import pip" 2>/dev/null; then
+        echo "📦 Installing pip for custom node compatibility..."
+        uv pip install --no-cache-dir pip
+    fi
+
     # PyTorch が未インストールなら導入
     if ! python -c "import torch" 2>/dev/null; then
         echo "Installing PyTorch (cu126) with uv..."
