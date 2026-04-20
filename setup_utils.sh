@@ -196,9 +196,9 @@ sync_custom_node_requirements() {
     echo "🔍 Scanning and syncing requirements for all custom nodes..."
     
     # [競合の事前解決] Impact-Pack 等で要求される iopath を安全に PyPI から最新化
-    # これにより後のループでの --index-strategy unsafe-best-match 使用を回避
+    # 戦略を一時的に unsafe-best-match にして PyPI 本家の最新版を強制的に認識させる
     echo "📦 Pre-resolving mandatory dependencies (iopath)..."
-    uv pip install --no-cache-dir "iopath>=0.1.10"
+    uv pip install --no-cache-dir --index-strategy unsafe-best-match "iopath>=0.1.10"
 
     # [ループの堅牢化] FD 3 を使用して、ループ内の uv が入力を消費するのを防止
     find /runpod-volume/custom_nodes -maxdepth 2 -name "requirements.txt" | while read -r -u 3 req_file; do
