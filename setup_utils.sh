@@ -92,7 +92,7 @@ check_pytorch_health() {
 
 
 # -------------------------------------------------------------
-# 2.7 llama-cpp-python (GPU対応) の導入
+# 2.7 llama-cpp-python (JamePeng Fork - Qwen3-VL対応) の導入
 # -------------------------------------------------------------
 install_llama_cpp() {
     if python -c "import llama_cpp" 2>/dev/null; then
@@ -100,15 +100,19 @@ install_llama_cpp() {
         return 0
     fi
 
-    echo "Installing llama-cpp-python with CUDA support..."
-    # CMAKE_ARGS="-DGGML_CUDA=on" を付与してビルド
-    CMAKE_ARGS="-DGGML_CUDA=on" \
-        uv pip install --no-cache-dir llama-cpp-python
+    echo "🚀 Installing JamePeng fork of llama-cpp-python (Priority Build)..."
+    local FORK_URL="git+https://github.com/JamePeng/llama-cpp-python.git"
+    
+    # CMAKE_ARGS="-DGGML_CUDA=on" FORCE_CMAKE=1 を付与
+    # --no-binary を指定してソースからのビルドを強制
+    CMAKE_ARGS="-DGGML_CUDA=on" FORCE_CMAKE=1 \
+        uv pip install --no-cache-dir --no-binary llama-cpp-python \
+        "llama-cpp-python @ ${FORK_URL}"
 
-    if python -c "import llama_cpp; print(f'llama-cpp-python OK: {llama_cpp.__version__}')" 2>/dev/null; then
-        echo "✅ llama-cpp-python installed successfully."
+    if python -c "import llama_cpp; print(f'llama-cpp-python (Fork) OK: {llama_cpp.__version__}')" 2>/dev/null; then
+        echo "✅ JamePeng fork of llama-cpp-python installed successfully."
     else
-        echo "⚠️ llama-cpp-python installation may have issues."
+        echo "❌ llama-cpp-python installation failed."
     fi
 }
 

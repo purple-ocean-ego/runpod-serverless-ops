@@ -32,12 +32,12 @@ uv pip list > /runpod-volume/venv_pip_list.txt 2>/dev/null || true
 
 prepare_venv
 
+install_llama_cpp
+
 install_comfyui
 externalize_custom_nodes
 
 install_manager_requirements
-
-install_llama_cpp
 
 # 2. 起動フロー
 cd /runpod-volume/ComfyUI

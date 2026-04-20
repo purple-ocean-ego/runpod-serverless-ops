@@ -32,6 +32,8 @@ echo "Acquiring lock for setup..."
     prepare_directories
     prepare_venv
     
+    install_llama_cpp
+
     # Serverlessハンドラ用追加ライブラリ（インストール済みならスキップして venv 競合を回避）
     if ! python -c "import runpod, requests" 2>/dev/null; then
         echo "Installing missing handler dependencies with uv..."
@@ -42,8 +44,6 @@ echo "Acquiring lock for setup..."
     # 本体のインストールとカスタムノードの外部化
     install_comfyui
     externalize_custom_nodes
-
-    install_llama_cpp
 
     echo "Setup finished. Releasing lock..."
 ) 200>"$LOCK_FILE"
