@@ -44,6 +44,7 @@ echo "Acquiring lock for setup..."
     # 本体のインストールとカスタムノードの外部化
     install_comfyui
     externalize_custom_nodes
+    sync_custom_node_requirements
 
     echo "Setup finished. Releasing lock..."
 ) 200>"$LOCK_FILE"

@@ -38,6 +38,7 @@ install_comfyui
 externalize_custom_nodes
 
 install_manager_requirements
+sync_custom_node_requirements
 
 # 2. 起動フロー
 cd /runpod-volume/ComfyUI

@@ -184,3 +184,26 @@ install_manager_requirements() {
         fi
     fi
 }
+
+# -------------------------------------------------------------
+# 6. すべての内部カスタムノードの依存関係を同期
+# -------------------------------------------------------------
+sync_custom_node_requirements() {
+    if [ ! -d "/runpod-volume/custom_nodes" ]; then
+        return 0
+    fi
+
+    echo "🔍 Scanning and syncing requirements for all custom nodes..."
+    
+    # 全ディレクトリ内の requirements.txt を探して一括インストール
+    # find の結果を xargs や -exec + で uv pip install に渡すことで
+    # 複数ファイルを一度の uv 呼び出しで処理し、速度を最大化します。
+    # --no-cache-dir を外すと 2回目以降のチェックが更に高速になります。
+    find /runpod-volume/custom_nodes -maxdepth 2 -name "requirements.txt" \
+        | xargs -I {} echo "Found: {}"
+        
+    find /runpod-volume/custom_nodes -maxdepth 2 -name "requirements.txt" \
+        | xargs -r uv pip install --no-cache-dir -r
+
+    echo "✅ Custom node requirements sync finished."
+}
