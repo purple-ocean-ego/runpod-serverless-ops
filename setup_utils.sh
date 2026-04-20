@@ -118,18 +118,30 @@ install_llama_cpp() {
 
 
 # -------------------------------------------------------------
-# 3. ComfyUI 本体のインストール
+# 3. ComfyUI 本体のインストールと依存関係の自動チェック
 # -------------------------------------------------------------
 install_comfyui() {
     if [ ! -d "/runpod-volume/ComfyUI" ]; then
         echo "Cloning ComfyUI to /runpod-volume/ComfyUI..."
         git clone https://github.com/comfy-org/ComfyUI.git /runpod-volume/ComfyUI
-        
-        echo "Installing python requirements with uv..."
+    fi
+
+    # 依存関係（特に最近必須となった sqlalchemy 等）の存在をチェック
+    # チェック自体は 0.1秒未満で終わるため、起動速度への影響はない
+    if ! python -c "import sqlalchemy, aiohttp" 2>/dev/null; then
+        echo "⚠️ Missing mandatory ComfyUI dependencies. Installing/Updating with uv..."
         uv pip install --no-cache-dir -r /runpod-volume/ComfyUI/requirements.txt
         
-        echo "Adding onnxruntime-gpu..."
-        uv pip install --no-cache-dir onnxruntime-gpu
+        # 万が一 requirements.txt が古く、sqlalchemy が含まれていない場合に備えて個別追加
+        uv pip install --no-cache-dir sqlalchemy aiohttp
+        
+        if python -c "import sqlalchemy" 2>/dev/null; then
+            echo "✅ ComfyUI requirements repaired successfully."
+        else
+            echo "❌ Failed to install mandatory requirements."
+        fi
+    else
+        echo "✅ ComfyUI requirements are already satisfied."
     fi
 }
 
