@@ -133,7 +133,7 @@ install_sageattention() {
     fi
 
     echo "🚀 Installing SageAttention from source..."
-    uv pip install --no-cache-dir triton "git+https://github.com/thu-ml/SageAttention.git"
+    uv pip install --no-cache-dir --no-build-isolation triton "git+https://github.com/thu-ml/SageAttention.git"
 
     if python -c "import sageattention; print('✅ SageAttention installed successfully.')" 2>/dev/null; then
         return 0
