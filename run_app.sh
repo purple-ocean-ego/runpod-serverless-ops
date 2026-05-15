@@ -33,6 +33,7 @@ uv pip list > /runpod-volume/venv_pip_list.txt 2>/dev/null || true
 prepare_venv
 
 install_llama_cpp
+install_sageattention
 
 install_comfyui
 externalize_custom_nodes

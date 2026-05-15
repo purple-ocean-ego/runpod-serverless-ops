@@ -124,6 +124,25 @@ install_llama_cpp() {
 
 
 # -------------------------------------------------------------
+# 2.8 SageAttention (高速化ライブラリ) の導入
+# -------------------------------------------------------------
+install_sageattention() {
+    if python -c "import sageattention" 2>/dev/null; then
+        echo "✅ SageAttention is already installed."
+        return 0
+    fi
+
+    echo "🚀 Installing SageAttention from source..."
+    uv pip install --no-cache-dir triton "git+https://github.com/thu-ml/SageAttention.git"
+
+    if python -c "import sageattention; print('✅ SageAttention installed successfully.')" 2>/dev/null; then
+        return 0
+    else
+        echo "❌ SageAttention installation failed."
+    fi
+}
+
+# -------------------------------------------------------------
 # 3. ComfyUI 本体のインストールと依存関係の自動チェック
 # -------------------------------------------------------------
 install_comfyui() {

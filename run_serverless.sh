@@ -33,6 +33,7 @@ echo "Acquiring lock for setup..."
     prepare_venv
     
     install_llama_cpp
+    install_sageattention
 
     # Serverlessハンドラ用追加ライブラリ（インストール済みならスキップして venv 競合を回避）
     if ! python -c "import runpod, requests" 2>/dev/null; then
