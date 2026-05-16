@@ -11,3 +11,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN apt-get update && apt-get install -y --no-install-recommends \
     sox libsox-dev \
     && rm -rf /var/lib/apt/lists/*
+
+# FlashAttention のビルドに必要な ninja-build を追加
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ninja-build \
+    && rm -rf /var/lib/apt/lists/*
