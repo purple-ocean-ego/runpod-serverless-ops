@@ -153,6 +153,9 @@ install_flash_attn() {
 
     echo "🚀 Installing FlashAttention... (This may take 15-30 minutes and consume high CPU/RAM)"
     
+    # ビルドに必要なツールを事前に導入 (--no-build-isolation のため必須)
+    uv pip install --no-cache-dir wheel setuptools
+
     uv pip install --no-cache-dir flash-attn --no-build-isolation
 
     if python -c "import flash_attn; print('✅ FlashAttention installed successfully.')" 2>/dev/null; then
