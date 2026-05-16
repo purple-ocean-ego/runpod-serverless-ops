@@ -143,6 +143,26 @@ install_sageattention() {
 }
 
 # -------------------------------------------------------------
+# 2.9 FlashAttention (高速化ライブラリ) の導入
+# -------------------------------------------------------------
+install_flash_attn() {
+    if python -c "import flash_attn" 2>/dev/null; then
+        echo "✅ FlashAttention is already installed."
+        return 0
+    fi
+
+    echo "🚀 Installing FlashAttention... (This may take 15-30 minutes and consume high CPU/RAM)"
+    
+    uv pip install --no-cache-dir flash-attn --no-build-isolation
+
+    if python -c "import flash_attn; print('✅ FlashAttention installed successfully.')" 2>/dev/null; then
+        return 0
+    else
+        echo "❌ FlashAttention installation failed."
+    fi
+}
+
+# -------------------------------------------------------------
 # 3. ComfyUI 本体のインストールと依存関係の自動チェック
 # -------------------------------------------------------------
 install_comfyui() {

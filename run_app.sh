@@ -34,6 +34,7 @@ prepare_venv
 
 install_llama_cpp
 install_sageattention
+install_flash_attn
 
 install_comfyui
 externalize_custom_nodes
