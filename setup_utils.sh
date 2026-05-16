@@ -156,7 +156,8 @@ install_flash_attn() {
     # ビルドに必要なツールを事前に導入 (--no-build-isolation のため必須)
     uv pip install --no-cache-dir wheel setuptools
 
-    uv pip install --no-cache-dir flash-attn --no-build-isolation
+    # メモリ不足(OOM)を避けるため並列数を1に制限 (ビルド時間は延びますが確実性が上がります)
+    MAX_JOBS=1 uv pip install --no-cache-dir flash-attn --no-build-isolation
 
     if python -c "import flash_attn; print('✅ FlashAttention installed successfully.')" 2>/dev/null; then
         return 0
