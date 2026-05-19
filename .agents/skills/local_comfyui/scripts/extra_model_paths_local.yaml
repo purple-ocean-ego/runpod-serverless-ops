@@ -1,0 +1,26 @@
+# ローカル開発環境用のモデルパス設定
+# /workspace/models 以下のディレクトリ構成を ComfyUI に認識させる
+comfyui:
+    base_path: /workspace/models
+    audio_encoders: audio_encoders
+    checkpoints: checkpoints
+    clip: clip
+    clip_vision: clip_vision
+    configs: configs
+    controlnet: controlnet
+    diffusion_models: |
+      diffusion_models
+      unet
+    embeddings: embeddings
+    latent_upscale_models: latent_upscale_models
+    loras: loras
+    LLM: LLM
+    model_patches: model_patches
+    text_encoders: |
+      text_encoders
+      clip
+    ultralytics: ultralytics
+    ultralytics_bbox: ultralytics/bbox
+    ultralytics_segm: ultralytics/segm
+    upscale_models: upscale_models
+    vae: vae
