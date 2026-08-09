@@ -7,7 +7,8 @@
 # --- 変数定義 ---
 MANAGER_REQ="/runpod-volume/ComfyUI/manager_requirements.txt"
 MANAGER_INSTALLED_FLAG="/runpod-volume/venv/.comfyui_manager_installed"
-PYTORCH_INDEX="https://download.pytorch.org/whl/cu126"
+# 環境変数で上書き可能（RTX 3090 等は既定 cu126、RTX 5090 は cu130 を指定）
+PYTORCH_INDEX="${PYTORCH_INDEX:-https://download.pytorch.org/whl/cu126}"
 
 # uv のグローバル設定 (Manager 等の外部 uv 呼び出しにも適用される)
 export UV_EXTRA_INDEX_URL="$PYTORCH_INDEX"
@@ -59,7 +60,7 @@ prepare_venv() {
 
     # PyTorch が未インストールなら導入
     if ! python -c "import torch" 2>/dev/null; then
-        echo "Installing PyTorch (cu126) with uv..."
+        echo "Installing PyTorch (${PYTORCH_INDEX##*/}) with uv..."
         uv pip install --no-cache-dir \
             torch torchvision torchaudio \
             --index-url "$PYTORCH_INDEX"

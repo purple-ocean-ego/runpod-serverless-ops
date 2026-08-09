@@ -1,15 +1,14 @@
-name: Build and Push to DockerHub
+name: Build and Push RTX5090 Image to DockerHub
 
 on:
   push:
-    # RTX 5090 用（rtx5090-v*）と区別するため、v 直後は数字のみを受け付ける
-    tags: [ "v[0-9]*" ]
+    # RTX 5090 用イメージは rtx5090-v* タグでビルドする (例: rtx5090-v1.0.0)
+    tags: [ "rtx5090-*" ]
   workflow_dispatch:
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    # シークレットが Environment (DOCKERHUB) に設定されているため追加
     environment: DOCKERHUB
     steps:
       - name: Checkout repository
@@ -28,12 +27,12 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/runpod-serverless-ops
+          # RTX 5090 専用イメージ (serverless 用とは分離)
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/runpod-h3-rtx5090
           tags: |
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
-            type=raw,value=latest,enable=${{ startsWith(github.ref, 'refs/tags/v') }}
+            # rtx5090-v1.0.0 → v1.0.0 を生成
+            type=match,pattern=^rtx5090-(.*)$,group=1
+            type=raw,value=latest,enable=${{ startsWith(github.ref, 'refs/tags/rtx5090-v') }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5

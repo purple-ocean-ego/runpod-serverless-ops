@@ -11,9 +11,10 @@ MANAGER_CONFIG="/runpod-volume/ComfyUI/user/__manager/config.ini"
 # 6. ComfyUI 起動・管理関数
 # -------------------------------------------------------------
 start_comfyui() {
-    # 第1引数が省略された場合は --highvram をデフォルト値として使用（オーバーロード）
-    local vram_flag="${1:---highvram}"
-    echo "Starting ComfyUI in the background... (vram: ${vram_flag})"
+    # 引数なしの場合は --highvram をデフォルトとして使用（オーバーロード）
+    # 引数があれば可変長で ComfyUI 起動フラグとして全て渡す（例: --use-sage-attention 等）
+    local args=("${@:---highvram}")
+    echo "Starting ComfyUI in the background... (flags: ${args[*]})"
     python main.py \
         --listen 0.0.0.0 \
         --port 8188 \
@@ -21,7 +22,7 @@ start_comfyui() {
         --output-directory /runpod-volume/output \
         --input-directory /runpod-volume/input \
         --extra-model-paths-config /tmp/my-scripts/extra_model_paths.yaml \
-        ${vram_flag} &
+        "${args[@]}" &
     COMFY_PID=$!
 }
 
@@ -52,9 +53,9 @@ wait_for_comfyui() {
 # 7. セキュリティ設定の適用と再起動
 # -------------------------------------------------------------
 apply_manager_settings_and_restart() {
-    # 第1引数が省略された場合は --highvram をデフォルト値として使用（オーバーロード）
-    # 再起動時に start_comfyui へ同じ vram_flag を引き継ぐ
-    local vram_flag="${1:---highvram}"
+    # 引数なしの場合は --highvram をデフォルト値として使用（オーバーロード）
+    # 再起動時に start_comfyui へ同じフラグ群を引き継ぐ
+    local args=("${@:---highvram}")
 
     if [ -f "$MANAGER_CONFIG" ]; then
         # 設定の変数を準備
@@ -89,8 +90,8 @@ apply_manager_settings_and_restart() {
             kill $COMFY_PID
             wait $COMFY_PID 2>/dev/null
             
-            # 再起動時に vram_flag を引き継いで渡す
-            start_comfyui "$vram_flag"
+            # 再起動時にフラグ群を引き継いで渡す
+            start_comfyui "${args[@]}"
             wait_for_comfyui
             echo "ComfyUI has been restarted with updated settings."
         fi
