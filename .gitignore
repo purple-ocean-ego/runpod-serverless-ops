@@ -9,6 +9,9 @@ __pycache__/
 # ローカル作業ファイル置き場（ログ、メモ、草稿など）
 local/
 
+# セッション状態管理（opencode .session）
+.session/
+
 # 新リポジトリ comfyui-local-ops に移動したファイル
 opencode.json
 .agents/skills/local_comfyui/
