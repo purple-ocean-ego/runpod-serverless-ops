@@ -175,6 +175,12 @@ GitHub リポジトリの **Settings > Secrets and variables > Actions** にて�
 
 また、Git でタグ（例: `v4.0.0`）を付けてプッシュすると、セマンティックバージョニング形式（`4.0.0`, `4.0`, `4`）でもイメージが自動作成・プッシュされます。ビルドごとの一意な Git SHA もタグとして付与されます。
 
+### RTX 5090 用イメージ（serverless とは分離）
+RTX 5090（CUDA 13.0）用イメージは **`${DOCKERHUB_USERNAME}/runpod-h3-rtx5090`** として別管理します。既存の `runpod-serverless-ops`（3090/serverless 系）と混在させないため、タグも分けて運用します。
+
+- Git タグ例: **`rtx5090-v1.0.0`** → `runpod-h3-rtx5090:v1.0.0` と `runpod-h3-rtx5090:latest` がビルド・プッシュされます
+- 先頭に `rtx5090-` が付くため、通常の `v*` タグ（serverless 系）とは誤マッチしません
+
 
 ---
 
