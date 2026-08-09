@@ -1,18 +1,13 @@
-FROM runpod/base:1.0.3-cuda1290-ubuntu2404
+# RTX 5090 (Blackwell / sm_120) 対応: CUDA 13.0 のベースイメージを使用
+# （PyTorch は setup_utils.sh の PYTORCH_INDEX で cu130 / cu126 を切り替える）
+FROM runpod/base:1.1.0-cuda1300-ubuntu2404
 
 # runpod/base に含まれないツールのみ追加
 # (curl, git, zstd, ffmpeg, libgl1, libglib2.0-0, unzip, htop, tmux, jq,
 #  nginx, openssh-server, Python 3.9-3.13, uv, pip は runpod/base に同梱済み)
+# sox: TTS 等の音声処理 / ninja-build: FlashAttention ビルド用（FlashAttention-4 統合後も利用）
 RUN apt-get update && apt-get install -y --no-install-recommends \
     aria2 nvtop rclone gh \
-    && rm -rf /var/lib/apt/lists/*
-
-# TTS(Text-to-Speech)機能などの音声処理のために SoX を追加 (キャッシュ活用のための分離追記)
-RUN apt-get update && apt-get install -y --no-install-recommends \
     sox libsox-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-# FlashAttention のビルドに必要な ninja-build を追加
-RUN apt-get update && apt-get install -y --no-install-recommends \
     ninja-build \
     && rm -rf /var/lib/apt/lists/*
