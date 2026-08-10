@@ -266,16 +266,40 @@ install_comfyui() {
         git clone https://github.com/comfy-org/ComfyUI.git /runpod-volume/ComfyUI
     fi
 
-    # 依存関係（特に最近必須となった sqlalchemy 等）の存在をチェック
+    # 依存関係（特に最近必須となった sqlalchemy / einops 等）の存在をチェック
     # チェック自体は 0.1秒未満で終わるため、起動速度への影響はない
-    if ! python -c "import sqlalchemy, aiohttp" 2>/dev/null; then
+    # einops は ComfyUI の cosmos 系モデルが einops.layers.torch を要求するため必須
+    if ! python -c "
+import sqlalchemy, aiohttp
+from einops.layers.torch import Rearrange
+" 2>/dev/null; then
         echo "⚠️ Missing mandatory ComfyUI dependencies. Installing/Updating with uv..."
-        uv pip install --no-cache-dir -r /runpod-volume/ComfyUI/requirements.txt
-        
-        # 万が一 requirements.txt が古く、sqlalchemy が含まれていない場合に備えて個別追加
-        uv pip install --no-cache-dir sqlalchemy aiohttp
-        
-        if python -c "import sqlalchemy" 2>/dev/null; then
+
+        # Stale file handle (NFS) 等の一時的な書き込み失敗で中断されることがあるため、
+        # 最大3回リトライする (uv は一括 install 対象の一部だけが壊れることがある)
+        local attempt=1
+        while [ "$attempt" -le 3 ]; do
+            if uv pip install --no-cache-dir -r /runpod-volume/ComfyUI/requirements.txt; then
+                break
+            fi
+            echo "⚠️ ComfyUI requirements install failed (attempt $attempt/3). Retrying..."
+            sleep 5
+            attempt=$((attempt + 1))
+        done
+
+        # 必須パッケージを個別に検証し、壊れていたら reinstall で修復
+        for pkg in sqlalchemy aiohttp einops comfy-kitchen comfy-aimdo; do
+            local mod="${pkg//-/_}"
+            if ! python -c "import ${mod}" 2>/dev/null; then
+                echo "⚠️ ${pkg} is missing/broken. Reinstalling..."
+                uv pip install --no-cache-dir --reinstall "$pkg"
+            fi
+        done
+
+        if python -c "
+import sqlalchemy, aiohttp
+from einops.layers.torch import Rearrange
+" 2>/dev/null; then
             echo "✅ ComfyUI requirements repaired successfully."
         else
             echo "❌ Failed to install mandatory requirements."
