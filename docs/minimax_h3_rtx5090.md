@@ -25,19 +25,62 @@ rm -rf /runpod-volume/venv
 
 ## 3. モデルファイル（手動配置）
 
-`extra_model_paths.yaml` のマップ先に合わせて配置します。
+`extra_model_paths.yaml` のマップ先に合わせて配置します。本プロジェクトは **R2V 運用が基本** のため、Ref2VA が必須です。
 
 | ファイル | 配置先 | サイズ目安 | 備考 |
 |---|---|---|---|
-| `minimax_h3_fl2va_pruned_int8_convrot.safetensors` | `models/diffusion_models/` | ~19.5 GB | T2V / I2V 用 |
-| `minimax_h3_ref2va_pruned_int8_convrot.safetensors` | `models/diffusion_models/` | ~20.9 GB | **R2V 用（FL2VAとは別チェックポイント）** |
+| `minimax_h3_ref2va_pruned_int8_convrot.safetensors` | `models/diffusion_models/` | ~20.9 GB | **R2V 用（必須）** |
 | `qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors` | `models/text_encoders/` | ~14.6 GB | NVFP4 エンコーダ。CLIPLoader の type は `minimax` |
 | `minimax_h3_video_vae_fp16.safetensors` | `models/vae/` | — | 必須 |
 | `minimax_h3_audio_vae_fp32.safetensors` | `models/vae/` | — | 必須（音声生成に必要） |
+| `minimax_h3_fl2va_pruned_int8_convrot.safetensors` | `models/diffusion_models/` | ~19.5 GB | **任意**（I2V / T2V / 継続チェーン用。FL2VAとは別チェックポイント） |
 
 - 出典: `Comfy-Org/MiniMax-H3`（Hugging Face）を推奨
-- T2V / I2V のみなら FL2VA + エンコーダ + VAE 2点（計 ~42GB）。R2V も使うなら Ref2VA を追加（計 ~63GB）
+- R2V のみなら Ref2VA + エンコーダ + VAE 2点（計 ~40GB）。後で I2V / T2V も使うなら FL2VA を追加（計 ~60GB）
 - 注意: **Ref2VA と FL2VA は別ファイル。R2V ワークフローに FL2VA を指定すると動作しません**
+
+### ダウンロードコマンド（aria2c）
+
+`/runpod-volume/models` がカレントディレクトリとします（URL は `resolve` で直接配信されるため、`aria2c` の分割ダウンロードで高速化できます）。
+
+**必須（R2V 用）— 計約 40GB**
+
+```bash
+# 1. Diffusion Model (Ref2VA: R2V用) ~20.9GB
+aria2c -x 16 -s 16 -k 1M -d /runpod-volume/models/diffusion_models \
+  -o minimax_h3_ref2va_pruned_int8_convrot.safetensors \
+  "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors"
+
+# 2. Text Encoder (NVFP4 AWQ) ~14.6GB
+aria2c -x 16 -s 16 -k 1M -d /runpod-volume/models/text_encoders \
+  -o qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors \
+  "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors"
+
+# 3. Video VAE (fp16)
+aria2c -x 16 -s 16 -k 1M -d /runpod-volume/models/vae \
+  -o minimax_h3_video_vae_fp16.safetensors \
+  "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/vae/minimax_h3_video_vae_fp16.safetensors"
+
+# 4. Audio VAE (fp32, 音声生成に必須)
+aria2c -x 16 -s 16 -k 1M -d /runpod-volume/models/vae \
+  -o minimax_h3_audio_vae_fp32.safetensors \
+  "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/vae/minimax_h3_audio_vae_fp32.safetensors"
+```
+
+**任意（後で I2V / T2V も試す場合）— +約 19.5GB**
+
+```bash
+# 5. Diffusion Model (FL2VA: I2V/T2V用。Ref2VAとは別チェックポイント) ~19.5GB
+aria2c -x 16 -s 16 -k 1M -d /runpod-volume/models/diffusion_models \
+  -o minimax_h3_fl2va_pruned_int8_convrot.safetensors \
+  "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/diffusion_models/minimax_h3_fl2va_pruned_int8_convrot.safetensors"
+```
+
+**備考**
+
+- 5 ファイル合計で約 60GB になり、ボリューム容量の確保が必要です
+- 中断・再接続時は `-o` 部分を省略した同じコマンドを再実行すると自動レジュームします
+- `aria2c` は Pod のイメージに同梱済みです（`Dockerfile` で追加）
 
 ## 4. カスタムノード（ComfyUI Manager から導入）
 
