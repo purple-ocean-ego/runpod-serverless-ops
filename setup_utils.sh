@@ -9,10 +9,27 @@ MANAGER_REQ="/runpod-volume/ComfyUI/manager_requirements.txt"
 MANAGER_INSTALLED_FLAG="/runpod-volume/venv/.comfyui_manager_installed"
 # 環境変数で上書き可能（RTX 3090 等は既定 cu126、RTX 5090 は cu130 を指定）
 PYTORCH_INDEX="${PYTORCH_INDEX:-https://download.pytorch.org/whl/cu126}"
+# PYTORCH_INDEX 末尾の "cuXXX" タグ (例: cu126 / cu130)
+PYTORCH_CU_TAG="${PYTORCH_INDEX##*/}"
 
 # uv のグローバル設定 (Manager 等の外部 uv 呼び出しにも適用される)
 export UV_EXTRA_INDEX_URL="$PYTORCH_INDEX"
 export UV_LINK_MODE=copy
+
+# -------------------------------------------------------------
+# ヘルパー: PYTORCH_INDEX から最新の wheel バージョンを取得
+# 仕様: uv の index 解決は環境・バージョン差があるため、明示的に
+#       "torch==X.Y.Z+cuXXX" へピン留めして確実に cuXXX を選択させる。
+# 戻り値: 取得失敗時は 1 (呼び出し側でフォールバックが必要)
+# -------------------------------------------------------------
+pytorch_latest_version() {
+    local pkg="$1"
+    curl -fsSL --max-time 20 "${PYTORCH_INDEX}/${pkg}/" 2>/dev/null \
+        | grep -oE "${pkg}-([0-9]+\.)+[0-9]+%2B${PYTORCH_CU_TAG}-cp312-cp312-manylinux[^\"<>]*x86_64\.whl" \
+        | sed -E "s/${pkg}-([0-9]\.[0-9]+\.[0-9]+)%2B.*/\1/" \
+        | sort -V \
+        | tail -n 1
+}
 
 # -------------------------------------------------------------
 # 1. ネットワークボリュームのディレクトリ構成準備
@@ -59,11 +76,31 @@ prepare_venv() {
     fi
 
     # PyTorch が未インストールなら導入
+    # 注意: index だけの指定では Pod 環境によって cuXXX が外れる事例があるため、
+    #       "torch==<ver>+cuXXX" へ明示的にピン留めして確実に選択させる。
     if ! python -c "import torch" 2>/dev/null; then
-        echo "Installing PyTorch (${PYTORCH_INDEX##*/}) with uv..."
-        uv pip install --no-cache-dir \
-            torch torchvision torchaudio \
-            --index-url "$PYTORCH_INDEX"
+        echo "Installing PyTorch (${PYTORCH_CU_TAG}) with uv (pinned)..."
+        local pkg_ver latest_ver=""
+        local -a torch_pins=()
+        for pkg in torch torchaudio torchvision; do
+            latest_ver="$(pytorch_latest_version "$pkg")"
+            if [ -z "$latest_ver" ]; then
+                echo "⚠️ Could not resolve latest ${pkg} from ${PYTORCH_INDEX}. Falling back to generic install."
+                torch_pins=()
+                break
+            fi
+            torch_pins+=("${pkg}==${latest_ver}+${PYTORCH_CU_TAG}")
+        done
+
+        if [ ${#torch_pins[@]} -eq 3 ]; then
+            uv pip install --no-cache-dir \
+                "${torch_pins[@]}" \
+                --index-url "$PYTORCH_INDEX"
+        else
+            uv pip install --no-cache-dir \
+                torch torchaudio torchvision \
+                --index-url "$PYTORCH_INDEX"
+        fi
     fi
 
     # PyTorch の状態チェック
@@ -80,20 +117,50 @@ prepare_venv() {
 # 2.5 PyTorch の状態チェックと自動修復
 # -------------------------------------------------------------
 check_pytorch_health() {
-    echo "Checking PyTorch health..."
-    if ! python -c "import torch; print(f'Torch OK: {torch.__version__} (CUDA: {torch.cuda.is_available()})')" 2>/dev/null; then
-        echo "⚠️ PyTorch environment is broken or mismatched. Repairing with uv..."
+    echo "Checking PyTorch health (expecting ${PYTORCH_CU_TAG})..."
+    local torch_ver
+    torch_ver="$(python -c "import torch; print(torch.__version__)" 2>/dev/null)" || torch_ver=""
+
+    if [ -z "$torch_ver" ]; then
+        echo "⚠️ PyTorch is not importable. Repairing with uv..."
         uv pip install --no-cache-dir --reinstall \
             torch torchvision torchaudio \
             --index-url "$PYTORCH_INDEX"
-        
+        return 1
+    fi
+
+    # 導入された build tag が PYTORCH_INDEX の cuXXX と一致するか検証
+    if [[ "$torch_ver" == *"+${PYTORCH_CU_TAG}" ]]; then
+        echo "✅ PyTorch environment looks healthy (${torch_ver})."
+    else
+        echo "⚠️ PyTorch build mismatch: got '${torch_ver}', expected *+${PYTORCH_CU_TAG}. Repairing with uv..."
+        # ピン留めで強制的に cuXXX を固定して再導入
+        local pkg_ver latest_ver=""
+        local -a torch_pins=()
+        for pkg in torch torchaudio torchvision; do
+            latest_ver="$(pytorch_latest_version "$pkg")"
+            if [ -z "$latest_ver" ]; then
+                torch_pins=()
+                break
+            fi
+            torch_pins+=("${pkg}==${latest_ver}+${PYTORCH_CU_TAG}")
+        done
+
+        if [ ${#torch_pins[@]} -eq 3 ]; then
+            uv pip install --no-cache-dir --reinstall \
+                "${torch_pins[@]}" \
+                --index-url "$PYTORCH_INDEX"
+        else
+            uv pip install --no-cache-dir --reinstall \
+                torch torchvision torchaudio \
+                --index-url "$PYTORCH_INDEX"
+        fi
+
         if python -c "import torch; exit(0 if torch.cuda.is_available() else 1)" 2>/dev/null; then
             echo "✅ PyTorch repair successful."
         else
             echo "❌ PyTorch repair failed. Manual intervention may be needed."
         fi
-    else
-        echo "✅ PyTorch environment looks healthy."
     fi
 }
 
