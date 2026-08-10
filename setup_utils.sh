@@ -9,12 +9,24 @@ MANAGER_REQ="/runpod-volume/ComfyUI/manager_requirements.txt"
 MANAGER_INSTALLED_FLAG="/runpod-volume/venv/.comfyui_manager_installed"
 # 環境変数で上書き可能（RTX 3090 等は既定 cu126、RTX 5090 は cu130 を指定）
 PYTORCH_INDEX="${PYTORCH_INDEX:-https://download.pytorch.org/whl/cu126}"
-# PYTORCH_INDEX 末尾の "cuXXX" タグ (例: cu126 / cu130)
-PYTORCH_CU_TAG="${PYTORCH_INDEX##*/}"
 
 # uv のグローバル設定 (Manager 等の外部 uv 呼び出しにも適用される)
-export UV_EXTRA_INDEX_URL="$PYTORCH_INDEX"
 export UV_LINK_MODE=copy
+
+# -------------------------------------------------------------
+# ヘルパー: PYTORCH_INDEX 末尾の "cuXXX" タグを動的導出 (例: cu126 / cu130)
+# 注意: PYTORCH_INDEX は run_pod_rtx5090.sh が source 後に上書きするため、
+#       固定値でなく毎回呼び出し時点の値を返すこと。
+# -------------------------------------------------------------
+pytorch_cu_tag() {
+    echo "${PYTORCH_INDEX##*/}"
+}
+
+# uv の index 指定を最新の PYTORCH_INDEX に同期する (source 後の上書きに対応)
+# uv は --extra-index-url (=UV_EXTRA_INDEX_URL) を最優先するため、必ず再設定する
+sync_pytorch_extra_index() {
+    export UV_EXTRA_INDEX_URL="$PYTORCH_INDEX"
+}
 
 # -------------------------------------------------------------
 # ヘルパー: PYTORCH_INDEX から最新の wheel バージョンを取得
@@ -24,8 +36,10 @@ export UV_LINK_MODE=copy
 # -------------------------------------------------------------
 pytorch_latest_version() {
     local pkg="$1"
+    local cu_tag
+    cu_tag="$(pytorch_cu_tag)"
     curl -fsSL --max-time 20 "${PYTORCH_INDEX}/${pkg}/" 2>/dev/null \
-        | grep -oE "${pkg}-([0-9]+\.)+[0-9]+%2B${PYTORCH_CU_TAG}-cp312-cp312-manylinux[^\"<>]*x86_64\.whl" \
+        | grep -oE "${pkg}-([0-9]+\.)+[0-9]+%2B${cu_tag}-cp312-cp312-manylinux[^\"<>]*x86_64\.whl" \
         | sed -E "s/${pkg}-([0-9]\.[0-9]+\.[0-9]+)%2B.*/\1/" \
         | sort -V \
         | tail -n 1
@@ -63,6 +77,11 @@ prepare_directories() {
 # 2. Python 仮想環境の準備 (Pure uv版)
 # -------------------------------------------------------------
 prepare_venv() {
+    # PYTORCH_INDEX は source 後に上書きされるため、最新値を uv index に同期
+    sync_pytorch_extra_index
+    local cu_tag
+    cu_tag="$(pytorch_cu_tag)"
+
     if [ ! -d "/runpod-volume/venv" ]; then
         echo "Creating python virtual environment with uv (Python 3.12)..."
         uv venv /runpod-volume/venv --python 3.12
@@ -79,7 +98,7 @@ prepare_venv() {
     # 注意: index だけの指定では Pod 環境によって cuXXX が外れる事例があるため、
     #       "torch==<ver>+cuXXX" へ明示的にピン留めして確実に選択させる。
     if ! python -c "import torch" 2>/dev/null; then
-        echo "Installing PyTorch (${PYTORCH_CU_TAG}) with uv (pinned)..."
+        echo "Installing PyTorch (${cu_tag}) with uv (pinned)..."
         local pkg_ver latest_ver=""
         local -a torch_pins=()
         for pkg in torch torchaudio torchvision; do
@@ -89,7 +108,7 @@ prepare_venv() {
                 torch_pins=()
                 break
             fi
-            torch_pins+=("${pkg}==${latest_ver}+${PYTORCH_CU_TAG}")
+            torch_pins+=("${pkg}==${latest_ver}+${cu_tag}")
         done
 
         if [ ${#torch_pins[@]} -eq 3 ]; then
@@ -117,7 +136,11 @@ prepare_venv() {
 # 2.5 PyTorch の状態チェックと自動修復
 # -------------------------------------------------------------
 check_pytorch_health() {
-    echo "Checking PyTorch health (expecting ${PYTORCH_CU_TAG})..."
+    # PYTORCH_INDEX は source 後に上書きされるため、最新値を uv index に同期
+    sync_pytorch_extra_index
+    local cu_tag
+    cu_tag="$(pytorch_cu_tag)"
+    echo "Checking PyTorch health (expecting ${cu_tag})..."
     local torch_ver
     torch_ver="$(python -c "import torch; print(torch.__version__)" 2>/dev/null)" || torch_ver=""
 
@@ -130,10 +153,10 @@ check_pytorch_health() {
     fi
 
     # 導入された build tag が PYTORCH_INDEX の cuXXX と一致するか検証
-    if [[ "$torch_ver" == *"+${PYTORCH_CU_TAG}" ]]; then
+    if [[ "$torch_ver" == *"+${cu_tag}" ]]; then
         echo "✅ PyTorch environment looks healthy (${torch_ver})."
     else
-        echo "⚠️ PyTorch build mismatch: got '${torch_ver}', expected *+${PYTORCH_CU_TAG}. Repairing with uv..."
+        echo "⚠️ PyTorch build mismatch: got '${torch_ver}', expected *+${cu_tag}. Repairing with uv..."
         # ピン留めで強制的に cuXXX を固定して再導入
         local pkg_ver latest_ver=""
         local -a torch_pins=()
@@ -143,7 +166,7 @@ check_pytorch_health() {
                 torch_pins=()
                 break
             fi
-            torch_pins+=("${pkg}==${latest_ver}+${PYTORCH_CU_TAG}")
+            torch_pins+=("${pkg}==${latest_ver}+${cu_tag}")
         done
 
         if [ ${#torch_pins[@]} -eq 3 ]; then
