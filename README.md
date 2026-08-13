@@ -104,11 +104,12 @@ chmod +x /tmp/my-scripts/*.sh
 bash /tmp/my-scripts/setup_github_ssh.sh
 
 # 5. RTX 5090 用の環境構築＆起動（PyTorch は cu130、ComfyUI オプションは引数で渡す）
+#    注: --highvram は付けない。H3 は拡散+エンコーダ+VAE が 32GB 超で、
+#        全モデル常駐にすると連続実行で OOM するため、自動オフロード運用が安定
 bash /tmp/my-scripts/run_pod_rtx5090.sh \
     --pytorch-index https://download.pytorch.org/whl/cu130 \
     --use-sage-attention \
-    --disable-pinned-memory \
-    --highvram
+    --disable-pinned-memory
 
 # 6. 全て完了した後、RunPodの標準待機プロセスを開始
 /start.sh
