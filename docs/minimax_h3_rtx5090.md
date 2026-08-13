@@ -84,14 +84,20 @@ aria2c -x 16 -s 16 -k 1M -d /runpod-volume/models/diffusion_models \
 
 ## 4. カスタムノード（ComfyUI Manager から導入）
 
-本体の H3 ノード（`MiniMaxH3*`）は ComfyUI 0.30.0+ に内蔵のため追加不要です。
+本体の H3 ノード（`MiniMaxH3*`）と EasyCache は **ComfyUI 本体に内蔵**のため追加不要です（EasyCache は `comfy_extras/nodes_easycache.py` の `ModelSamplingEasyCache` 系ノードとして利用可能）。
 
 | ノード | 役割 | 必須度 |
 |---|---|---|
 | `KJNodes`（kijai/ComfyUI-KJNodes） | **Patch Sage Attention KJ**（SageAttention をローカル適用） | 必須 |
-| `ComfyUI-EasyCache` | キャッシュによる高速化（KJ × EasyCache で約3倍） | 推奨 |
 | `ethanfel/ComfyUI-MiniMax-H3-Guide` | 公式ドキュメント参照のプロンプト/素材管理（R2V 用） | 推奨 |
 | `ComfyUI-MiniMax-H3-Turbo`（Larryvrh） | Turbo LoRA 用サンプラー。**後から試す想定** | 後で |
+
+- **EasyCache**: ComfyUI に内蔵（`ModelSamplingEasyCache`）。KJ ノードと併用して約3倍の高速化が期待できる（高速化手法の詳細はセクション7参照）
+- **H3-Guide**: Manager に無い場合は手動導入:
+  ```bash
+  cd /runpod-volume/custom_nodes
+  git clone https://github.com/ethanfel/ComfyUI-MiniMax-H3-Guide.git
+  ```
 
 ## 5. 推奨起動オプション（ComfyUI）
 
@@ -121,7 +127,7 @@ bash /tmp/my-scripts/run_pod_rtx5090.sh \
 | 手段 | 効果 | 導入状況 |
 |---|---|---|
 | Sage Attention（内蔵 `--use-sage-attention` または KJノード） | 約2倍 | 導入予定（必須） |
-| EasyCache | KJ と併せて約3倍帯域 | 推奨 |
+| EasyCache（ComfyUI 内蔵 `ModelSamplingEasyCache`） | KJ と併せて約3倍帯域 | 推奨 |
 | Turbo LoRA（`drbaph/MiniMax-H3-Turbo-Lora-ComfyUI` 等） | 20→4〜6stepで最短19秒（5090実測） | **後から試行**（品質/audioに注意） |
 | Spectrum-MiniMax-H3 | +30% と言われるが動き品質低下報告あり | 見送り |
 | FlashAttention-4 | Blackwell 専用だが ComfyUI/vLLM 未統合 | 見送り |
