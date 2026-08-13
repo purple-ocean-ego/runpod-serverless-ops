@@ -106,9 +106,10 @@ aria2c -x 16 -s 16 -k 1M -d /runpod-volume/models/diffusion_models \
 ```bash
 bash /tmp/my-scripts/run_pod_rtx5090.sh \
   --use-sage-attention \
-  --disable-pinned-memory \
-  --highvram
+  --disable-pinned-memory
 ```
+
+- **`--highvram` は付けない**: H3 は拡散（~20GB）+ エンコーダ（~15GB）+ VAE（~5GB）を全モデル載せると 32GB を超え、連続実行時に OOM する。`--highvram` を外した自動オフロード運用が安定（実測: 10秒生成が ~120秒で安定動作）
 
 - **`--use-sage-attention`**: 内蔵 SageAttention（約2倍）。KJ ノードの `Patch Sage Attention KJ` と併用する場合は、グローバルとローカルで品質差が出るケースが報告されているため、両方を試してどちらかを選ぶ
 - **`--disable-pinned-memory`**: ComfyUI 0.30.x の pinned-memory バグによりモデルロードが極端に遅くなる回避策。解消されれば外してよい（可変長引数で簡単に変更可能）
